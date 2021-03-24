@@ -21,15 +21,20 @@ public class BillingServiceImpl implements IBillingService{
 	@Transactional
 	@Override
 	public BillingDetails addBill(BillingDetails bill) {
-		billingRepository.save(bill);
-		return bill;
+		BillingDetails saved = billingRepository.save(bill);
+		return saved;
 	}
 
 	@Transactional
 	@Override
 	public BillingDetails updateBill(BillingDetails bill) {
-		bill = billingRepository.save(bill);
-		return bill;
+		int id = bill.getBillingId();
+		boolean exists = billingRepository.existsById(id);
+		if(!exists) {
+			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
+		}
+		BillingDetails saved = billingRepository.save(bill);
+		return saved;
 	}
 
 	@Override
@@ -40,6 +45,10 @@ public class BillingServiceImpl implements IBillingService{
 		}
 		BillingDetails bill = optional.get();
 		return bill;
+	}
+	
+	public void validateMode(String transactionMode) {
+		
 	}
 
 }

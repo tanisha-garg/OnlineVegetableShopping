@@ -1,23 +1,17 @@
 package com.cg.vegetable.mgmt.entities;
 
+import java.time.LocalDateTime;
+
 public class BillingDetails {
 
 	private int billingId;
 	private int orderId;
 	private String transactionMode;
-	private String transactionDate;
+	private LocalDateTime transactionDate;
 	private String transactionStatus;
 	
 	public BillingDetails() {
 		
-	}
-	
-	public BillingDetails(int billingId, int orderId, String transactionMode, String transactionDate, String transactionStatus) {
-		this.billingId = billingId;
-		this.orderId = orderId;
-		this.transactionMode = transactionMode;
-		this.transactionDate = transactionDate;
-		this.transactionStatus = transactionStatus;
 	}
 
 	public int getBillingId() {
@@ -44,11 +38,11 @@ public class BillingDetails {
 		this.transactionMode = transactionMode;
 	}
 
-	public String getTransactionDate() {
+	public LocalDateTime getTransactionDate() {
 		return transactionDate;
 	}
 
-	public void setTransactionDate(String transactionDate) {
+	public void setTransactionDate(LocalDateTime transactionDate) {
 		this.transactionDate = transactionDate;
 	}
 
