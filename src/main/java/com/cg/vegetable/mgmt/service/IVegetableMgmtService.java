@@ -10,8 +10,8 @@ public interface IVegetableMgmtService {
 	public VegetableDTO updateVegetable(VegetableDTO dto);
 	public VegetableDTO removeVegetable(VegetableDTO dto);
 	public VegetableDTO viewVegetable(VegetableDTO dto);
-	/*public List<VegetableDTO> viewAllVegetables();
+	public List<VegetableDTO> viewAllVegetables();
 	public List<VegetableDTO> viewVegetableList(String category);
 	public List<VegetableDTO> viewVegetableByName(String name);
-	*/
+	
 }

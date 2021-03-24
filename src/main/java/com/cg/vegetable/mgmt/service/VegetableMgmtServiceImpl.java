@@ -32,7 +32,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 		return null;
 	}
 
-	/*@Override
+	@Override
 	public List<VegetableDTO> viewAllVegetables() {
 		// TODO Auto-generated method stub
 		return null;
@@ -48,6 +48,6 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	public List<VegetableDTO> viewVegetableByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
-	}*/
+	}
 
 }
