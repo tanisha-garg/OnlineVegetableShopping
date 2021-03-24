@@ -1,5 +1,7 @@
 package com.cg.vegetable.mgmt.service;
 
+import static org.mockito.Mockito.*;
+
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Assertions;
@@ -8,17 +10,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.exceptions.*;
+import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class BillingServiceImplUnitTest {
 	
 	@Mock
-	EntityManager entityManager;
+	IBillingRepository repository;
 	
 	@Spy
 	@InjectMocks
@@ -36,14 +40,18 @@ public class BillingServiceImplUnitTest {
 		String transactionMode = "UPI";
 		String transactionDate = "23/3/2021";
 		String transactionStatus = "Success";
+		BillingDetails saved = Mockito.mock(BillingDetails.class);
+		BillingDetails billDetails = Mockito.mock(BillingDetails.class);
+		when(repository.save(billDetails)).thenReturn(saved);
 		BillingDetails bill = new BillingDetails(billingId, orderId, transactionMode, transactionDate, transactionStatus);
 		BillingDetails result = billingService.addBill(bill);
 		Assertions.assertNotNull(result);
-		Assertions.assertEquals(billingId, result.getBillingId());
-		Assertions.assertEquals(orderId, result.getOrderId());
-		Assertions.assertEquals(transactionMode, result.getTransactionMode());
-		Assertions.assertEquals(transactionDate, result.getTransactionDate());
-		Assertions.assertEquals(transactionStatus, result.getTransactionStatus());
+		Assertions.assertEquals(saved, result);
+//		Assertions.assertEquals(billingId, result.getBillingId());
+//		Assertions.assertEquals(orderId, result.getOrderId());
+//		Assertions.assertEquals(transactionMode, result.getTransactionMode());
+//		Assertions.assertEquals(transactionDate, result.getTransactionDate());
+//		Assertions.assertEquals(transactionStatus, result.getTransactionStatus());
 		
 	}
 	
