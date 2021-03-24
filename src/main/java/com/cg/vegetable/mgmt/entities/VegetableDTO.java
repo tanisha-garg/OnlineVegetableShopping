@@ -8,6 +8,16 @@ public class VegetableDTO {
 	private String category;
 	private double price;
 	private int quantity;
+	
+	
+	public VegetableDTO(int vegId, String name, String type, String category, double price, int quantity) {
+		this.vegId = vegId;
+		this.name = name;
+		this.type = type;
+		this.category = category;
+		this.price = price;
+		this.quantity = quantity;
+	}
 	public int getVegId() {
 		return vegId;
 	}
