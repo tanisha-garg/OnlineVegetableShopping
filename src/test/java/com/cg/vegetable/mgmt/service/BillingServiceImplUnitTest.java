@@ -1,5 +1,9 @@
 package com.cg.vegetable.mgmt.service;
 
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Assertions;
@@ -8,17 +12,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.exceptions.*;
+import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class BillingServiceImplUnitTest {
 	
 	@Mock
-	EntityManager entityManager;
+	IBillingRepository billingRepository;
 	
 	@Spy
 	@InjectMocks
@@ -36,14 +42,13 @@ public class BillingServiceImplUnitTest {
 		String transactionMode = "UPI";
 		String transactionDate = "23/3/2021";
 		String transactionStatus = "Success";
+		BillingDetails saved = Mockito.mock(BillingDetails.class);
+		BillingDetails billDetails = Mockito.mock(BillingDetails.class);
+		when(billingRepository.save(billDetails)).thenReturn(saved);
 		BillingDetails bill = new BillingDetails(billingId, orderId, transactionMode, transactionDate, transactionStatus);
 		BillingDetails result = billingService.addBill(bill);
 		Assertions.assertNotNull(result);
-		Assertions.assertEquals(billingId, result.getBillingId());
-		Assertions.assertEquals(orderId, result.getOrderId());
-		Assertions.assertEquals(transactionMode, result.getTransactionMode());
-		Assertions.assertEquals(transactionDate, result.getTransactionDate());
-		Assertions.assertEquals(transactionStatus, result.getTransactionStatus());
+
 		
 	}
 	
@@ -80,13 +85,11 @@ public class BillingServiceImplUnitTest {
 	@Test
 	public void viewBill_1() {
 		int billingId = 1;
+		BillingDetails bill = Mockito.mock(BillingDetails.class);
+		Optional<BillingDetails> optional = Optional.of(bill);
+		when(billingRepository.findById(billingId)).thenReturn(optional);
 		BillingDetails result = billingService.viewBill(billingId);
-		Assertions.assertNotNull(result);
-		Assertions.assertEquals(billingId, result.getBillingId());
-		Assertions.assertEquals("2", result.getOrderId());
-		Assertions.assertEquals("UPI", result.getTransactionMode());
-		Assertions.assertEquals( "23/9/2020", result.getTransactionDate());
-		Assertions.assertEquals("Failed", result.getTransactionStatus());
+		Assertions.assertEquals(bill, result);
 	}
 	
 	/*
@@ -95,6 +98,9 @@ public class BillingServiceImplUnitTest {
 	 */	
 	@Test
 	public void viewBill_2() {
+		int billingId = 11;
+		Optional<BillingDetails> optional = Optional.empty();
+		when(billingRepository.findById(billingId)).thenReturn(optional);
 		Executable executable = () -> billingService.viewBill(10);
 		Assertions.assertThrows(BillNotFoundException.class, executable);
 	}

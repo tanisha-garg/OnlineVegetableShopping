@@ -1,5 +1,9 @@
 package com.cg.vegetable.mgmt.repository;
 
-public interface IBillingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cg.vegetable.mgmt.entities.BillingDetails;
+
+public interface IBillingRepository extends JpaRepository<BillingDetails, Integer>{
 
 }
