@@ -46,17 +46,23 @@ class VegetableMgmtServiceImplUnitTest {
 
 	@Test
 	public void test_Add1() {
-		int vegId=1;
 		String name="potato";
 		String type="root";
 		String category="underground";
 		double price=20.0;
 		int quantity=3;
+		VegetableDTO user =Mockito.mock(VegetableDTO.class);
 		VegetableDTO saved =Mockito.mock(VegetableDTO.class);
-		Mockito.when(vegetableMgmtRepository.save(Mockito.any(VegetableDTO.class))).thenReturn(saved);
-		VegetableDTO result=vegetableMgmtServiceImplservice.addVegetable(new VegetableDTO(vegId,name,type,category,price,quantity));
+		doNothing().when(vegetableMgmtServiceImplservice).validateName(name);
+		doNothing().when(vegetableMgmtServiceImplservice).validateCategory(category);
+		doNothing().when(vegetableMgmtServiceImplservice).validateType(type);
+		doNothing().when(vegetableMgmtServiceImplservice).validatePrice(price);
+		doNothing().when(vegetableMgmtServiceImplservice).validateQuantity(quantity);
+		when(vegetableMgmtRepository.save(any(VegetableDTO.class))).thenReturn(saved);
+		VegetableDTO result=vegetableMgmtServiceImplservice.addVegetable(user);
 		Assertions.assertNotNull(result);
-		Assertions.assertEquals(saved,result);
+		Assertions.assertSame(saved,result);
+		verify(vegetableMgmtRepository).save(user);
 	}
 	
 	
@@ -71,6 +77,7 @@ class VegetableMgmtServiceImplUnitTest {
 		
 		int vegId=-10;
 		VegetableDTO vegetable = new VegetableDTO(vegId,"potato","root","underground",20.0,3);
+		doThrow(InvalidVegetableIdException.class).when(vegetableMgmtServiceImplservice).validateId(vegId);
 		Executable executable = () -> vegetableMgmtServiceImplservice.addVegetable(vegetable);
 		Assertions.assertThrows(InvalidVegetableIdException.class, executable);
 		
@@ -84,6 +91,7 @@ class VegetableMgmtServiceImplUnitTest {
 	public void test_ValidateName() {
 		String name="";
 		VegetableDTO vegetable = new VegetableDTO(2,name,"root","underground",20.0,3);
+		doThrow(InvalidVegetableNameException.class).when(vegetableMgmtServiceImplservice).validateName(name);
 		Executable executable = () -> vegetableMgmtServiceImplservice.addVegetable(vegetable);
 		Assertions.assertThrows(InvalidVegetableNameException.class, executable);
 	}
@@ -96,6 +104,7 @@ class VegetableMgmtServiceImplUnitTest {
 	public void test_ValidateType() {
 		String type="";
 		VegetableDTO vegetable = new VegetableDTO(2,"potato",type,"underground",20.0,3);
+		doThrow(InvalidVegetableTypeException.class).when(vegetableMgmtServiceImplservice).validateType(type);
 		Executable executable = () -> vegetableMgmtServiceImplservice.addVegetable(vegetable);
 		Assertions.assertThrows(InvalidVegetableTypeException.class, executable);
 	}
@@ -108,6 +117,7 @@ class VegetableMgmtServiceImplUnitTest {
 	public void test_ValidateCategory() {
 		String category="";
 		VegetableDTO vegetable = new VegetableDTO(2,"potato","root",category,20.0,3);
+		doThrow(InvalidVegetableCategoryException.class).when(vegetableMgmtServiceImplservice).validateCategory(category);
 		Executable executable = () -> vegetableMgmtServiceImplservice.addVegetable(vegetable);
 		Assertions.assertThrows(InvalidVegetableCategoryException.class, executable);
 	}
@@ -120,6 +130,7 @@ class VegetableMgmtServiceImplUnitTest {
 	public void test_ValidatePrice() {
 		double price=-20.0;
 		VegetableDTO vegetable = new VegetableDTO(2,"potato","root","underground",price,3);
+		doThrow(InvalidVegetablePriceException.class).when(vegetableMgmtServiceImplservice).validatePrice(price);
 		Executable executable = () -> vegetableMgmtServiceImplservice.addVegetable(vegetable);
 		Assertions.assertThrows(InvalidVegetablePriceException.class, executable);
 	}
@@ -132,6 +143,7 @@ class VegetableMgmtServiceImplUnitTest {
 	public void test_ValidateQuantity() {
 		int quantity=-5;;
 		VegetableDTO vegetable = new VegetableDTO(2,"potato","root","underground",20.0,quantity);
+		doThrow(InvalidVegetableQuantityException.class).when(vegetableMgmtServiceImplservice).validateQuantity(quantity);
 		Executable executable = () -> vegetableMgmtServiceImplservice.addVegetable(vegetable);
 		Assertions.assertThrows(InvalidVegetableQuantityException.class, executable);
 	}
@@ -164,27 +176,11 @@ class VegetableMgmtServiceImplUnitTest {
 		when(vegetableMgmtRepository.findById(vegId)).thenReturn(optional);
 		Executable executable = () -> vegetableMgmtServiceImplservice.viewVegetable(optional.get());
 		Assertions.assertThrows(VegetableNotFoundException.class, executable);
-		System.out.print("Hello");
 		
 	}
 	
-	
-	/*
-	 * 
-	 * scenario : first vegetable is fetched then it is updated
-	 * 
-	 */
-	@Test
-	public void updateVegetable_1() {
-		
-	}
-	
-	
-	/*
-	 * 
-	 *  scenario : if
-	 * 
-	 */
+
+
 	
 	
 }
