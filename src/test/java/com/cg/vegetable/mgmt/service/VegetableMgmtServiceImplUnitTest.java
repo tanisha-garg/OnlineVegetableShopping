@@ -1,6 +1,7 @@
 package com.cg.vegetable.mgmt.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -63,6 +64,11 @@ class VegetableMgmtServiceImplUnitTest {
 		Assertions.assertNotNull(result);
 		Assertions.assertSame(saved,result);
 		verify(vegetableMgmtRepository).save(user);
+		verify(vegetableMgmtServiceImplservice).validateName(name);
+		verify(vegetableMgmtServiceImplservice).validateType(type);
+		verify(vegetableMgmtServiceImplservice).validateCategory(category);
+		verify(vegetableMgmtServiceImplservice).validatePrice(price);
+		verify(vegetableMgmtServiceImplservice).validateQuantity(quantity);
 	}
 	
 	
@@ -159,8 +165,9 @@ class VegetableMgmtServiceImplUnitTest {
 		VegetableDTO vegetable = Mockito.mock(VegetableDTO.class);
 		Optional<VegetableDTO>optional=Optional.of(vegetable);
 		when(vegetableMgmtRepository.findById(vegId)).thenReturn(optional);
-		VegetableDTO result = vegetableMgmtServiceImplservice.viewVegetable(vegetable);
+		VegetableDTO result = vegetableMgmtServiceImplservice.viewVegetable(vegId);
 		Assertions.assertEquals(vegetable,result);
+		verify(vegetableMgmtServiceImplservice).validateId(vegId);
 		
 	}
 	
@@ -174,13 +181,105 @@ class VegetableMgmtServiceImplUnitTest {
 		int vegId=50;
 		Optional<VegetableDTO>optional=Optional.empty();
 		when(vegetableMgmtRepository.findById(vegId)).thenReturn(optional);
-		Executable executable = () -> vegetableMgmtServiceImplservice.viewVegetable(optional.get());
+		Executable executable = () -> vegetableMgmtServiceImplservice.viewVegetable(vegId);
 		Assertions.assertThrows(VegetableNotFoundException.class, executable);
 		
 	}
 	
-
-
+	/*
+	 * scenario : to view the vegetable if id is given
+	 * 			   but given id is negative
+	 */
 	
+	@Test
+	public void viewVegetable_3() {
+		int vegId=-5;
+		VegetableDTO vegetable = mock(VegetableDTO.class);
+		doThrow(InvalidVegetableIdException.class).when(vegetableMgmtServiceImplservice).validateId(vegId);
+		Executable executable = () -> vegetableMgmtServiceImplservice.addVegetable(vegetable);
+		Assertions.assertThrows(InvalidVegetableIdException.class, executable);
+	}
 	
+	/*
+	 * updation of vegetable
+	 * scenario : vegetable is fetched then updated successfully
+	 * 
+	 */
+	@Test
+	public void updateVegetable_1() {
+		int vegId = 1;
+		String name="potato";
+		String type="root";
+		String category="hybrid";
+		double price=20.0;
+		int quantity=3;
+		VegetableDTO vegetable = Mockito.mock(VegetableDTO.class);
+		VegetableDTO saved = Mockito.mock(VegetableDTO.class);
+		when(vegetable.getVegId()).thenReturn(vegId);
+		when(vegetableMgmtRepository.existsById(vegId)).thenReturn(true);
+		when(vegetableMgmtRepository.save(vegetable)).thenReturn(saved);
+		VegetableDTO result = vegetableMgmtServiceImplservice.updateVegetable(vegetable);
+		doNothing().when(vegetableMgmtServiceImplservice).validateName(name);
+		doNothing().when(vegetableMgmtServiceImplservice).validateCategory(category);
+		doNothing().when(vegetableMgmtServiceImplservice).validateType(type);
+		doNothing().when(vegetableMgmtServiceImplservice).validatePrice(price);
+		doNothing().when(vegetableMgmtServiceImplservice).validateQuantity(quantity);
+		assertNotNull(result);
+		assertEquals(saved, result);
+		verify(vegetableMgmtRepository).save(vegetable);
+		verify(vegetableMgmtServiceImplservice).validateName(name);
+		verify(vegetableMgmtServiceImplservice).validateType(type);
+		verify(vegetableMgmtServiceImplservice).validateCategory(category);
+		verify(vegetableMgmtServiceImplservice).validatePrice(price);
+		verify(vegetableMgmtServiceImplservice).validateQuantity(quantity);
+		
+	}
+
+	/*
+	 * scenario : updation of vegetable
+	 * 			  but vegetable not found
+	 * 
+	 */
+	@Test
+	public void updateVegetable_2() {
+		int vegId=100;
+		VegetableDTO vegetable = Mockito.mock(VegetableDTO.class);
+		when(vegetable.getVegId()).thenReturn(vegId);
+		when(vegetableMgmtRepository.existsById(vegId)).thenReturn(false);
+		Executable executable = () -> vegetableMgmtServiceImplservice.updateVegetable(vegetable);
+		assertThrows(VegetableNotFoundException.class, executable);
+		verify(vegetableMgmtRepository, never()).save(vegetable);
+	}
+	
+	/*
+	 * 
+	 * scenario : to remove the vegetable
+	 * 			  removed successfully
+	 * 
+	 */
+	@Test
+	public void removeVegetable_1() {
+		VegetableDTO vegetable = Mockito.mock(VegetableDTO.class);
+		Optional<VegetableDTO>optional=Optional.of(vegetable);
+		when(vegetableMgmtRepository.existsById(vegetable.getVegId())).thenReturn(true);
+		doNothing().when(vegetableMgmtRepository).deleteById(vegetable.getVegId());
+		verify(vegetableMgmtRepository).delete(vegetable);
+		
+	}
+	
+	/*
+	 * scenario : to remove the vegetable
+	 * 			  but vegetable not found
+	 * 
+	 * 
+	 */
+	
+	@Test
+	public void removeVegetable_2() {
+		VegetableDTO vegetable = Mockito.mock(VegetableDTO.class);
+		Optional<VegetableDTO>optional=Optional.empty();
+		when(vegetableMgmtRepository.findById(vegetable.getVegId())).thenReturn(optional);
+		Executable executable = () -> vegetableMgmtServiceImplservice.removeVegetable(vegetable);
+		Assertions.assertThrows(VegetableNotFoundException.class, executable);
+	}
 }

@@ -44,7 +44,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	}
 
 	@Override
-	public VegetableDTO viewVegetable(VegetableDTO dto) {
+	public VegetableDTO viewVegetable(int VegId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
