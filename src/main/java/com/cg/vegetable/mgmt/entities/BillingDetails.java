@@ -2,8 +2,15 @@ package com.cg.vegetable.mgmt.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class BillingDetails {
 
+	@GeneratedValue
+	@Id
 	private int billingId;
 	private int orderId;
 	private String transactionMode;
@@ -12,6 +19,12 @@ public class BillingDetails {
 	
 	public BillingDetails() {
 		
+	}
+	
+	public BillingDetails(int orderId, String transactionMode, String transactionStatus) {
+		this.orderId = orderId;
+		this.transactionMode = transactionMode;
+		this.transactionStatus = transactionStatus;
 	}
 
 	public int getBillingId() {

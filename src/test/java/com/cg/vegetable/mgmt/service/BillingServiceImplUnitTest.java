@@ -17,12 +17,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class BillingServiceImplUnitTest {
 	
 	@Mock
@@ -41,11 +43,17 @@ public class BillingServiceImplUnitTest {
 	public void testAddBill_1() {
 		BillingDetails saved = Mockito.mock(BillingDetails.class);
 		BillingDetails billDetails = Mockito.mock(BillingDetails.class);
-		when(billingRepository.save(billDetails)).thenReturn(saved);		
+		doNothing().when(billingService).validateMode(billDetails.getTransactionMode());
+		doNothing().when(billingService).validateStatus(billDetails.getTransactionStatus());
+		when(billingRepository.save(billDetails)).thenReturn(saved);
+		LocalDateTime now = LocalDateTime.now();
+		doReturn(now).when(billingService).currentDateTime();
 		BillingDetails result = billingService.addBill(billDetails);
 		assertNotNull(result);
 		assertEquals(saved, result);
 		verify(billingRepository).save(billDetails);
+		verify(billingService).validateMode(billDetails.getTransactionMode());
+		verify(billingService).validateStatus(billDetails.getTransactionStatus());
 	}
 	
 	/*
