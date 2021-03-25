@@ -5,7 +5,7 @@ import java.util.List;
 public class CartDTO {
 private int cartId;
 private int custId;
-private List<VegetableDTO> vegetables;
+private List<Vegetable> vegetables;
 public int getCartId() {
 	return cartId;
 }
@@ -18,10 +18,10 @@ public int getCustId() {
 public void setCustId(int custId) {
 	this.custId = custId;
 }
-public List<VegetableDTO> getVegetables() {
+public List<Vegetable> getVegetables() {
 	return vegetables;
 }
-public void setVegetables(List<VegetableDTO> vegetables) {
+public void setVegetables(List<Vegetable> vegetables) {
 	this.vegetables = vegetables;
 }
 

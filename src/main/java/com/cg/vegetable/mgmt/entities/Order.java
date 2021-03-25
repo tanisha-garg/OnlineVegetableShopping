@@ -7,7 +7,7 @@ public class Order {
 
 	private int orderNo;
 	private int custId;
-	private List<VegetableDTO> vegList;
+	private List<Vegetable> vegList;
 	private double totalAmount;
 	private LocalDate orderDate;
 	private String status;
@@ -23,10 +23,10 @@ public class Order {
 	public void setCustId(int custId) {
 		this.custId = custId;
 	}
-	public List<VegetableDTO> getVegList() {
+	public List<Vegetable> getVegList() {
 		return vegList;
 	}
-	public void setVegList(List<VegetableDTO> vegList) {
+	public void setVegList(List<Vegetable> vegList) {
 		this.vegList = vegList;
 	}
 	public double getTotalAmount() {

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.cg.vegetable.mgmt.entities.VegetableDTO;
+import com.cg.vegetable.mgmt.entities.Vegetable;
 
-public interface IVegetableMgmtRepository extends JpaRepository<VegetableDTO,Integer>{
+public interface IVegetableMgmtRepository extends JpaRepository<Vegetable,Integer>{
 
 	/*public VegetableDTO addVegetable(VegetableDTO dto);
 	public VegetableDTO updateVegetable(VegetableDTO dto);

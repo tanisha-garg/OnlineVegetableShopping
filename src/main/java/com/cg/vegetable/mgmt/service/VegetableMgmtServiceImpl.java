@@ -1,52 +1,69 @@
 package com.cg.vegetable.mgmt.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cg.vegetable.mgmt.entities.VegetableDTO;
+import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableCategoryException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableIdException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableNameException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetablePriceException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableQuantityException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableTypeException;
+import com.cg.vegetable.mgmt.exceptions.VegetableNotFoundException;
 import com.cg.vegetable.mgmt.repository.IVegetableMgmtRepository;
 @Service
 public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	
 	@Autowired
 	IVegetableMgmtRepository vegetableRepository;
+	
+	
+	public void validateVegetable(Vegetable vegetable) {
+		validateName(vegetable.getName());
+		validateCategory(vegetable.getCategory());
+		validateType(vegetable.getType());
+		validatePrice(vegetable.getPrice());
+		validateQuantity(vegetable.getQuantity());
+	}
 	@Override
-	public VegetableDTO addVegetable(VegetableDTO dto) {
-		validateName(dto.getName());
-		validateCategory(dto.getCategory());
-		validateType(dto.getType());
-		validatePrice(dto.getPrice());
-		validateQuantity(dto.getQuantity());
-		VegetableDTO vegetable= vegetableRepository.save(dto);
+	public Vegetable addVegetable(Vegetable dto) {
+		validateVegetable(dto);
+		Vegetable vegetable= vegetableRepository.save(dto);		
 		return vegetable;
 	}
 
 	@Override
-	public VegetableDTO updateVegetable(VegetableDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vegetable updateVegetable(Vegetable dto) {
+		validateVegetable(dto);
+		viewVegetable(dto.getVegId());
+		return vegetableRepository.save(dto);
 	}
 
 	@Override
-	public VegetableDTO removeVegetable(VegetableDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vegetable removeVegetable(Vegetable dto) {
+		Optional<Vegetable>optional=vegetableRepository.findById(dto.getVegId());
+		if(!optional.isPresent()) {
+			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
+		 }
+		 Vegetable removed = optional.get();
+		 vegetableRepository.deleteById(dto.getVegId());
+		 return removed;
 	}
 
 	@Override
-	public VegetableDTO viewVegetable(int VegId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vegetable viewVegetable(int vegId) {
+		validateId(vegId);
+		Optional<Vegetable>optional=vegetableRepository.findById(vegId);
+		if(!optional.isPresent()) {
+			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
+		 }
+		return optional.get();
 	}
 	
 	public void validateName(String name) {
