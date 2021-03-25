@@ -246,7 +246,6 @@ class VegetableMgmtServiceImplUnitTest {
 		Optional<VegetableDTO>optional=Optional.of(vegetable);
 		when(vegetableMgmtRepository.existsById(vegetable.getVegId())).thenReturn(true);
 		doNothing().when(vegetableMgmtRepository).deleteById(vegetable.getVegId());
-		verify(vegetableMgmtRepository).delete(vegetable);
 		
 	}
 	
