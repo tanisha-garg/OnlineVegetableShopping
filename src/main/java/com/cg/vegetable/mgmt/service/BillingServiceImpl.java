@@ -21,33 +21,40 @@ public class BillingServiceImpl implements IBillingService{
 	@Transactional
 	@Override
 	public BillingDetails addBill(BillingDetails bill) {
-		BillingDetails saved = billingRepository.save(bill);
-		return saved;
+//		BillingDetails saved = billingRepository.save(bill);
+//		return saved;
+		return null;
 	}
 
 	@Transactional
 	@Override
 	public BillingDetails updateBill(BillingDetails bill) {
-		int id = bill.getBillingId();
-		boolean exists = billingRepository.existsById(id);
-		if(!exists) {
-			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
-		}
-		BillingDetails saved = billingRepository.save(bill);
-		return saved;
+//		int id = bill.getBillingId();
+//		boolean exists = billingRepository.existsById(id);
+//		if(!exists) {
+//			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
+//		}
+//		BillingDetails saved = billingRepository.save(bill);
+//		return saved;
+		return null;
 	}
 
 	@Override
 	public BillingDetails viewBill(int id) {
-		Optional<BillingDetails> optional = billingRepository.findById(id);
-		if(!optional.isPresent()) {
-			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
-		}
-		BillingDetails bill = optional.get();
-		return bill;
+//		Optional<BillingDetails> optional = billingRepository.findById(id);
+//		if(!optional.isPresent()) {
+//			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
+//		}
+//		BillingDetails bill = optional.get();
+//		return bill;
+		return null;
 	}
 	
 	public void validateMode(String transactionMode) {
+		
+	}
+	
+	public void validateStatus(String transactionStatus) {
 		
 	}
 
