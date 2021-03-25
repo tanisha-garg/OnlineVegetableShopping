@@ -26,8 +26,7 @@ public class BillingServiceImpl implements IBillingService{
 	@Transactional
 	@Override
 	public BillingDetails addBill(BillingDetails bill) {
-		validateMode(bill.getTransactionMode());
-		validateStatus(bill.getTransactionStatus());
+		validateBill(bill);
 		bill.setTransactionDate(currentDateTime());
 		BillingDetails saved = billingRepository.save(bill);
 		return saved;
@@ -69,6 +68,11 @@ public class BillingServiceImpl implements IBillingService{
 		if(transactionStatus == null || transactionStatus.trim().isEmpty()) {
 			throw new InvalidTransactionStatusException("Transaction Status cannot be empty or null");
 		}
+	}
+	
+	public void validateBill(BillingDetails bill) {
+		validateMode(bill.getTransactionMode());
+		validateStatus(bill.getTransactionStatus());
 	}
 
 }

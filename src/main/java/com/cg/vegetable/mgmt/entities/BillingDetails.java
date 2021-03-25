@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class BillingDetails {
@@ -16,6 +17,9 @@ public class BillingDetails {
 	private String transactionMode;
 	private LocalDateTime transactionDate;
 	private String transactionStatus;
+
+	@OneToOne
+	private Address address;
 	
 	public BillingDetails() {
 		
@@ -66,5 +70,14 @@ public class BillingDetails {
 	public void setTransactionStatus(String transactionStatus) {
 		this.transactionStatus = transactionStatus;
 	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	
 
 }
