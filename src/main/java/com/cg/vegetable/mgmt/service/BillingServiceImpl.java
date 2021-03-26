@@ -71,6 +71,11 @@ public class BillingServiceImpl implements IBillingService{
 	}
 	
 	public void validateBill(BillingDetails bill) {
+		
+		if(bill == null) {
+			throw new InvalidBillException("Bill is Invalid");
+		}
+		
 		validateMode(bill.getTransactionMode());
 		validateStatus(bill.getTransactionStatus());
 	}

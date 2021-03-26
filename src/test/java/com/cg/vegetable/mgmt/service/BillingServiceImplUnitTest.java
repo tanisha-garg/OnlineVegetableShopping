@@ -43,13 +43,13 @@ public class BillingServiceImplUnitTest {
 	public void testAddBill_1() {
 		BillingDetails saved = Mockito.mock(BillingDetails.class);
 		BillingDetails billDetails = Mockito.mock(BillingDetails.class);
-		String transactionMode = "COD", transactionStatus = "Success";
-		when(billDetails.getTransactionMode()).thenReturn(transactionMode);
-		when(billDetails.getTransactionStatus()).thenReturn(transactionStatus);
+//		String transactionMode = "COD", transactionStatus = "Success";
+//		when(billDetails.getTransactionMode()).thenReturn(transactionMode);
+//		when(billDetails.getTransactionStatus()).thenReturn(transactionStatus);
 		doNothing().when(billingService).validateBill(billDetails);
-		when(billingRepository.save(billDetails)).thenReturn(saved);
 		LocalDateTime now = LocalDateTime.now();
 		doReturn(now).when(billingService).currentDateTime();
+		when(billingRepository.save(billDetails)).thenReturn(saved);
 		BillingDetails result = billingService.addBill(billDetails);
 		assertNotNull(result);
 		assertEquals(saved, result);
@@ -63,7 +63,7 @@ public class BillingServiceImplUnitTest {
 	 */	
 	@Test
 	public void testAddBill_2() {
-		String transactionMode = "";
+//		String transactionMode = "";
 		BillingDetails bill = Mockito.mock(BillingDetails.class);
 		doThrow(InvalidTransactionModeException.class).when(billingService).validateBill(bill);
 		Executable executable = () -> billingService.addBill(bill);
@@ -78,7 +78,7 @@ public class BillingServiceImplUnitTest {
 	 */	
 	@Test
 	public void testAddBill_3() {
-		String transactionMode = null;
+//		String transactionMode = null;
 		BillingDetails bill = Mockito.mock(BillingDetails.class);
 		doThrow(InvalidTransactionModeException.class).when(billingService).validateBill(bill);
 		Executable executable = () -> billingService.addBill(bill);
@@ -92,7 +92,7 @@ public class BillingServiceImplUnitTest {
 	 */	
 	@Test
 	public void testAddBill_4() {
-		String transactionStatus = "";
+//		String transactionStatus = "";
 		BillingDetails bill = Mockito.mock(BillingDetails.class);
 		doThrow(InvalidTransactionStatusException.class).when(billingService).validateBill(bill);
 		Executable executable = () -> billingService.addBill(bill);
@@ -106,7 +106,7 @@ public class BillingServiceImplUnitTest {
 	 */	
 	@Test
 	public void testAddBill_5() {
-		String transactionStatus = null;
+//		String transactionStatus = null;
 		BillingDetails bill = Mockito.mock(BillingDetails.class);
 		doThrow(InvalidTransactionStatusException.class).when(billingService).validateBill(bill);
 		Executable executable = () -> billingService.addBill(bill);
