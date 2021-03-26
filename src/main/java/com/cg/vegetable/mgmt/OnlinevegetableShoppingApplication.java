@@ -7,10 +7,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import com.cg.vegetable.mgmt.ui.OnlineVegetableShoppingUI;
 
 @SpringBootApplication
-public class OnlinevegetableshoppingApplication {
+public class OnlinevegetableShoppingApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(OnlinevegetableshoppingApplication.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(OnlinevegetableShoppingApplication.class, args);
 		OnlineVegetableShoppingUI shoppingUI = context.getBean(OnlineVegetableShoppingUI.class);
 		shoppingUI.start();
 	}

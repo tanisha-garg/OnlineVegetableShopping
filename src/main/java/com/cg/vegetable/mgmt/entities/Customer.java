@@ -23,14 +23,12 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(String name, String mobileNumber, String emailId, String password, String confirmPassword /*,
-			Address address*/) {
+	public Customer(String name, String mobileNumber, String emailId, String password, String confirmPassword ) {
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.emailId = emailId;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
-		//this.address = address;
 	}
 
 	public int getCustomerId() {
