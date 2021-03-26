@@ -10,7 +10,6 @@ import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.service.IBillingService;
 import com.cg.vegetable.mgmt.service.IOrderService;
 import com.cg.vegetable.mgmt.entities.Customer;
-import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.service.ICustomerService;
 
 
@@ -54,13 +53,17 @@ public class OnlineVegetableShoppingUI {
 			System.out.println("Sorry, Something went wrong");
 		}
 		
-//		System.out.println(" Adding Customer \n");
+		Customer ayesha = service.addCustomer(new Customer("Ayesha","987654321","abc@def.com","pdbgddgcbb","pdbgddgcbb"));
+		display(ayesha);
+		
+		System.out.println("View  Customer \n");
 
-//		Customer ayesha = service.addCustomer(1,"Ayesha","987654321","plot2 , Dattani Nagar , AP","abc@def.com");
-		//display(ayesha);
+		Customer anu = service.viewCustomer(ayesha);
+		display(anu);
+		
+		System.out.println(" Remove Customer \n");
 
-//		Customer shivangi = service.addCustomer("Shivangi");
-		//display(shivangi);	
+		Customer shivangi = service.removeCustomer(ayesha);
 		
 	}
 	
@@ -73,6 +76,10 @@ public class OnlineVegetableShoppingUI {
 		System.out.println();
 	}
 	
+	void  display(Customer customer){		
+			System.out.println("Customer \t" + customer.getCustomerId() + "\t " + customer.getName() + "\t"
+			+ customer.getMobileNumber()+"\t"+customer.getEmailId()+"\t"+customer.getPassword()+"\t"+customer.getConfirmPassword());
+		}
 	
 
 }

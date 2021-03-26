@@ -1,10 +1,8 @@
 package com.cg.vegetable.mgmt.entities;
 
-@Entity
+
 public class Customer {
 
-	@Id
-	@GeneratedValue
 	private int customerId;
 	
 	private String name;
@@ -17,9 +15,8 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(int customerId, String name, String mobileNumber, String emailId, String password,
+	public Customer(String name, String mobileNumber, String emailId, String password,
 			String confirmPassword) {
-		this.customerId = customerId;
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.emailId = emailId;
@@ -29,10 +26,6 @@ public class Customer {
 
 	public int getCustomerId() {
 		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
 	}
 
 	public String getName() {

@@ -12,7 +12,7 @@ public interface ICustomerService {
 	
 	public Customer removeCustomer(Customer customer);
 	
-	public Customer viewCustomer(Customer cutomer); //int  customerId
+	public Customer viewCustomer(Customer customer); 
 	
 	public List<Customer> viewCustomerList(String location);
 }
