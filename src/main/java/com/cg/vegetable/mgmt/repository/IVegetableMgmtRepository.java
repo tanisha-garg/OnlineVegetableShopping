@@ -2,15 +2,17 @@ package com.cg.vegetable.mgmt.repository;
 
 import java.util.List;
 
-import com.cg.vegetable.mgmt.entities.VegetableDTO;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IVegetableMgmtRepository {
+import com.cg.vegetable.mgmt.entities.Vegetable;
 
-	public VegetableDTO addVegetable(VegetableDTO dto);
+public interface IVegetableMgmtRepository extends JpaRepository<Vegetable,Integer>{
+
+	/*public VegetableDTO addVegetable(VegetableDTO dto);
 	public VegetableDTO updateVegetable(VegetableDTO dto);
 	public VegetableDTO removeVegetable(VegetableDTO dto);
 	public VegetableDTO viewVegetable(VegetableDTO dto);
 	public List<VegetableDTO> viewAllVegetables();
 	public List<VegetableDTO> viewVegetableList(String category);
-	public List<VegetableDTO> viewVegetableByName(String name);
+	public List<VegetableDTO> viewVegetableByName(String name);*/
 }

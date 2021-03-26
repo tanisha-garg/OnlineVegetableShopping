@@ -1,7 +1,15 @@
 package com.cg.vegetable.mgmt.entities;
 
-public class VegetableDTO {
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class Vegetable {
+	
+	@Id
+	@GeneratedValue
 	private int vegId;
 	private String name;
 	private String type;
@@ -9,9 +17,10 @@ public class VegetableDTO {
 	private double price;
 	private int quantity;
 	
-	
-	public VegetableDTO(int vegId, String name, String type, String category, double price, int quantity) {
-		this.vegId = vegId;
+	public Vegetable() {
+		
+	}
+	public Vegetable(String name, String type, String category, double price, int quantity) {
 		this.name = name;
 		this.type = type;
 		this.category = category;
