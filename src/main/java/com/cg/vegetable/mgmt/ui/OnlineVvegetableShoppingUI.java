@@ -12,7 +12,7 @@ import com.cg.vegetable.mgmt.exceptions.InvalidVegetableTypeException;
 import com.cg.vegetable.mgmt.service.IVegetableMgmtService;
 
 @Component
-public class OnlineVegetableShoppingUI {
+public class OnlineVvegetableShoppingUI {
 	
 	@Autowired
 	private IVegetableMgmtService vegetableService;
