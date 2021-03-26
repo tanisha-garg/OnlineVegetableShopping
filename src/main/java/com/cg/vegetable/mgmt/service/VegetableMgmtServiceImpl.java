@@ -4,30 +4,30 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.cg.vegetable.mgmt.entities.VegetableDTO;
+import com.cg.vegetable.mgmt.entities.Vegetable;
 @Service
 public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 
 	@Override
-	public VegetableDTO addVegetable(VegetableDTO dto) {
+	public Vegetable addVegetable(Vegetable dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public VegetableDTO updateVegetable(VegetableDTO dto) {
+	public Vegetable updateVegetable(Vegetable dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public VegetableDTO removeVegetable(VegetableDTO dto) {
+	public Vegetable removeVegetable(Vegetable dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public VegetableDTO viewVegetable(VegetableDTO dto) {
+	public Vegetable viewVegetable(Vegetable dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
