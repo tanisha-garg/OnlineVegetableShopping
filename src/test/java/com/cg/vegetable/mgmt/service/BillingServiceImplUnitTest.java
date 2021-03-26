@@ -1,24 +1,30 @@
 package com.cg.vegetable.mgmt.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.cg.vegetable.mgmt.entities.BillingDetails;
-import com.cg.vegetable.mgmt.exceptions.*;
+import com.cg.vegetable.mgmt.exceptions.BillNotFoundException;
+import com.cg.vegetable.mgmt.exceptions.InvalidTransactionModeException;
+import com.cg.vegetable.mgmt.exceptions.InvalidTransactionStatusException;
 import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
 

@@ -1,20 +1,29 @@
 package com.cg.vegetable.mgmt.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
+@Entity
 public class Customer {
 
+	@Id
+	@GeneratedValue
 	private int customerId;
+
+	@OneToOne
+	private Address address;
 	
 	private String name;
 	private String mobileNumber;
-	private Address address;
 	private String emailId;
 	private String password;
 	private String confirmPassword;
 
 	public Customer() {
 	}
-
+	
 	public Customer(String name, String mobileNumber, String emailId, String password,
 			String confirmPassword) {
 		this.name = name;
