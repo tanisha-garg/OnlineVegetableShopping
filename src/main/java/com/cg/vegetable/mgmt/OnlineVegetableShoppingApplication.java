@@ -10,9 +10,9 @@ import com.cg.vegetable.mgmt.ui.OnlineVegetableShoppingUI;
 public class OnlineVegetableShoppingApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context=SpringApplication.run(OnlineVegetableShoppingApplication.class, args);
-		OnlineVegetableShoppingUI onlineVegetableShoppingUI = context.getBean(OnlineVegetableShoppingUI.class);
-		onlineVegetableShoppingUI.start();
+		ConfigurableApplicationContext context = SpringApplication.run(OnlineVegetableShoppingApplication.class, args);
+		OnlineVegetableShoppingUI shoppingUI = context.getBean(OnlineVegetableShoppingUI.class);
+		shoppingUI.start();
 	}
 
 }
