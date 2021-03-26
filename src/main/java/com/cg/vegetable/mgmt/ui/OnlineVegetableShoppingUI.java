@@ -3,14 +3,22 @@ package com.cg.vegetable.mgmt.ui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
 import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.service.IBillingService;
 import com.cg.vegetable.mgmt.service.IOrderService;
+import com.cg.vegetable.mgmt.entities.Customer;
+import com.cg.vegetable.mgmt.entities.Address;
+import com.cg.vegetable.mgmt.service.ICustomerService;
+
 
 @Component
 public class OnlineVegetableShoppingUI {
+
+	@Autowired
+	private ICustomerService service;
 	
 	@Autowired
 	IBillingService billingService;
@@ -46,6 +54,13 @@ public class OnlineVegetableShoppingUI {
 			System.out.println("Sorry, Something went wrong");
 		}
 		
+//		System.out.println(" Adding Customer \n");
+
+//		Customer ayesha = service.addCustomer(1,"Ayesha","987654321","plot2 , Dattani Nagar , AP","abc@def.com");
+		//display(ayesha);
+
+//		Customer shivangi = service.addCustomer("Shivangi");
+		//display(shivangi);	
 		
 	}
 	
@@ -57,5 +72,7 @@ public class OnlineVegetableShoppingUI {
 						   "\nTransaction Status: "+bill.getTransactionStatus());
 		System.out.println();
 	}
+	
+	
 
 }

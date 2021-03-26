@@ -15,6 +15,7 @@ public class Address {
 	private String pincode;
 	
 	public Address(String flatNo, String buildingName, String area, String city, String state, String pincode) {
+		super();
 		this.flatNo = flatNo;
 		this.buildingName = buildingName;
 		this.area = area;
@@ -71,5 +72,5 @@ public class Address {
 		this.pincode = pincode;
 	}
 	
-	
+
 }

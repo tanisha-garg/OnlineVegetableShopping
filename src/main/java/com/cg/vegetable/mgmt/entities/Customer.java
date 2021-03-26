@@ -1,41 +1,86 @@
 package com.cg.vegetable.mgmt.entities;
 
+@Entity
 public class Customer {
 
+	@Id
+	@GeneratedValue
 	private int customerId;
+	
 	private String name;
 	private String mobileNumber;
 	private Address address;
-	private String emailid;
+	private String emailId;
+	private String password;
+	private String confirmPassword;
+
+	public Customer() {
+	}
+
+	public Customer(int customerId, String name, String mobileNumber, String emailId, String password,
+			String confirmPassword) {
+		this.customerId = customerId;
+		this.name = name;
+		this.mobileNumber = mobileNumber;
+		this.emailId = emailId;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
+	}
+
 	public int getCustomerId() {
 		return customerId;
 	}
+
 	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getMobileNumber() {
 		return mobileNumber;
 	}
+
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
+
 	public Address getAddress() {
 		return address;
 	}
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public String getEmailid() {
-		return emailid;
+
+	public String getEmailId() {
+		return emailId;
 	}
-	public void setEmailid(String emailid) {
-		this.emailid = emailid;
+
+	public void setEmailid(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 }

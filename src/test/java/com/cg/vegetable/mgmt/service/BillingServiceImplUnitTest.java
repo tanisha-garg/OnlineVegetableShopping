@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,13 +21,13 @@ import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
-//@ExtendWith(MockitoExtension.class)
+
 @SpringBootTest
 public class BillingServiceImplUnitTest {
 	
 	@Mock
 	IBillingRepository billingRepository;
-	
+
 	@Spy
 	@InjectMocks
 	BillingServiceImpl billingService;
@@ -61,6 +59,7 @@ public class BillingServiceImplUnitTest {
 	 * Scenario: TransactionMode Validation - Blank input
 	 * Test Case: Add Bill
 	 */	
+	
 	@Test
 	public void testAddBill_2() {
 //		String transactionMode = "";

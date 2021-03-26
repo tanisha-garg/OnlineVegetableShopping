@@ -9,7 +9,7 @@ public interface IVegetableMgmtService {
 	public Vegetable addVegetable(Vegetable dto);
 	public Vegetable updateVegetable(Vegetable dto);
 	public Vegetable removeVegetable(Vegetable dto);
-	public Vegetable viewVegetable(Vegetable dto);
+	public Vegetable viewVegetable(int vegId);
 	/*public List<VegetableDTO> viewAllVegetables();
 	public List<VegetableDTO> viewVegetableList(String category);
 	public List<VegetableDTO> viewVegetableByName(String name);
