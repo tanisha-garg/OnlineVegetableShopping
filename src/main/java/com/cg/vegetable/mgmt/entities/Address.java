@@ -1,6 +1,15 @@
 package com.cg.vegetable.mgmt.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Address {
+
+	@GeneratedValue
+	@Id
+	// private int addressId;
 	private String flatNo;
 	private String buildingName;
 	private String area;
@@ -13,7 +22,6 @@ public class Address {
 	}
 
 	public Address(String flatNo, String buildingName, String area, String city, String state, String pincode) {
-		super();
 		this.flatNo = flatNo;
 		this.buildingName = buildingName;
 		this.area = area;
@@ -22,6 +30,15 @@ public class Address {
 		this.pincode = pincode;
 	}
 
+	/*
+	 * public int getAddressId() {
+	 *  return addressId;
+	 *   }
+	 * 
+	 * public void setaddressId(int addressId) {
+	 *  this.addressId=addressId; 
+	 *  }
+	 */
 	public String getFlatNo() {
 		return flatNo;
 	}

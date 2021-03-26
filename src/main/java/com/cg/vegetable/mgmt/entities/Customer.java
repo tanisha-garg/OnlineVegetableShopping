@@ -1,26 +1,36 @@
 package com.cg.vegetable.mgmt.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Customer {
 
+	@GeneratedValue
+	@Id
 	private int customerId;
 	private String name;
 	private String mobileNumber;
-	private Address address;
 	private String emailId;
 	private String password;
 	private String confirmPassword;
 
+	@OneToOne
+	private Address address;
+
 	public Customer() {
 	}
 
-	public Customer(int customerId, String name, String mobileNumber, String emailId, String password,
-			String confirmPassword) {
-		this.customerId = customerId;
+	public Customer(String name, String mobileNumber, String emailId, String password, String confirmPassword /*,
+			Address address*/) {
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.emailId = emailId;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
+		//this.address = address;
 	}
 
 	public int getCustomerId() {
@@ -47,14 +57,6 @@ public class Customer {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 	public String getEmailId() {
 		return emailId;
 	}
@@ -78,5 +80,14 @@ public class Customer {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	
 
 }
