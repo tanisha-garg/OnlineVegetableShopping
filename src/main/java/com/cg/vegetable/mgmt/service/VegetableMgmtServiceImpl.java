@@ -65,11 +65,9 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	@Override
 	public Vegetable viewVegetable(int vegId) {
 		validateId(vegId);
-		Optional<Vegetable>optional=vegetableRepository.findById(vegId);
-		
+		Optional<Vegetable>optional=vegetableRepository.findById(vegId);		
 		if(!optional.isPresent()) 
 			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
-		
 		return optional.get();
 	}
 	
