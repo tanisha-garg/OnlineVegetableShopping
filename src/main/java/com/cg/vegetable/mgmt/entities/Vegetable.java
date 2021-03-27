@@ -1,6 +1,5 @@
 package com.cg.vegetable.mgmt.entities;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -63,5 +62,4 @@ public class Vegetable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
 }

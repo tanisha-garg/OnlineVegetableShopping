@@ -17,6 +17,7 @@ import com.cg.vegetable.mgmt.exceptions.InvalidVegetableQuantityException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableTypeException;
 import com.cg.vegetable.mgmt.exceptions.VegetableNotFoundException;
 import com.cg.vegetable.mgmt.repository.IVegetableMgmtRepository;
+
 @Service
 public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	
@@ -43,7 +44,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 		int vegId = dto.getVegId();
 		boolean exists = vegetableRepository.existsById(vegId);
 		if(!exists) {
-			throw new VegetableNotFoundException("Vegetable not found with id"+vegId);
+			throw new VegetableNotFoundException("Vegetable not found with id" + vegId);
 		}
 		Vegetable saved = vegetableRepository.save(dto);
 		return saved;
@@ -64,47 +65,40 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	@Override
 	public Vegetable viewVegetable(int vegId) {
 		validateId(vegId);
-		Optional<Vegetable>optional=vegetableRepository.findById(vegId);
-		if(!optional.isPresent()) {
-			 throw new VegetableNotFoundException("Vegetable not found for this id "+ vegId);
-		 }
+		Optional<Vegetable>optional=vegetableRepository.findById(vegId);		
+		if(!optional.isPresent()) 
+			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
 		return optional.get();
 	}
 	
 	public void validateName(String name) {
-		if(name.isEmpty()|| name==null || name.trim().isEmpty()) {
+		if(name.isEmpty()|| name==null || name.trim().isEmpty()) 
 			throw new InvalidVegetableNameException("name can't empty or null");
-		}
 	}
 	
 	public void validateCategory(String category) {
-		if(category.isEmpty()|| category==null || category.trim().isEmpty()) {
+		if(category.isEmpty()|| category==null || category.trim().isEmpty()) 
 			throw new InvalidVegetableCategoryException("category can't empty or null");
-		}
 	}
 	
 	public void validateType(String type) {
-		if(type.isEmpty()|| type==null || type.trim().isEmpty()) {
+		if(type.isEmpty()|| type==null || type.trim().isEmpty())
 			throw new InvalidVegetableTypeException("category can't empty or null");
-		}
 	}
 	
 	public void validatePrice(double price) {
-		if(price<=0) {
+		if(price<=0)
 			throw new InvalidVegetablePriceException("price can't be negative");
-		}
 	}
 	
 	public void validateQuantity(int quantity) {
-		if(quantity<0) {
+		if(quantity<0)
 			throw new InvalidVegetableQuantityException("Quantity can't be negative");
-		}
 	}
 	
 	public void validateId(int id) {
-		if(id<0) {
+		if(id<0)	
 			throw new InvalidVegetableIdException("Id can't be negative");
-		}
 	}
 
 	/*@Override
