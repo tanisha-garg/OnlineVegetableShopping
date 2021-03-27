@@ -1,4 +1,4 @@
-package com.cg.vegetable.mgmt.controller;
+package com.cg.vegetable.mgmt.controllers;
 
 import com.cg.vegetable.mgmt.dto.CustomerDetails;
 import com.cg.vegetable.mgmt.entities.Customer;
