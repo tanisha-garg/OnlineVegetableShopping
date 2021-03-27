@@ -1,16 +1,15 @@
 package com.cg.vegetable.mgmt.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.entities.Order;
 import com.cg.vegetable.mgmt.exceptions.*;
-import com.cg.vegetable.mgmt.repository.ICustomerRepository;
 import com.cg.vegetable.mgmt.repository.IOrderRepository;
 
 @Service
@@ -18,11 +17,15 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Autowired
 	private IOrderRepository orderRepository;
-	private ICustomerRepository customerRepository;
+	
+	@Autowired
+	private IBillingService billingService;
 
 	@Transactional
 	@Override
 	public Order addOrder(Order order) {
+//		BillingDetails bill = new BillingDetails();
+//		billingService.addBill(bill);
 		Order saved = orderRepository.save(order);
 		return saved;
 	}
@@ -30,11 +33,11 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public Order viewOrder(Order order) {
 		int id = order.getOrderNo();
-		Optional<Order> optional = orderRepository.findById(id);
-		if (!optional.isPresent()) {
+		Optional<Order> orderOptional = orderRepository.findById(id);
+		if (!orderOptional.isPresent()) {
 			throw new OrderNotFoundException("Order with id " + id + " doesn't exist");
 		}
-		Order order2 = optional.get();
+		Order order2 = orderOptional.get();
 		return order2;
 	}
 
@@ -51,25 +54,54 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-		public List<Order> viewAllOrders(int custid){
-		return null;
+	public List<Order> viewAllOrders(int custid){
+		List<Order> orderList = orderRepository.findAll();
+		List<Order> desiredList = new ArrayList<>();
+		if(orderList.isEmpty()) {
+			throw new OrderNotFoundException("Order Not Found");
 		}
+		else {
+			for(Order order : orderList) {
+				if(order.getCustId() == custid) {
+					desiredList.add(order);
+				}
+			}
+		}
+		return desiredList;
+	}
 		
 	
 
 	@Override
 	public List<Order> viewOrderList(LocalDate date) {
-		return null;
+		List<Order> orderList = orderRepository.findAll();
+		List<Order> desiredList = new ArrayList<>();
+		if(orderList.isEmpty()) {
+			throw new OrderNotFoundException("Order Not Found");
+		}
+		else {
+			for(Order order : orderList) {
+				if(order.getOrderDate() == date) {
+					desiredList.add(order);
+				}
+			}
+		}
+		return desiredList;
 	}
 
 	@Override
 	public List<Order> viewOrderList() {
-		return null;
+		List<Order> orderList = orderRepository.findAll();
+		if(orderList.isEmpty()) {
+			throw new OrderNotFoundException("Orders not found");
+		}
+		return orderList;
 	}
 
+	@Transactional
 	@Override
-	public Order cancelOrder(int orderid) {
-		return null;
+	public void cancelOrder(int orderid) {
+		 orderRepository.deleteById(orderid);
 	}
 
 }

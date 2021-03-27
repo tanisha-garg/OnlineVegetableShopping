@@ -18,6 +18,10 @@ public class Address {
 	private String state;
 	private String pincode;
 	
+	public Address() {
+		
+	}
+	
 	public Address(String flatNo, String buildingName, String area, String city, String state, String pincode) {
 		this.flatNo = flatNo;
 		this.buildingName = buildingName;
