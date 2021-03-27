@@ -1,8 +1,10 @@
 package com.cg.vegetable.mgmt.util;
 
+import org.springframework.stereotype.Component;
+
 import com.cg.vegetable.mgmt.dto.VegetableDetails;
 import com.cg.vegetable.mgmt.entities.Vegetable;
-
+@Component
 public class VegetableUtil {
 	
 	public VegetableDetails toDetails(Vegetable vegetable){

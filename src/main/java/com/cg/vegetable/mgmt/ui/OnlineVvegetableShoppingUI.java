@@ -41,8 +41,8 @@ public class OnlineVvegetableShoppingUI {
 			 * 
 			 */
 			 System.out.print("----Displaying Removed Vegetable----");
-			 Vegetable removed = vegetableService.removeVegetable(cauliFlower);
-			 displayVegetableDetails(removed);
+			 //Vegetable removed = vegetableService.removeVegetable(cauliFlower);
+			 //displayVegetableDetails(removed);
 			 
 			 /*
 			  * view Vegetable
