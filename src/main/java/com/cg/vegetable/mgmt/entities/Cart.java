@@ -2,7 +2,7 @@ package com.cg.vegetable.mgmt.entities;
 
 import java.util.List;
 
-public class CartDTO {
+public class Cart {
 private int cartId;
 private int custId;
 private List<Vegetable> vegetables;
