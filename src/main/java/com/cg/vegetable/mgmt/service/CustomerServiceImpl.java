@@ -24,7 +24,8 @@ private ICustomerRepository customerRepository;
 	@Override
 	public Customer addCustomer(Customer customer) {
 		validateCustomer(customer);
-		return customerRepository.save(customer);
+		customerRepository.save(customer);
+		return customer;
 	}
 
 	@Override

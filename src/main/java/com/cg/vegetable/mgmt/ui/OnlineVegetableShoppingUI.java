@@ -53,7 +53,7 @@ public class OnlineVegetableShoppingUI {
 			System.out.println("Sorry, Something went wrong");
 		}
 		
-		Customer ayesha = service.addCustomer(new Customer("Ayesha","987654321","abc@def.com","pdbgddgcbb","pdbgddgcbb"));
+		Customer ayesha = service.addCustomer(new Customer("Ayesha","987654321","abc@def.com"));
 		display(ayesha);
 		
 		System.out.println("View  Customer \n");
@@ -63,7 +63,7 @@ public class OnlineVegetableShoppingUI {
 		
 		System.out.println(" Remove Customer \n");
 
-		Customer shivangi = service.removeCustomer(ayesha);
+		//Customer shivangi = service.removeCustomer(ayesha);
 		
 	}
 	
@@ -78,7 +78,7 @@ public class OnlineVegetableShoppingUI {
 	
 	void  display(Customer customer){		
 			System.out.println("Customer \t" + customer.getCustomerId() + "\t " + customer.getName() + "\t"
-			+ customer.getMobileNumber()+"\t"+customer.getEmailId()+"\t"+customer.getPassword()+"\t"+customer.getConfirmPassword());
+			+ customer.getMobileNumber()+"\t"+customer.getEmailId());
 		}
 	
 
