@@ -25,7 +25,7 @@ public class CustomerRestController
     private ICustomerRepository  repository;
 
     @DeleteMapping( "/removeCustomer/{id}")
-    public String fetchCustomer(@PathVariable Integer id)
+    public String removeCustomer(@PathVariable Integer id)
     {
     	Optional<Customer> optional= repository.findById(id);
         Customer customer = optional.get();

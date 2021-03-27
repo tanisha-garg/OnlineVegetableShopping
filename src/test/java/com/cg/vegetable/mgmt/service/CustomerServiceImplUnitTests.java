@@ -1,4 +1,4 @@
-package com.cg.vegetable.mgmt;
+package com.cg.vegetable.mgmt.service;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -186,7 +186,7 @@ public class CustomerServiceImplUnitTests {
 	@Test
 	public void test_ValidateName1() {
 		String name = "";
-		Customer customer = new Customer(name, "9863527891", "agc@ghb.com", "asdfghjkl", "asdfghjkl");
+		Customer customer = new Customer(name, "9863527891", "agc@ghb.com");
 		Executable executable = () -> customerService.addCustomer(customer);
 		Assertions.assertThrows(InvalidCustomerNameException.class, executable);
 	}
