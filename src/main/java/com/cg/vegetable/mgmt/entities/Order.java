@@ -3,13 +3,18 @@ package com.cg.vegetable.mgmt.entities;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="order_table")
 public class Order {
 	
 	@GeneratedValue
@@ -17,12 +22,17 @@ public class Order {
 	private int orderNo;
 	private int custId;
 	
-	@OneToMany
+	@Column(unique = false)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Vegetable> vegList;
 	
 	private double totalAmount;
 	private LocalDate orderDate;
 	private String status;
+	
+	public Order() {
+		
+	}
 
 	public int getOrderNo() {
 		return orderNo;

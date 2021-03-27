@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.entities.Order;
 import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.IOrderRepository;
@@ -24,9 +25,14 @@ public class OrderServiceImpl implements IOrderService {
 	@Transactional
 	@Override
 	public Order addOrder(Order order) {
-//		BillingDetails bill = new BillingDetails();
-//		billingService.addBill(bill);
+		order.setStatus("Order Placed");
+		order.setOrderDate(currentTime());
 		Order saved = orderRepository.save(order);
+		BillingDetails bill = new BillingDetails();
+		bill.setTransactionStatus("Pending");
+		bill.setTransactionMode("Cash On Delivery");
+		bill.setOrderId(saved.getOrderNo());
+		bill = billingService.addBill(bill);
 		return saved;
 	}
 
@@ -102,6 +108,11 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public void cancelOrder(int orderid) {
 		 orderRepository.deleteById(orderid);
+	}
+	
+	
+	public LocalDate currentTime() {
+		return LocalDate.now();
 	}
 
 }
