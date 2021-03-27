@@ -48,11 +48,11 @@ public class BillingServiceImpl implements IBillingService{
 
 	@Override
 	public BillingDetails viewBill(int id) {
-		Optional<BillingDetails> optional = billingRepository.findById(id);
-		if(!optional.isPresent()) {
+		Optional<BillingDetails> billOptional = billingRepository.findById(id);
+		if(!billOptional.isPresent()) {
 			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
 		}
-		BillingDetails bill = optional.get();
+		BillingDetails bill = billOptional.get();
 		return bill;
 	
 	}

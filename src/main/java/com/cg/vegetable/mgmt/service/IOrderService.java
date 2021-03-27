@@ -13,5 +13,5 @@ public interface IOrderService {
 	public List<Order> viewAllOrders(int custid);
 	public List<Order> viewOrderList(LocalDate date);
 	public List<Order> viewOrderList();
-	public Order cancelOrder(int orderid);
+	public void cancelOrder(int orderid);
 }
