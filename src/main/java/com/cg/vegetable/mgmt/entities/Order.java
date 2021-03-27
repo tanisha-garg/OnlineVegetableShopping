@@ -3,10 +3,17 @@ package com.cg.vegetable.mgmt.entities;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+@Entity
 public class Order {
-
+	@GeneratedValue
+	@Id
 	private int orderNo;
 	private int custId;
+	@OneToMany
 	private List<Vegetable> vegList;
 	private double totalAmount;
 	private LocalDate orderDate;
