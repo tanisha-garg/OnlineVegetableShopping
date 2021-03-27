@@ -1,19 +1,18 @@
 package com.cg.vegetable.mgmt.util;
 
-
+import com.cg.vegetable.mgmt.dto.VegetableDetails;
+import com.cg.vegetable.mgmt.entities.Vegetable;
 
 public class VegetableUtil {
 	
-	public StudentDetails toDetails(Student student){
-        StudentDetails details=new StudentDetails();
-        details.setId(student.getId());
-        details.setName(student.getName());
-        details.setScore(student.getScore());
-        Course course=student.getCourse();
-        if(course!=null) {
-            details.setCourseId(course.getCourseId());
-            details.setCourseName(course.getName());
-        }
+	public VegetableDetails toDetails(Vegetable vegetable){
+        VegetableDetails details=new VegetableDetails();
+        details.setVegId(vegetable.getVegId());
+        details.setName(vegetable.getName());
+        details.setCategory(vegetable.getCategory());
+        details.setType(vegetable.getType());
+        details.setQuantity(vegetable.getQuantity());
+        details.setPrice(vegetable.getPrice());
         return details;
     }
 
