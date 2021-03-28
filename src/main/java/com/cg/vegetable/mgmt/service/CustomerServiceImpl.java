@@ -27,7 +27,6 @@ private ICustomerRepository customerRepository;
 	@Transactional
 	@Override
 	public Customer addCustomer(Customer customer) {
-		validateCustomer(customer);
 		customerRepository.save(customer);
 		return customer;
 	}
