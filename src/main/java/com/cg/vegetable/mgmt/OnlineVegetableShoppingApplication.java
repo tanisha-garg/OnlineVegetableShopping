@@ -31,10 +31,7 @@ public class OnlineVegetableShoppingApplication {
 		
 		CartUI cartUI = context.getBean(CartUI.class);
 		cartUI.start();
-		
-		
-		
+	
 	}
 
 }
-
