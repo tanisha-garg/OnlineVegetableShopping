@@ -45,5 +45,29 @@ public class Feedback {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+	@Override
+	public int hashCode() {
+		return feedbackId;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Feedback other = (Feedback) obj;
+		if (feedbackId != other.feedbackId)
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "Feedback [feedbackId=" + feedbackId + ", custId=" + custId + ", vegetableId=" + vegetableId
+				+ ", rating=" + rating + ", comments=" + comments + "]";
+	}
+	
+	
 	
 }

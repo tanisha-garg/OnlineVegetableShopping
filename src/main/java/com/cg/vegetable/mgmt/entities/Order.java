@@ -82,4 +82,31 @@ public class Order {
 		this.status = status;
 	}
 
+	@Override
+	public int hashCode() {
+		return orderNo;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (orderNo != other.orderNo)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [orderNo=" + orderNo + ", custId=" + custId + ", vegList=" + vegList + ", totalAmount="
+				+ totalAmount + ", orderDate=" + orderDate + ", status=" + status + "]";
+	}
+	
+	
+
 }

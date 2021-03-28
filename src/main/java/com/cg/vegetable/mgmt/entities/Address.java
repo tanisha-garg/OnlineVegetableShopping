@@ -86,6 +86,33 @@ public class Address {
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
 	}
+
+	@Override
+	public int hashCode() {
+		return addressId;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Address other = (Address) obj;
+		if (addressId != other.addressId)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [addressId=" + addressId + ", flatNo=" + flatNo + ", buildingName=" + buildingName + ", area="
+				+ area + ", city=" + city + ", state=" + state + ", pincode=" + pincode + "]";
+	}
+	
+	
 	
 
 }
