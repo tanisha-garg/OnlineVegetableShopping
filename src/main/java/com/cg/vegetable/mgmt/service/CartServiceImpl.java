@@ -44,19 +44,24 @@ public class CartServiceImpl implements ICartService {
 			throw new VegetableNotFoundException("vegetable not found for this id");
 		}
 
-		Vegetable veg = vegOptional.get();
+		vegetable = vegOptional.get();
 		Cart cart = cartRepository.findCartByCustId(customerId);
 
 		List<Vegetable> items = cart.getVegetables(); // suspected
-		if (items == null) {
+		if (items.isEmpty()) {
 			items = new ArrayList<>();
 			cart.setVegetables(items);
+			cartRepository.save(cart);
+			vegetable.setCart(cart);
+			vegRepository.save(vegetable);
 		}
 
 		if (!items.contains(vegetable)) {
-			items.add(veg);
+			items.add(vegetable);
 			cart.setVegetables(items);
 			cartRepository.save(cart);
+			vegetable.setCart(cart);
+			vegRepository.save(vegetable);
 
 		} else {
 			increaseVegQuantity(vegetable.getVegId(), vegetable.getQuantity());

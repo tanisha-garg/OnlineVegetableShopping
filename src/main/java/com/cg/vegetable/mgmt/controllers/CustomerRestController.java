@@ -1,7 +1,5 @@
 package com.cg.vegetable.mgmt.controllers;
 
-import com.cg.vegetable.mgmt.dto.BillingDetailsDTO;
-import com.cg.vegetable.mgmt.dto.CreateBillDetailsRequest;
 import com.cg.vegetable.mgmt.dto.CustomerDetails;
 import com.cg.vegetable.mgmt.dto.UpdateCustomerDetailsRequest;
 import com.cg.vegetable.mgmt.dto.UpdateCustomerAddressRequest;
@@ -52,7 +50,7 @@ public class CustomerRestController
     @PostMapping("/addCustomer")
     public String addCustomer(@RequestBody CustomerDetails requestData)
     {
-        Customer customer = new Customer(requestData.getCustomerId(),requestData.getName(),
+        Customer customer = new Customer(requestData.getName(),
         		requestData.getMobileNumber(),requestData.getEmailId());
         
         Customer addedCustomer= customerService.addCustomer(customer);

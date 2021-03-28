@@ -3,6 +3,7 @@ package com.cg.vegetable.mgmt.entities;
 import java.util.List;
 import com.cg.vegetable.mgmt.entities.*;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -13,7 +14,7 @@ public class Cart {
 	@Id
 	private int cartId;
 	private int custId;
-	@OneToMany(mappedBy = "cart")
+	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
 	private List<Vegetable> vegetables;
 
 	public int getCartId() {
