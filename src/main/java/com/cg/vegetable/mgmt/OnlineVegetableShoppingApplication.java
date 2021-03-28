@@ -12,8 +12,7 @@ public class OnlineVegetableShoppingApplication {
 		ConfigurableApplicationContext context = SpringApplication.run(OnlineVegetableShoppingApplication.class, args);
 		OnlineVegetableShoppingUI shoppingUI = context.getBean(OnlineVegetableShoppingUI.class);
 		shoppingUI.start();
-		
+
 	}
 
 }
-

@@ -20,11 +20,12 @@ public class Customer {
 	private String emailId;
 	private String password;
 	private String confirmPassword;
-
+	
 	public Customer() {
 	}
 	
-	public Customer(String name, String mobileNumber, String emailId) {
+	public Customer(int customerId,String name, String mobileNumber, String emailId) {
+		this.customerId=customerId;
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.emailId = emailId;
@@ -82,4 +83,5 @@ public class Customer {
 		this.confirmPassword = confirmPassword;
 	}
 
+	
 }

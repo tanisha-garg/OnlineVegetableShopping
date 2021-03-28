@@ -17,7 +17,7 @@ import com.cg.vegetable.mgmt.service.ICustomerService;
 public class OnlineVegetableShoppingUI {
 
 	@Autowired
-	private ICustomerService service;
+	private ICustomerService customerService;
 	
 	@Autowired
 	IBillingService billingService;
@@ -53,17 +53,59 @@ public class OnlineVegetableShoppingUI {
 			System.out.println("Sorry, Something went wrong");
 		}
 		
-		Customer ayesha = service.addCustomer(new Customer("Ayesha","987654321","abc@def.com"));
-		display(ayesha);
 		
-		System.out.println("View  Customer \n");
-
-		Customer anu = service.viewCustomer(ayesha);
-		display(anu);
+		//Customers 
 		
-		System.out.println(" Remove Customer \n");
+		try {
+		System.out.println("   Adding Customers      ");
+		Customer customer1 =customerService.addCustomer(new Customer(1,"Ayesha","987654321","abc@def.com"));
+		customerService.addCustomer(customer1);
+		display(customer1);
+		
+		Customer customer2 = customerService.addCustomer(new Customer(2,"Shivangi","9456704321","ghikhsa@def.com"));
+		customerService.addCustomer(customer2);
+		display(customer2);
+		
+		Customer customer3 = customerService.addCustomer(new Customer(3,"Aashi","7977904321","hdwtetwxnna@def.com"));
+		customerService.addCustomer(customer3);
+		display(customer3);
+		
+		System.out.println("    \n   View  Customer \n      ");
 
-		//Customer shivangi = service.removeCustomer(ayesha);
+		Customer customerDetails1 = customerService.viewCustomer(customer1);
+		display(customerDetails1);
+		
+		Customer customerDetails2 = customerService.viewCustomer(customer2);
+		display(customerDetails2);
+		
+		Customer customerDetails3 = customerService.viewCustomer(customer3);
+		display(customerDetails3);
+		
+		
+		
+		System.out.println("      \n   Remove Customer \n     ");
+
+		Customer removedCustomer = customerService.removeCustomer(customer2);
+		System.out.println( "Customer " +removedCustomer+ " removed successfully.");
+		
+		
+		
+		System.out.println("         \n  Update   customer   \n");
+		}
+		catch(CustomerNotFoundException e) {
+			System.out.println(e.getMessage());
+		}catch(CustomerIdNotFoundException e) {
+			System.out.println(e.getMessage());
+		}catch(InvalidCustomerNameException e) {
+			System.out.println(e.getMessage());
+		}catch(InvalidMobileNumberException e) {
+			System.out.println(e.getMessage());
+		}catch(Exception e) {
+			System.out.println("Sorry, Something went wrong");
+		}
+		
+		
+		
 		
 	}
 	
@@ -77,8 +119,11 @@ public class OnlineVegetableShoppingUI {
 	}
 	
 	void  display(Customer customer){		
-			System.out.println("Customer \t" + customer.getCustomerId() + "\t " + customer.getName() + "\t"
-			+ customer.getMobileNumber()+"\t"+customer.getEmailId());
+			System.out.println("Customer Id: " + customer.getCustomerId() +
+					" \n Customer Name: " + customer.getName() +
+					"\n Customer Mobile Number: "+ customer.getMobileNumber()+
+					"\n Customer EmailId: "+ customer.getEmailId()+
+					"\n\n");
 		}
 	
 

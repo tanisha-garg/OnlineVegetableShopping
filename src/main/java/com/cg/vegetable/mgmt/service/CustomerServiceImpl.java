@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class CustomerServiceImpl implements ICustomerService {
 @Autowired
 private ICustomerRepository customerRepository;
 
+
+	@Transactional
 	@Override
 	public Customer addCustomer(Customer customer) {
 		validateCustomer(customer);
@@ -28,6 +32,7 @@ private ICustomerRepository customerRepository;
 		return customer;
 	}
 
+	@Transactional
 	@Override
 	public Customer updateCustomer(Customer customer) {
 		validateCustomer(customer);
@@ -40,28 +45,42 @@ private ICustomerRepository customerRepository;
 		return updateCustomer;
 	}
 
+	@Transactional
 	@Override
 	public Customer removeCustomer(Customer customer) {
-		validateCustomer(customer);
-		Optional<Customer>optional=customerRepository.findById(customer.getCustomerId());
-		if(!optional.isPresent()) {
-			 throw new CustomerIdNotFoundException("Customer to be removed does not exist");
-		 }
-		 Customer removed = optional.get();
-		 customerRepository.deleteById(customer.getCustomerId());
-		 return removed;
+	
+//		Optional<Customer>optional=customerRepository.findById(customer.getCustomerId());
+//		if(!optional.isPresent()) {
+//			 throw new CustomerIdNotFoundException("Customer to be removed does not exist");
+//		 }
+//		 Customer removed = optional.get();
+//		 customerRepository.deleteById(customer.getCustomerId());
+//		 return removed;
+		 
+		 Integer customerId =customer.getCustomerId();
+		   boolean exists = customerRepository.existsById(customerId);
+		   if(!exists) {
+			   throw new CustomerNotRemovedException("No Customer passed");
+			}
+			 customerRepository.deleteById(customerId);
+			 return null;
+			   
 	}
-
+	
+	@Transactional
 	@Override
 	public Customer viewCustomer(Customer customer) {
+		  validateCustomer(customer);
 		Integer customerId=customer.getCustomerId();
 		Optional<Customer> viewCustomer = customerRepository.findById(customerId);
 		if (!viewCustomer.isPresent()) {
 			throw new CustomerNotFoundException("Customer doesn't exist for id =" + customerId);
 		}
 		return viewCustomer.get();
+		   
 	}
-
+	
+	@Transactional
 	@Override
 	public List<Customer> viewCustomerList(String location) {
 		List<Customer> customerList= customerRepository.findAll(); 
@@ -89,8 +108,16 @@ private ICustomerRepository customerRepository;
 	}
 	
 	
-		if(customer.getName() == null || customer.getName().isEmpty()|| customer.getName().trim()==null) {
+		if(customer.getName() == null || customer.getName().isEmpty()) {
 			throw new InvalidCustomerNameException("Name cannot be null or empty");
+		}
+		
+		if(customer.getEmailId()=="") {
+			throw new InvalidEmailIdException("Email cannot be empty");
+		}
+		
+		if(customer.getCustomerId()<0) {
+			throw new CustomerIdNotFoundException("Invalid Customer ID passed");
 		}
 	}
 	
