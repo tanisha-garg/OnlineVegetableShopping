@@ -86,6 +86,7 @@ public class Customer {
 		this.confirmPassword = confirmPassword;
 	}
 
+
 	public Cart getCart() {
 		return cart;
 	}
@@ -93,8 +94,6 @@ public class Customer {
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
-	
-	
 
 	
 }

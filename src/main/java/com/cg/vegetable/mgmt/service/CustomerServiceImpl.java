@@ -36,6 +36,7 @@ private ICartService cartService;
 	@Transactional
 	@Override
 	public Customer addCustomer(Customer customer) {
+
 		validateCustomer(customer);
 		Cart cart = new Cart();
 		customer.setCart(cart);
