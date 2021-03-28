@@ -35,35 +35,33 @@ public class CartServiceImpl implements ICartService {
 	@Autowired
 	private IVegetableMgmtRepository vegRepository;
 
-	@Autowired
-	private Cart cart;
 
-	@Override
-	public Vegetable addToCart(int customerId, Vegetable vegetable) {
-		Optional<Vegetable> vegOptional = vegRepository.findById(vegetable.getVegId());
-		if (vegOptional.isEmpty()) {
-			throw new VegetableNotFoundException("vegetable not found for this id");
-		}
-
-		Vegetable veg = vegOptional.get();
-		Cart cart = cartRepository.findCartByCustId(customerId);
-
-		List<Vegetable> items = cart.getVegetables(); // suspected
-		if (items == null) {
-			items = new ArrayList<>();
-			cart.setVegetables(items);
-		}
-
-		if (!items.contains(vegetable)) {
-			items.add(veg);
-			cart.setVegetables(items);
-			cartRepository.save(cart);
-
-		} else {
-			increaseVegQuantity(vegetable.getVegId(), vegetable.getQuantity());
-		}
-		return vegetable;
-
+//	@Override
+//	public Vegetable addToCart(int customerId, Vegetable vegetable) {
+//		Optional<Vegetable> vegOptional = vegRepository.findById(vegetable.getVegId());
+//		if (vegOptional.isEmpty()) {
+//			throw new VegetableNotFoundException("vegetable not found for this id");
+//		}
+//
+//		Vegetable veg = vegOptional.get();
+//		Cart cart = cartRepository.findCartByCustId(customerId);
+//
+//		List<Vegetable> items = cart.getVegetables(); // suspected
+//		if (items == null) {
+//			items = new ArrayList<>();
+//			cart.setVegetables(items);
+//		}
+//
+//		if (!items.contains(vegetable)) {
+//			items.add(veg);
+//			cart.setVegetables(items);
+//			cartRepository.save(cart);
+//
+//		} else {
+//			increaseVegQuantity(vegetable.getVegId(), vegetable.getQuantity());
+//		}
+//		return vegetable;
+//	}
 
 
 	
@@ -80,7 +78,7 @@ public class CartServiceImpl implements ICartService {
 			
 			
 			List<Vegetable> items=cart.getVegetables(); //suspected
-			if(items==null){
+			if(items.isEmpty()){
 				items=new ArrayList<>();
 				cart.setVegetables(items);
 			}
@@ -101,29 +99,32 @@ public class CartServiceImpl implements ICartService {
 
 	@Override
 	public Cart increaseVegQuantity(int vegid, int quantity) {
-		Optional<Vegetable> incOptional = vegRepository.findById(vegid);
-		Vegetable veg = incOptional.get();
-		List<Vegetable> vegList = cart.getVegetables();
-		for (Vegetable vegetable : vegList) {
-			if (vegetable == veg) {
-				vegetable.setQuantity(quantity + vegetable.getQuantity());
-			}
-		}
-		return cartRepository.save(cart);
+//		Optional<Vegetable> incOptional = vegRepository.findById(vegid);
+//		Vegetable veg = incOptional.get();
+//		List<Vegetable> vegList = cart.getVegetables();
+//		for (Vegetable vegetable : vegList) {
+//			if (vegetable == veg) {
+//				vegetable.setQuantity(quantity + vegetable.getQuantity());
+//			}
+//		}
+//		return cartRepository.save(cart);
+		return null;
 	}
 
 	@Override
 	public Cart decreaseVegQuantity(int vegid, int quantity) {
 		// TODO Auto-generated method stub
-		Optional<Vegetable> incOptional = vegRepository.findById(vegid);
-		Vegetable veg = incOptional.get();
-		List<Vegetable> vegList = cart.getVegetables();
-		for (Vegetable vegetable : vegList) {
-			if (vegetable == veg) {
-				vegetable.setQuantity(vegetable.getQuantity() - quantity);
-			}
-		}
-		return cartRepository.save(cart);
+//		Optional<Vegetable> incOptional = vegRepository.findById(vegid);
+//		Vegetable veg = incOptional.get();
+	
+//		List<Vegetable> vegList = cart.getVegetables();
+//		for (Vegetable vegetable : vegList) {
+//			if (vegetable == veg) {
+//				vegetable.setQuantity(vegetable.getQuantity() - quantity);
+//			}
+////		}
+//		return cartRepository.save(cart);
+		return null;
 	}
 
 	@Override
@@ -157,6 +158,11 @@ public class CartServiceImpl implements ICartService {
 		List<Vegetable> allVeg = cart.getVegetables();
 		return allVeg;
 	}
+	
+	
+	
+	
+	
 
 	public void validateVegetable(Vegetable vegetable) {
 		if (vegetable == null) {
