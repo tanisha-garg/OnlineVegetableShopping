@@ -11,7 +11,7 @@ public interface IVegetableMgmtService {
 	public Vegetable removeVegetable(Vegetable dto);
 	public Vegetable viewVegetable(int vegId);
 	public List<Vegetable> viewAllVegetables();
-	/*public List<VegetableDTO> viewVegetableList(String category);
-	public List<VegetableDTO> viewVegetableByName(String name);
-	*/
+	public List<Vegetable> viewVegetableList(String category);
+	public List<Vegetable> viewVegetableByName(String name);
+	
 }

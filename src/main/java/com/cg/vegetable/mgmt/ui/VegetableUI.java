@@ -1,5 +1,7 @@
 package com.cg.vegetable.mgmt.ui;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,6 +58,10 @@ public class VegetableUI {
 
 			int tomatoId = tomato.getVegId();
 			Vegetable fetched = vegetableService.viewVegetable(tomatoId);
+			
+			System.out.println("===Printing All Vegetables===");
+			List<Vegetable>allVegetables=vegetableService.viewAllVegetables();
+			displayAllVegetables(allVegetables);
 
 		} catch (InvalidVegetableNameException e) {
 			System.out.println(e.getMessage());
@@ -73,6 +79,12 @@ public class VegetableUI {
 		
 		
 		}
+	
+	public void displayAllVegetables(List<Vegetable>vegetables) {
+		for(Vegetable v:vegetables) {
+			displayVegetableDetails(v);
+		}
+	}
 	
 	public void displayVegetableDetails(Vegetable vegetable) {
 		System.out.println("\nVeg ID:" + vegetable.getVegId() + "\nName:" + vegetable.getName() + "\nCategory"

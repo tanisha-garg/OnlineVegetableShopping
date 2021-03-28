@@ -1,6 +1,9 @@
 package com.cg.vegetable.mgmt.controllers;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.cg.vegetable.mgmt.dto.AddVegetableRequest;
 import com.cg.vegetable.mgmt.dto.DeleteVegetableRequest;
@@ -102,6 +106,26 @@ public class VegetableRestController {
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
 		 VegetableDetails desired=vegUtil.toDetails(vegetable);
 	        return desired;
+	    }
+	 
+	 @GetMapping("/viewAll/{name}")
+	    public List<VegetableDetails>findVegetablesByName(@PathVariable("name") @NotBlank String name){
+	      List<Vegetable>vegList=  vegService.viewVegetableByName(name);
+	      List<VegetableDetails>desired=vegUtil.toDetailsList(vegList);
+	      return desired;
+	    }
+	 
+	 @GetMapping("/viewAll/{category}")
+	    public List<VegetableDetails>findVegetablesByCategory(@PathVariable("category") @NotBlank String category){
+	      List<Vegetable>vegList=  vegService.viewVegetableByName(category);
+	      List<VegetableDetails>desired=vegUtil.toDetailsList(vegList);
+	      return desired;
+	    }
+	 @GetMapping("/viewAll")
+	    public List<VegetableDetails>findAllVegetables(){
+	      List<Vegetable>vegList=  vegService.viewAllVegetables();
+	      List<VegetableDetails>desired=vegUtil.toDetailsList(vegList);
+	      return desired;
 	    }
 	 
 }
