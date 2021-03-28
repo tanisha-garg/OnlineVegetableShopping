@@ -150,7 +150,7 @@ public class OrderUI {
 		
 		
 		/*
-		 * View all customer by passing date
+		 * View all customer by passing date as a parameter
 		 * */
 		
 		System.out.println();

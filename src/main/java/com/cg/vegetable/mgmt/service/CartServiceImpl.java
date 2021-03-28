@@ -36,66 +36,35 @@ public class CartServiceImpl implements ICartService {
 	private IVegetableMgmtRepository vegRepository;
 
 
-//	@Override
-//	public Vegetable addToCart(int customerId, Vegetable vegetable) {
-//		Optional<Vegetable> vegOptional = vegRepository.findById(vegetable.getVegId());
-//		if (vegOptional.isEmpty()) {
-//			throw new VegetableNotFoundException("vegetable not found for this id");
-//		}
-//
-//		Vegetable veg = vegOptional.get();
-//		Cart cart = cartRepository.findCartByCustId(customerId);
-//
-//		List<Vegetable> items = cart.getVegetables(); // suspected
-//		if (items == null) {
-//			items = new ArrayList<>();
-//			cart.setVegetables(items);
-//		}
-//
-//		if (!items.contains(vegetable)) {
-//			items.add(veg);
-//			cart.setVegetables(items);
-//			cartRepository.save(cart);
-//
-//		} else {
-//			increaseVegQuantity(vegetable.getVegId(), vegetable.getQuantity());
-//		}
-//		return vegetable;
-//	}
 
+	@Override
+	public Vegetable addToCart(int customerId, Vegetable vegetable) {
+		Optional<Vegetable> vegOptional = vegRepository.findById(vegetable.getVegId());
+		if (vegOptional.isEmpty()) {
+			throw new VegetableNotFoundException("vegetable not found for this id");
+		}
 
-	
-	 @Override
-	 public Vegetable addToCart(int customerId, Vegetable vegetable) {
-			Optional<Vegetable> vegOptional = vegRepository.findById(vegetable.getVegId());
-			if(!vegOptional.isPresent()) {
-				throw new VegetableNotFoundException("vegetable not found for this id");
-			}
-			
+		Vegetable veg = vegOptional.get();
+		Cart cart = cartRepository.findCartByCustId(customerId);
 
-			Vegetable veg = vegOptional.get();
-			Cart cart= cartRepository.findCartByCustId(customerId);
-			
-			
-			List<Vegetable> items=cart.getVegetables(); //suspected
-			if(items.isEmpty()){
-				items=new ArrayList<>();
-				cart.setVegetables(items);
-			}
-			
-			if(!items.contains(vegetable)) {
-				items.add(veg);
-				cart.setVegetables(items);
-				cartRepository.save(cart);
-				
-			}
-			else {
-				increaseVegQuantity(vegetable.getVegId(),vegetable.getQuantity());
-			}
-			return vegetable;
-	   
+		List<Vegetable> items = cart.getVegetables(); // suspected
+		if (items == null) {
+			items = new ArrayList<>();
+			cart.setVegetables(items);
+		}
 
+		if (!items.contains(vegetable)) {
+			items.add(veg);
+			cart.setVegetables(items);
+			cartRepository.save(cart);
+
+		} else {
+			increaseVegQuantity(vegetable.getVegId(), vegetable.getQuantity());
+		}
+		return vegetable;
 	}
+
+	 
 
 	@Override
 	public Cart increaseVegQuantity(int vegid, int quantity) {
