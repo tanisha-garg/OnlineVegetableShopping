@@ -50,9 +50,6 @@ public class BillingServiceImplUnitTest {
 	public void testAddBill_1() {
 		BillingDetails saved = Mockito.mock(BillingDetails.class);
 		BillingDetails billDetails = Mockito.mock(BillingDetails.class);
-//		String transactionMode = "COD", transactionStatus = "Success";
-//		when(billDetails.getTransactionMode()).thenReturn(transactionMode);
-//		when(billDetails.getTransactionStatus()).thenReturn(transactionStatus);
 		doNothing().when(billingService).validateBill(billDetails);
 		LocalDateTime now = LocalDateTime.now();
 		doReturn(now).when(billingService).currentDateTime();
@@ -159,6 +156,7 @@ public class BillingServiceImplUnitTest {
 		int billingId = 1;
 		BillingDetails bill = Mockito.mock(BillingDetails.class);
 		BillingDetails saved = Mockito.mock(BillingDetails.class);
+		doNothing().when(billingService).validateBill(bill);
 		when(bill.getBillingId()).thenReturn(billingId);
 		when(billingRepository.existsById(billingId)).thenReturn(true);
 		when(billingRepository.save(bill)).thenReturn(saved);
@@ -166,6 +164,7 @@ public class BillingServiceImplUnitTest {
 		assertNotNull(result);
 		assertEquals(saved, result);
 		verify(billingRepository).save(bill);		
+		verify(billingService).validateBill(bill);
 		
 	}
 	
@@ -177,6 +176,7 @@ public class BillingServiceImplUnitTest {
 	public void updateBill_2() {
 		int billingId = 10;
 		BillingDetails bill = Mockito.mock(BillingDetails.class);
+		doNothing().when(billingService).validateBill(bill);
 		when(bill.getBillingId()).thenReturn(billingId);
 		when(billingRepository.existsById(billingId)).thenReturn(false);
 		Executable executable = () -> billingService.updateBill(bill);
