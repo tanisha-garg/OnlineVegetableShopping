@@ -101,13 +101,13 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 			throw new InvalidVegetableIdException("Id can't be negative");
 	}
 
-	/*@Override
-	public List<VegetableDTO> viewAllVegetables() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public List<Vegetable> viewAllVegetables() {
+		List<Vegetable>allVegetables=vegetableRepository.findAll();
+		return allVegetables;
 	}
 
-	@Override
+	/*@Override
 	public List<VegetableDTO> viewVegetableList(String category) {
 		// TODO Auto-generated method stub
 		return null;
