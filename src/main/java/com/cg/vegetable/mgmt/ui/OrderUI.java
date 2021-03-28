@@ -34,6 +34,7 @@ public class OrderUI {
 		
 		/*
 		 * Creating Address object
+		 * 
 		 */
 
 		Address address1 = new Address("304", "RadhaKrishna Apartments", "Phase 6", "Chandigarh", "Punjab", "123456");
@@ -41,6 +42,7 @@ public class OrderUI {
 		
 		/*
 		 * Creating Vegetable object
+		 * 
 		 */
 		
 		Vegetable cabbage = vegetableService
@@ -53,6 +55,7 @@ public class OrderUI {
 		
 		/*
 		 * Creating Customer object
+		 * 
 		 */
 		
 		Customer srinidhiCustomer = new Customer("Srinidhi", "6666666666", "srinidhi@gmail.com");
@@ -66,6 +69,7 @@ public class OrderUI {
 		
 		/*
 		 * Creating Order List
+		 * 
 		 */
 		
 		List<Vegetable> srinidhiOrderList = new ArrayList<>();
@@ -78,6 +82,7 @@ public class OrderUI {
 		
 		/*
 		 * Creating Order object
+		 * 
 		 */
 		
 		Order srinidhiOrder = new Order();
@@ -93,6 +98,7 @@ public class OrderUI {
 		
 		/*
 		 * Adding order to Order Repository
+		 * 
 		 */
 		
 		System.out.println();
@@ -106,7 +112,8 @@ public class OrderUI {
 		System.out.println("Order Placed for customer "+pallaviCustomer.getName());
 		
 		/*
-		 * Viewing order by passing order object 
+		 * Viewing order by passing order object
+		 *  
 		 * */
 		
 		System.out.println();
@@ -117,6 +124,7 @@ public class OrderUI {
 		
 		/*
 		 * Updating order details
+		 * 
 		 * */
 		
 		System.out.println();
@@ -137,6 +145,7 @@ public class OrderUI {
 		
 		/*
 		 *View All Orders by passing customer id
+		 *
 		 * */
 		
 		System.out.println();
@@ -151,6 +160,7 @@ public class OrderUI {
 		
 		/*
 		 * View all customer by passing date as a parameter
+		 * 
 		 * */
 		
 		System.out.println();
@@ -165,6 +175,7 @@ public class OrderUI {
 		
 		/*
 		 * View all customer by passing date
+		 * 
 		 * */
 		
 		System.out.println();
@@ -176,6 +187,11 @@ public class OrderUI {
 		}
 		
 	}
+	
+	/*
+	 * Displaying order details
+	 * 
+	 * */
 	
 	public void displayOrderDetails(Order order) {
 
@@ -197,6 +213,11 @@ public class OrderUI {
 		}
 		
 	}
+	
+	/*
+	 * Displaying Vegetable Details
+	 * 
+	 * */
 	
 	public void displayVegetableDetails(Vegetable vegetable) {
 

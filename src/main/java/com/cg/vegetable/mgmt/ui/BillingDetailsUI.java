@@ -20,11 +20,26 @@ public class BillingDetailsUI {
 	
 	public void start() {
 		
+		/*
+		 * Creating address object
+		 * 
+		 * */
+		
 		Address address = new Address("109", "Grove Apartments", "Phase 6", "Sector 56", "Punjab", "675388");
+		
+		/*
+		 * Creating customer object
+		 * 
+		 * */
 		
 		Customer tanishaCustomer = new Customer("Tanisha", "9999999999", "tanishagarg804@gmail.com");
 		tanishaCustomer.setAddress(address);
 		customerService.addCustomer(tanishaCustomer);
+		
+		/*
+		 * Adding a bill to the repository
+		 * 
+		 * */
 		
 		System.out.println();
 		System.out.println("****************************");
@@ -34,6 +49,11 @@ public class BillingDetailsUI {
 		bill1.setAddress(tanishaCustomer.getAddress());
 		BillingDetails addBill1 = billingService.addBill(bill1);
 		displayBill(addBill1);
+		
+		/*
+		 * Updating a bill
+		 * 
+		 * */
 
 		System.out.println();
 		System.out.println("Updating a bill");
@@ -41,6 +61,11 @@ public class BillingDetailsUI {
 		BillingDetails updatedBill = billingService.updateBill(bill1);
 		displayBill(bill1);
 
+		/*
+		 * Finding a bill by passing billingId
+		 * 
+		 * */
+		
 		System.out.println();
 		System.out.println("Finding a bill with billingId");
 		int bill1Id = bill1.getBillingId();
@@ -48,6 +73,11 @@ public class BillingDetailsUI {
 		displayBill(viewBill1);
 		
 	}
+	
+	/*
+	 * Displaying Bill Details
+	 * 
+	 * */
 	
 	public void displayBill(BillingDetails bill) {
 
