@@ -87,7 +87,8 @@ public class OrderServiceImpl implements IOrderService {
 		}
 		else {
 			for(Order order : orderList) {
-				if(order.getOrderDate() == date) {
+				LocalDate orderDate = order.getOrderDate();
+				if(orderDate.isEqual(date)) {
 					desiredList.add(order);
 				}
 			}

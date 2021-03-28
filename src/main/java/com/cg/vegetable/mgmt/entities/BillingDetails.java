@@ -78,6 +78,26 @@ public class BillingDetails {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	@Override
+	public int hashCode() {
+		return billingId;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BillingDetails other = (BillingDetails) obj;
+		if (billingId != other.billingId)
+			return false;
+		return true;
+	}
+	
 	
 
 }
