@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.cg.vegetable.mgmt.dto.BillingDetailsDTO;
 import com.cg.vegetable.mgmt.dto.ChangeTransactionStatusRequest;
-import com.cg.vegetable.mgmt.dto.CreateBillDetailsRequest;
+import com.cg.vegetable.mgmt.dto.AddBillDetailsRequest;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.service.IBillingService;
 import com.cg.vegetable.mgmt.util.BillingDetailsUtil;
@@ -37,7 +37,7 @@ public class BillingRestController {
 	}
 	
 	@PostMapping("/addBill")
-	public String addBill(@RequestBody CreateBillDetailsRequest requestData) {
+	public String addBill(@RequestBody AddBillDetailsRequest requestData) {
 		BillingDetails bill = new BillingDetails(requestData.getOrderId(), requestData.getTransactionMode(), 
 													requestData.getTransactionStatus());
 		BillingDetails addedBill = billingService.addBill(bill);

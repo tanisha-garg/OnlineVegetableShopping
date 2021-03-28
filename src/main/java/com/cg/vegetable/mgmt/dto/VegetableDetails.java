@@ -1,44 +1,12 @@
-package com.cg.vegetable.mgmt.entities;
+package com.cg.vegetable.mgmt.dto;
 
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-@Entity
-public class Vegetable {
-	
-	@Id
-	@GeneratedValue
+public class VegetableDetails {
 	private int vegId;
 	private String name;
 	private String type;
 	private String category;
 	private double price;
 	private int quantity;
-	
-	@ManyToOne
-	private Cart cart;
-	public Cart getCart() {
-		return cart;
-	}
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
-	public Vegetable() {
-		
-	}
-	public Vegetable(String name, String type, String category, double price, int quantity) {
-		this.name = name;
-		this.type = type;
-		this.category = category;
-		this.price = price;
-		this.quantity = quantity;
-	}
 	public int getVegId() {
 		return vegId;
 	}
@@ -75,4 +43,6 @@ public class Vegetable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	
 }

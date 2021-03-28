@@ -2,14 +2,14 @@ package com.cg.vegetable.mgmt.dto;
 
 import java.time.LocalDateTime;
 
-public class CreateBillDetailsRequest {
+public class AddBillDetailsRequest {
 	
 	private int billingId;
 	private int orderId;
 	private String transactionMode;
 	private String transactionStatus;
 	
-	public CreateBillDetailsRequest() {
+	public AddBillDetailsRequest() {
 		
 	}
 

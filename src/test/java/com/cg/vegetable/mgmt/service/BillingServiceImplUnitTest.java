@@ -14,12 +14,14 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.exceptions.BillNotFoundException;
@@ -28,7 +30,8 @@ import com.cg.vegetable.mgmt.exceptions.InvalidTransactionStatusException;
 import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
 
-@SpringBootTest
+//@SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class BillingServiceImplUnitTest {
 	
 	@Mock
@@ -131,6 +134,7 @@ public class BillingServiceImplUnitTest {
 		when(billingRepository.findById(billingId)).thenReturn(optional);
 		BillingDetails result = billingService.viewBill(billingId);
 		assertEquals(bill, result);
+		//verify(billingRepository).findById(billingId);
 	}
 	
 	/*

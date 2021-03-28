@@ -8,10 +8,10 @@ import com.cg.vegetable.mgmt.entities.Order;
 public interface IOrderService {
 
 	public Order addOrder(Order order);
-	public Order viewOrder(int orderid);
+	public Order viewOrder(Order order);
 	public Order updateOrderDetails(Order order);
 	public List<Order> viewAllOrders(int custid);
 	public List<Order> viewOrderList(LocalDate date);
 	public List<Order> viewOrderList();
-	public Order cancelOrder(int orderid);
+	public void cancelOrder(int orderid);
 }

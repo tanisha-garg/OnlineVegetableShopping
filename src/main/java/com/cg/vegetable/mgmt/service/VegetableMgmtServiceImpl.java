@@ -2,6 +2,7 @@ package com.cg.vegetable.mgmt.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
@@ -65,12 +66,32 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	@Override
 	public Vegetable viewVegetable(int vegId) {
 		validateId(vegId);
-		Optional<Vegetable>optional=vegetableRepository.findById(vegId);
-		
+		Optional<Vegetable>optional=vegetableRepository.findById(vegId);		
 		if(!optional.isPresent()) 
 			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
-		
 		return optional.get();
+	}
+	
+	@Override
+	public List<Vegetable> viewAllVegetables() {
+		List<Vegetable>allVegetables=vegetableRepository.findAll();
+		return allVegetables;
+	}
+
+	@Override
+	public List<Vegetable> viewVegetableList(String category) {
+		validateCategory(category);
+		List<Vegetable>allVegetables=vegetableRepository.findAll();
+		List<Vegetable>result=allVegetables.stream().filter(v->v.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
+		return result;
+	}
+
+	@Override
+	public List<Vegetable> viewVegetableByName(String name) {
+		validateCategory(name);
+		List<Vegetable>allVegetables=vegetableRepository.findAll();
+		List<Vegetable>result=allVegetables.stream().filter(v->v.getCategory().equalsIgnoreCase(name)).collect(Collectors.toList());
+		return result;
 	}
 	
 	public void validateName(String name) {
@@ -102,23 +123,5 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 		if(id<0)	
 			throw new InvalidVegetableIdException("Id can't be negative");
 	}
-
-	/*@Override
-	public List<VegetableDTO> viewAllVegetables() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<VegetableDTO> viewVegetableList(String category) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<VegetableDTO> viewVegetableByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 }
