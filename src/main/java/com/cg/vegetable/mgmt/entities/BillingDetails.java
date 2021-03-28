@@ -97,6 +97,13 @@ public class BillingDetails {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "BillingDetails [billingId=" + billingId + ", orderId=" + orderId + ", transactionMode="
+				+ transactionMode + ", transactionDate=" + transactionDate + ", transactionStatus=" + transactionStatus
+				+ ", address=" + address + "]";
+	}
 	
 	
 
