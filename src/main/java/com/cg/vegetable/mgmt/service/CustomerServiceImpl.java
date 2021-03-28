@@ -12,10 +12,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.cg.vegetable.mgmt.entities.Cart;
 import com.cg.vegetable.mgmt.entities.Customer;
+import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.exceptions.*;
+import com.cg.vegetable.mgmt.repository.ICartRepository;
 import com.cg.vegetable.mgmt.repository.ICustomerRepository;
+import com.cg.vegetable.mgmt.repository.IOrderRepository;
 
 @Service
 public class CustomerServiceImpl implements ICustomerService {
@@ -23,12 +26,22 @@ public class CustomerServiceImpl implements ICustomerService {
 @Autowired
 private ICustomerRepository customerRepository;
 
+@Autowired
+private ICartRepository cartRepository;
+
+@Autowired
+private ICartService cartService;
+
 
 	@Transactional
 	@Override
 	public Customer addCustomer(Customer customer) {
 		validateCustomer(customer);
+		Cart cart = new Cart();
+		customer.setCart(cart);
 		customerRepository.save(customer);
+		cart.setCustId(customer.getCustomerId());
+		cartRepository.save(cart);
 		return customer;
 	}
 

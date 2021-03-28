@@ -22,11 +22,13 @@ public class Customer {
 	private String password;
 	private String confirmPassword;
 	
+	@OneToOne(cascade = {CascadeType.ALL})
+	private Cart cart;
+	
 	public Customer() {
 	}
 	
-	public Customer(int customerId,String name, String mobileNumber, String emailId) {
-		this.customerId=customerId;
+	public Customer(String name, String mobileNumber, String emailId) {
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.emailId = emailId;
@@ -83,6 +85,16 @@ public class Customer {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+	
+	
 
 	
 }
