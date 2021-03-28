@@ -41,7 +41,7 @@ public class CartServiceImpl implements ICartService{
 	 @Override
 	 public Vegetable addToCart(int customerId, Vegetable vegetable) {
 			Optional<Vegetable> vegOptional = vegRepository.findById(vegetable.getVegId());
-			if(vegOptional.isEmpty()) {
+			if(!vegOptional.isPresent()) {
 				throw new VegetableNotFoundException("vegetable not found for this id");
 			}
 			
