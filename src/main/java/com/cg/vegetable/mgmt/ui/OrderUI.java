@@ -1,6 +1,7 @@
 package com.cg.vegetable.mgmt.ui;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,7 +156,7 @@ public class OrderUI {
 		System.out.println();
 		System.out.println("Viewing All Orders placed on a particular date\n");
 		
-		LocalDate date = LocalDate.parse("2021-03-28");
+		LocalDate date = LocalDate.parse("2021-03-28", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		List<Order> desiredList = orderService.viewOrderList(date);
 		for(Order order : desiredList) {
 			displayOrderDetails(order);
