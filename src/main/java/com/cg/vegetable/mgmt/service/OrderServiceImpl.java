@@ -26,6 +26,10 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	private ICartVegetableRepository cartVegetableRepository;
 
+	@Autowired
+	private IVegetableMgmtRepository vegetableMgmtRepository;
+
+
 	@Transactional
 	@Override
 	public Order addOrder(Order order) {
@@ -39,6 +43,8 @@ public class OrderServiceImpl implements IOrderService {
 		if(!optionalCost.isPresent()) {
 			throw new InvalidVegetablePriceException("Cannot find the cost of the vegetable");
 		}
+		List<CartVegetable>cartVegetables=cartVegetableRepository.findByCart(cart);
+		reduceVegetableStockAfterOrder(cartVegetables);
 		order.setTotalAmount(optionalCost.get());
 		Order saved = orderRepository.save(order);
 		BillingDetails bill = new BillingDetails();
@@ -46,7 +52,19 @@ public class OrderServiceImpl implements IOrderService {
 		bill.setTransactionMode(TransactionMode.CASH_ON_DELIVERY);
 		bill.setOrderId(saved.getOrderNo());
 		billingService.addBill(bill);
+		cartVegetableRepository.deleteByCart(cart);
 		return saved;
+	}
+
+	public void reduceVegetableStockAfterOrder(Collection<CartVegetable>cartVegetables){
+		for(CartVegetable cartVegetable:cartVegetables){
+			int vegetableQuantInCart=cartVegetable.getQuantity();
+			Vegetable vegetable=cartVegetable.getVegetable();
+			int stockedQuantity=vegetable.getQuantity();
+			stockedQuantity=stockedQuantity-vegetableQuantInCart;
+			vegetable.setQuantity(stockedQuantity);
+			vegetableMgmtRepository.save(vegetable);
+		}
 	}
 
 	@Override

@@ -186,13 +186,14 @@ public class OrderUI {
 		
 		System.out.println();
 		System.out.println("Viewing All Orders placed on a particular date\n");
-		
+
+		/*
 		LocalDate date = LocalDate.parse("2021-03-28", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		List<Order> desiredList = orderService.viewOrderList(date);
 		for(Order order : desiredList) {
 			displayOrderDetails(order);
 		}
-		
+		*/
 		
 		/*
 		 * View all customer by passing date

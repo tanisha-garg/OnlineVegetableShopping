@@ -43,24 +43,8 @@ public class CartServiceImpl implements ICartService {
 
 	@Override
 	public Vegetable addToCart(int customerId, Vegetable vegetable) {
-		Optional<Vegetable> vegOptional = vegRepository.findById(vegetable.getVegId());
-		if (!vegOptional.isPresent()) {
-			throw new VegetableNotFoundException("vegetable not found for this id");
-		}
-		vegetable = vegOptional.get();
-		Cart cart = cartRepository.findCartByCustId(customerId);
-		boolean exists = cartVegetableRepository.existsByCartAndVegetable(cart, vegetable);
-		if (exists) {
-			CartVegetable cartVegetable = cartVegetableRepository.findCartVegetableByCartAndVegetable(cart, vegetable);
-			int quantity = cartVegetable.getQuantity();
-			quantity++;
-			cartVegetable.setQuantity(quantity);
-			cartVegetableRepository.save(cartVegetable);
-			return vegetable;
-		}
-		CartVegetable cartVegetable = new CartVegetable(cart, vegetable, 1);
-		cartVegetableRepository.save(cartVegetable);
-		return vegetable;
+		increaseVegQuantity(customerId,vegetable.getVegId(),1);
+	    return  vegetable;
 	}
 
 	@Override
@@ -73,7 +57,8 @@ public class CartServiceImpl implements ICartService {
 		Cart cart = cartRepository.findCartByCustId(customerId);
 		boolean exists = cartVegetableRepository.existsByCartAndVegetable(cart, vegetable);
 		if (!exists) {
-			throw new CartException("quantity can't be increased as vegetable is not found in cart");
+         CartVegetable cartVegetable=new CartVegetable(cart,vegetable,quantityToBeAdded);
+         cartVegetableRepository.save(cartVegetable);
 		}
 		CartVegetable cartVegetable = cartVegetableRepository.findCartVegetableByCartAndVegetable(cart, vegetable);
 		int existingQuantity = cartVegetable.getQuantity();
@@ -82,6 +67,7 @@ public class CartServiceImpl implements ICartService {
 		cartVegetableRepository.save(cartVegetable);
 		return cart;
 	}
+
 
 	@Override
 	public Cart decreaseVegQuantity(int customerId, int vegid, int quantityToBeRemoved) {

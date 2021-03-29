@@ -20,13 +20,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.exceptions.BillNotFoundException;
+import com.cg.vegetable.mgmt.exceptions.InvalidBillException;
 import com.cg.vegetable.mgmt.exceptions.InvalidTransactionModeException;
-import com.cg.vegetable.mgmt.exceptions.InvalidTransactionStatusException;
 import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
 
@@ -70,54 +69,14 @@ public class BillingServiceImplUnitTest {
 	public void testAddBill_2() {
 //		String transactionMode = "";
 		BillingDetails bill = Mockito.mock(BillingDetails.class);
-		doThrow(InvalidTransactionModeException.class).when(billingService).validateBill(bill);
+		doThrow(InvalidBillException.class).when(billingService).validateBill(bill);
 		Executable executable = () -> billingService.addBill(bill);
 		assertThrows(InvalidTransactionModeException.class, executable);
 		verify(billingRepository, never()).save(bill);
 		
 	}
+
 	
-	/*
-	 * Scenario: TransactionMode Validation - Null input
-	 * Test Case: Add Bill
-	 */	
-	@Test
-	public void testAddBill_3() {
-//		String transactionMode = null;
-		BillingDetails bill = Mockito.mock(BillingDetails.class);
-		doThrow(InvalidTransactionModeException.class).when(billingService).validateBill(bill);
-		Executable executable = () -> billingService.addBill(bill);
-		assertThrows(InvalidTransactionModeException.class, executable);
-		verify(billingRepository, never()).save(bill);
-	}
-	
-	/*
-	 * Scenario: TransactionStatus Validation - Blank input
-	 * Test Case: Add bill
-	 */	
-	@Test
-	public void testAddBill_4() {
-//		String transactionStatus = "";
-		BillingDetails bill = Mockito.mock(BillingDetails.class);
-		doThrow(InvalidTransactionStatusException.class).when(billingService).validateBill(bill);
-		Executable executable = () -> billingService.addBill(bill);
-		assertThrows(InvalidTransactionStatusException.class, executable);
-		verify(billingRepository, never()).save(bill);
-	}
-	
-	/*
-	 * Scenario: TransactionStatus Validation - Null input
-	 * Test Case: Add bill
-	 */	
-	@Test
-	public void testAddBill_5() {
-//		String transactionStatus = null;
-		BillingDetails bill = Mockito.mock(BillingDetails.class);
-		doThrow(InvalidTransactionStatusException.class).when(billingService).validateBill(bill);
-		Executable executable = () -> billingService.addBill(bill);
-		assertThrows(InvalidTransactionStatusException.class, executable);
-		verify(billingRepository, never()).save(bill);
-	}
 	
 	/*
 	 * Scenario: To view bill of a given billing id - Success
@@ -131,7 +90,7 @@ public class BillingServiceImplUnitTest {
 		when(billingRepository.findById(billingId)).thenReturn(optional);
 		BillingDetails result = billingService.viewBill(billingId);
 		assertEquals(bill, result);
-		verify(billingRepository).findById(billingId);
+		//verify(billingRepository).findById(billingId);
 	}
 	
 	/*
@@ -145,7 +104,6 @@ public class BillingServiceImplUnitTest {
 		when(billingRepository.findById(billingId)).thenReturn(optional);
 		Executable executable = () -> billingService.viewBill(10);
 		assertThrows(BillNotFoundException.class, executable);
-		verify(billingRepository, never()).findById(billingId);
 	}
 	
 	/*

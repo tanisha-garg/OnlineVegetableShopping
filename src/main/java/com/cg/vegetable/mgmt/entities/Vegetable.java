@@ -21,14 +21,7 @@ public class Vegetable {
 	private double price;
 	private int quantity;
 	
-	@ManyToOne
-	private Cart cart;
-	public Cart getCart() {
-		return cart;
-	}
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
+
 	public Vegetable() {
 		
 	}
@@ -95,7 +88,7 @@ public class Vegetable {
 	@Override
 	public String toString() {
 		return "Vegetable [vegId=" + vegId + ", name=" + name + ", type=" + type + ", category=" + category + ", price="
-				+ price + ", quantity=" + quantity + ", cart=" + cart + "]";
+				+ price + ", quantity=" + quantity ;
 	}
 	
 }

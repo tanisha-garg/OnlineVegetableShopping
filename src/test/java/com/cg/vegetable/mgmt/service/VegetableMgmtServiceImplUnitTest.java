@@ -6,8 +6,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,95 +32,45 @@ class VegetableMgmtServiceImplUnitTest {
 	@Mock
 	IVegetableMgmtRepository vegetableRepository;
 	
-	
+
 	@Spy
 	@InjectMocks
-	VegetableMgmtServiceImpl vegetableserviceRepository;
+	VegetableMgmtServiceImpl vegetableServiceRepository;
 	
 
 	/*
-	 * scenario : success scenario
-	 * 
+	 * scenario : success scenario , vegetable is saved
+	 *
+	 * input : mock vegetable object passed , stubbed validateVegatble
+	 *
+	 *  expectation : vegetable should be added, vegetableRepository#save(vegetable);
 	 */
-
 	@Test
 	public void test_Add1() {
 		Vegetable vegetable =Mockito.mock(Vegetable.class);
 		Vegetable saved =Mockito.mock(Vegetable.class);
-		doNothing().when(vegetableserviceRepository).validateVegetable(vegetable);
+		doNothing().when(vegetableServiceRepository).validateVegetable(vegetable);
 		when(vegetableRepository.save(vegetable)).thenReturn(saved);
-		Vegetable result=vegetableserviceRepository.addVegetable(vegetable);
+		Vegetable result= vegetableServiceRepository.addVegetable(vegetable);
 		Assertions.assertNotNull(result);
 		Assertions.assertSame(saved,result);
 		verify(vegetableRepository).save(vegetable);
-		verify(vegetableserviceRepository).validateVegetable(vegetable);
+		verify(vegetableServiceRepository).validateVegetable(vegetable);
 	}
 	
 	
 	/*
 	 *  scenario : name is empty
-	 * 				add test case
+	 * 	expectation : InvalidVegetableNameException is thrown
 	 */
 	@Test
 	public void test_Add2() {
-		String name="";
 		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableNameException.class).when(vegetableserviceRepository).validateVegetable(vegetable);
-		Executable executable = () -> vegetableserviceRepository.addVegetable(vegetable);
+		doThrow(InvalidVegetableNameException.class).when(vegetableServiceRepository).validateVegetable(vegetable);
+		Executable executable = () -> vegetableServiceRepository.addVegetable(vegetable);
 		Assertions.assertThrows(InvalidVegetableNameException.class, executable);
 	}
-	
-	
-	/*
-	 *  scenario : category is empty
-	 * 				add test case
-	 */
-	@Test
-	public void test_Add3() {
-		String category="";
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableCategoryException.class).when(vegetableserviceRepository).validateVegetable(vegetable);
-		Executable executable = () -> vegetableserviceRepository.addVegetable(vegetable);
-		Assertions.assertThrows(InvalidVegetableCategoryException.class, executable);
-	}
-	
-	/*
-	 *  scenario : type is empty
-	 * 				add test case
-	 */
-	@Test
-	public void test_Add4() {
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableTypeException.class).when(vegetableserviceRepository).validateVegetable(vegetable);
-		Executable executable = () -> vegetableserviceRepository.addVegetable(vegetable);
-		Assertions.assertThrows(InvalidVegetableTypeException.class, executable);
-	}
-	
-	/*
-	 *  scenario : price is negative
-	 * 				add test case
-	 */
-	@Test
-	public void test_Add5() {
-		double price=-20.0;
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetablePriceException.class).when(vegetableserviceRepository).validateVegetable(vegetable);
-		Executable executable = () -> vegetableserviceRepository.addVegetable(vegetable);
-		Assertions.assertThrows(InvalidVegetablePriceException.class, executable);
-	}
-	
-	/*
-	 *  scenario : quantity is negative
-	 * 				add test case
-	 */
-	@Test
-	public void test_Add6() {
-		int quantity=-3;
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableQuantityException.class).when(vegetableserviceRepository).validateVegetable(vegetable);
-		Executable executable = () -> vegetableserviceRepository.addVegetable(vegetable);
-		Assertions.assertThrows(InvalidVegetableQuantityException.class, executable);
-	}
+
 	
 	/*
 	 *  scenario : name is empty
@@ -131,9 +79,8 @@ class VegetableMgmtServiceImplUnitTest {
 	@Test
 	public void test_ValidateName() {
 		String name="";
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableNameException.class).when(vegetableserviceRepository).validateName(name);
-		Executable executable = () -> vegetableserviceRepository.validateName(name);
+		doThrow(InvalidVegetableNameException.class).when(vegetableServiceRepository).validateName(name);
+		Executable executable = () -> vegetableServiceRepository.validateName(name);
 		Assertions.assertThrows(InvalidVegetableNameException.class, executable);
 	}
 	
@@ -144,9 +91,8 @@ class VegetableMgmtServiceImplUnitTest {
 	@Test
 	public void test_ValidateType() {
 		String type="";
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableTypeException.class).when(vegetableserviceRepository).validateType(type);
-		Executable executable = () -> vegetableserviceRepository.validateType(type);
+		doThrow(InvalidVegetableTypeException.class).when(vegetableServiceRepository).validateType(type);
+		Executable executable = () -> vegetableServiceRepository.validateType(type);
 		Assertions.assertThrows(InvalidVegetableTypeException.class, executable);
 	}
 	
@@ -157,9 +103,8 @@ class VegetableMgmtServiceImplUnitTest {
 	@Test
 	public void test_ValidateCategory() {
 		String category="";
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableCategoryException.class).when(vegetableserviceRepository).validateCategory(category);
-		Executable executable = () -> vegetableserviceRepository.validateCategory(category);
+		doThrow(InvalidVegetableCategoryException.class).when(vegetableServiceRepository).validateCategory(category);
+		Executable executable = () -> vegetableServiceRepository.validateCategory(category);
 		Assertions.assertThrows(InvalidVegetableCategoryException.class, executable);
 	}
 	
@@ -168,11 +113,10 @@ class VegetableMgmtServiceImplUnitTest {
 	 * 
 	 */
 	@Test
-	public void test_ValidatePrice() {
+	public void testValidatePrice() {
 		double price=-20.0;
-		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetablePriceException.class).when(vegetableserviceRepository).validatePrice(price);
-		Executable executable = () -> vegetableserviceRepository.validatePrice(price);
+		doThrow(InvalidVegetablePriceException.class).when(vegetableServiceRepository).validatePrice(price);
+		Executable executable = () -> vegetableServiceRepository.validatePrice(price);
 		Assertions.assertThrows(InvalidVegetablePriceException.class, executable);
 	}
 	
@@ -184,8 +128,8 @@ class VegetableMgmtServiceImplUnitTest {
 	public void test_ValidateQuantity() {
 		int quantity=-5;
 		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableQuantityException.class).when(vegetableserviceRepository).validateQuantity(quantity);
-		Executable executable = () -> vegetableserviceRepository.validateQuantity(quantity);
+		doThrow(InvalidVegetableQuantityException.class).when(vegetableServiceRepository).validateQuantity(quantity);
+		Executable executable = () -> vegetableServiceRepository.validateQuantity(quantity);
 		Assertions.assertThrows(InvalidVegetableQuantityException.class, executable);
 	}
 	
@@ -200,9 +144,9 @@ class VegetableMgmtServiceImplUnitTest {
 		Vegetable vegetable = Mockito.mock(Vegetable.class);
 		Optional<Vegetable>optional=Optional.of(vegetable);
 		when(vegetableRepository.findById(vegId)).thenReturn(optional);
-		Vegetable result = vegetableserviceRepository.viewVegetable(vegId);
+		Vegetable result = vegetableServiceRepository.viewVegetable(vegId);
 		Assertions.assertEquals(vegetable,result);
-		verify(vegetableserviceRepository).validateId(vegId);
+		verify(vegetableServiceRepository).validateId(vegId);
 		
 	}
 	
@@ -216,7 +160,7 @@ class VegetableMgmtServiceImplUnitTest {
 		int vegId=50;
 		Optional<Vegetable>optional=Optional.empty();
 		when(vegetableRepository.findById(vegId)).thenReturn(optional);
-		Executable executable = () -> vegetableserviceRepository.viewVegetable(vegId);
+		Executable executable = () -> vegetableServiceRepository.viewVegetable(vegId);
 		Assertions.assertThrows(VegetableNotFoundException.class, executable);
 		
 	}
@@ -230,8 +174,8 @@ class VegetableMgmtServiceImplUnitTest {
 	public void viewVegetable_3() {
 		int vegId=-5;
 		Vegetable vegetable = mock(Vegetable.class);
-		doThrow(InvalidVegetableIdException.class).when(vegetableserviceRepository).validateId(vegId);
-		Executable executable = () -> vegetableserviceRepository.viewVegetable(vegId);
+		doThrow(InvalidVegetableIdException.class).when(vegetableServiceRepository).validateId(vegId);
+		Executable executable = () -> vegetableServiceRepository.viewVegetable(vegId);
 		Assertions.assertThrows(InvalidVegetableIdException.class, executable);
 	}
 	
@@ -248,7 +192,7 @@ class VegetableMgmtServiceImplUnitTest {
 		when(vegetable.getVegId()).thenReturn(vegId);
 		when(vegetableRepository.existsById(vegId)).thenReturn(true);
 		when(vegetableRepository.save(vegetable)).thenReturn(saved);
-		Vegetable result = vegetableserviceRepository.updateVegetable(vegetable);
+		Vegetable result = vegetableServiceRepository.updateVegetable(vegetable);
 		assertNotNull(result);
 		assertEquals(saved, result);
 		verify(vegetableRepository).save(vegetable);
@@ -266,7 +210,7 @@ class VegetableMgmtServiceImplUnitTest {
 		Vegetable vegetable = Mockito.mock(Vegetable.class);
 		when(vegetable.getVegId()).thenReturn(vegId);
 		when(vegetableRepository.existsById(vegId)).thenReturn(false);
-		Executable executable = () -> vegetableserviceRepository.updateVegetable(vegetable);
+		Executable executable = () -> vegetableServiceRepository.updateVegetable(vegetable);
 		assertThrows(VegetableNotFoundException.class, executable);
 		verify(vegetableRepository, never()).save(vegetable);
 	}
@@ -280,12 +224,12 @@ class VegetableMgmtServiceImplUnitTest {
 	@Test
 	public void removeVegetable_1() {
 		int vegId=1;
-		Vegetable vegetable = Mockito.mock(Vegetable.class);
+		Vegetable vegetable = mock(Vegetable.class);
 		Optional<Vegetable>optional=Optional.of(vegetable);
 		when(vegetableRepository.findById(vegId)).thenReturn(optional);
-		doNothing().when(vegetableserviceRepository).validateVegetable(vegetable);
+		doNothing().when(vegetableServiceRepository).validateVegetable(vegetable);
 		doNothing().when(vegetableRepository).delete(vegetable);
-		Vegetable removed = vegetableserviceRepository.removeVegetable(vegetable);
+		Vegetable removed = vegetableServiceRepository.removeVegetable(vegetable);
 		Assertions.assertNotNull(optional);
 		Assertions.assertEquals(vegetable,removed);
 	}
@@ -302,7 +246,7 @@ class VegetableMgmtServiceImplUnitTest {
 		Vegetable vegetable = Mockito.mock(Vegetable.class);
 		Optional<Vegetable>optional=Optional.empty();
 		when(vegetableRepository.findById(vegetable.getVegId())).thenReturn(optional);
-		Executable executable = () -> vegetableserviceRepository.removeVegetable(vegetable);
+		Executable executable = () -> vegetableServiceRepository.removeVegetable(vegetable);
 		Assertions.assertThrows(VegetableNotFoundException.class, executable);
 	}
 }

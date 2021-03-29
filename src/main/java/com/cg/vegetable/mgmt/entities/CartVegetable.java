@@ -7,11 +7,13 @@ public class CartVegetable {
 
     @Id
     @GeneratedValue
-    private Long Id;
+    private Long id;
 
+    @JoinColumn(name="cart")
     @ManyToOne
     private Cart cart;
 
+    @JoinColumn(name="vegetable")
     @ManyToOne
     private Vegetable vegetable;
 
@@ -26,16 +28,19 @@ public class CartVegetable {
     // 3  ,cartid-2, veg-1, 6
     //
     public CartVegetable(Cart cart, Vegetable vegetable, int quantity){
+       this.cart=cart;
+       this.vegetable=vegetable;
+       this.quantity=quantity;
 
     }
 
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Cart getCart() {

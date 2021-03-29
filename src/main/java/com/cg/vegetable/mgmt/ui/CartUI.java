@@ -37,13 +37,8 @@ public class CartUI {
 //		Customer cus = customerService.
 		 Vegetable cart1 = cartService.addToCart(nidhiCustomer.getCustomerId(), veg);
 		 
-		 displayCart(cart1);
 	}
-	
-	public void displayCart(Vegetable cart) {
-		System.out.println("Cart Details: "+ cart.getCart().getCartId());
-	}
-	
+
 	
 
 }
