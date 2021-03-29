@@ -20,28 +20,27 @@ public class BillingRestController {
     @Autowired
     private BillingDetailsUtil billUtil;
 
-    @GetMapping(value = "/byId/{id}")
+    @GetMapping(value = "get/{id}")
     public BillingDetailsDTO fetchBillDetails(@PathVariable("id") int id) {
         BillingDetails bill = billingService.viewBill(id);
-        BillingDetailsDTO details = billUtil.toDetails(bill);
-        return details;
+        return billUtil.toDetails(bill);
     }
 
-    @PutMapping("/changeStatus")
-    public BillingDetailsDTO changeTransactionStatus(@RequestBody ChangeTransactionStatusRequest requestData) {
+    @PutMapping("updateStatus/id")
+    public BillingDetailsDTO changeTransactionStatus(@RequestBody ChangeTransactionStatusRequest requestData,
+    												  @PathVariable int id) {
         BillingDetails bill = billingService.viewBill(requestData.getBillingId());
         bill.setTransactionStatus(requestData.getTransactionStatus());
         BillingDetails updatedBill = billingService.updateBill(bill);
-        BillingDetailsDTO details = billUtil.toDetails(updatedBill);
-        return details;
+        return billUtil.toDetails(updatedBill);
     }
 
-    @PostMapping("/addBill")
-    public String addBill(@RequestBody AddBillDetailsRequest requestData) {
+    @PostMapping("/add")
+    public BillingDetailsDTO addBill(@RequestBody AddBillDetailsRequest requestData) {
         BillingDetails bill = new BillingDetails(requestData.getOrderId(), requestData.getTransactionMode(),
                 requestData.getTransactionStatus());
         BillingDetails addedBill = billingService.addBill(bill);
-        return "Bill with id " + addedBill.getBillingId() + " created";
+        return billUtil.toDetails(addedBill);
     }
 
 }
