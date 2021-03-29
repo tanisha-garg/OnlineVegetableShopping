@@ -3,35 +3,26 @@ package com.cg.vegetable.mgmt.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 
 @Entity
-@Table(name="order_table")
+@Table(name = "order_table")
 public class Order {
-	
+
 	@GeneratedValue
 	@Id
 	private int orderNo;
-	private int custId;
-	
-	@Column(unique = false)
+	private int customerId;
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Vegetable> vegList;
-	
+	private List<Vegetable> vegetableList;
+
 	private double totalAmount;
 	private LocalDate orderDate;
 	private String status;
-	
+
 	public Order() {
-		
+
 	}
 
 	public int getOrderNo() {
@@ -42,20 +33,20 @@ public class Order {
 		this.orderNo = orderNo;
 	}
 
-	public int getCustId() {
-		return custId;
+	public int getCustomerId() {
+		return customerId;
 	}
 
-	public void setCustId(int custId) {
-		this.custId = custId;
+	public void setCustomerId(int custId) {
+		this.customerId = custId;
 	}
 
-	public List<Vegetable> getVegList() {
-		return vegList;
+	public List<Vegetable> getVegetableList() {
+		return vegetableList;
 	}
 
-	public void setVegList(List<Vegetable> vegList) {
-		this.vegList = vegList;
+	public void setVegetableList(List<Vegetable> updateList) {
+		this.vegetableList = updateList;
 	}
 
 	public double getTotalAmount() {
@@ -103,10 +94,8 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [orderNo=" + orderNo + ", custId=" + custId + ", vegList=" + vegList + ", totalAmount="
+		return "Order [orderNo=" + orderNo + ", custId=" + customerId + ", totalAmount="
 				+ totalAmount + ", orderDate=" + orderDate + ", status=" + status + "]";
 	}
-	
-	
 
 }
