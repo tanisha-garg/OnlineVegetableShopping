@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -13,7 +14,7 @@ public class Customer {
 	@GeneratedValue
 	private int customerId;
 
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	
 	private String name;
@@ -120,8 +121,7 @@ public class Customer {
 				+ mobileNumber + ", emailId=" + emailId + ", password=" + password + ", confirmPassword="
 				+ confirmPassword + ", cart=" + cart + "]";
 	}
-	
-	
+
 
 	
 }

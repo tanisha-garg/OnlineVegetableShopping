@@ -19,7 +19,7 @@ public class CustomerUI {
 
 		System.out.println("View  Customer \n");
 
-		Customer anu = customerService.viewCustomer(ayesha);
+		Customer anu = customerService.viewCustomer(ayesha.getCustomerId());
 		displayCustomer(anu);
 
 		//System.out.println(" Remove Customer \n");
