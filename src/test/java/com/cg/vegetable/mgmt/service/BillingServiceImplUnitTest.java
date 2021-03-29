@@ -131,7 +131,7 @@ public class BillingServiceImplUnitTest {
 		when(billingRepository.findById(billingId)).thenReturn(optional);
 		BillingDetails result = billingService.viewBill(billingId);
 		assertEquals(bill, result);
-		//verify(billingRepository).findById(billingId);
+		verify(billingRepository).findById(billingId);
 	}
 	
 	/*
@@ -145,6 +145,7 @@ public class BillingServiceImplUnitTest {
 		when(billingRepository.findById(billingId)).thenReturn(optional);
 		Executable executable = () -> billingService.viewBill(10);
 		assertThrows(BillNotFoundException.class, executable);
+		verify(billingRepository, never()).findById(billingId);
 	}
 	
 	/*

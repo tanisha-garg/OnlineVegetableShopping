@@ -10,10 +10,13 @@ import org.springframework.stereotype.Component;
 
 import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
+import com.cg.vegetable.mgmt.entities.Cart;
+import com.cg.vegetable.mgmt.entities.CartVegetable;
 import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.entities.Order;
 import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.service.IBillingService;
+import com.cg.vegetable.mgmt.service.ICartService;
 import com.cg.vegetable.mgmt.service.ICustomerService;
 import com.cg.vegetable.mgmt.service.IOrderService;
 import com.cg.vegetable.mgmt.service.IVegetableMgmtService;
@@ -29,6 +32,9 @@ public class OrderUI {
 	
 	@Autowired
 	private ICustomerService customerService;
+	
+	@Autowired
+	private ICartService cartService;
 	
 	public void start() {
 		
@@ -67,17 +73,29 @@ public class OrderUI {
 		customerService.addCustomer(pallaviCustomer);
 		
 		
+		
+		
 		/*
-		 * Creating Order List
 		 * 
-		 */
+		 * Adding something to cart
+		 * 
+		 * */
 		
-		List<Vegetable> srinidhiOrderList = new ArrayList<>();
-		srinidhiOrderList.add(cabbage);
+		Vegetable srinidhiCart = cartService.addToCart(srinidhiCustomer.getCustomerId(), onion);
+		Vegetable pallaviCart = cartService.addToCart(pallaviCustomer.getCustomerId(), cabbage);
 		
-		List<Vegetable> pallaviOrderList = new ArrayList<>();
-		pallaviOrderList.add(onion);
-		pallaviOrderList.add(cabbage);
+//		CartVegetable cartOnion = new CartVegetable();
+//		cartOnion.setCart(srinidhiCustomer.getCart());
+//		cartOnion.setCart(pallaviCustomer.getCart());
+//		cartOnion.setQuantity(2);
+//		cartOnion.setVegetable(onion);
+//		
+//		CartVegetable cartCabbage = new CartVegetable();
+//		cartCabbage.setCart(pallaviCustomer.getCart());
+//		cartCabbage.setQuantity(1);
+//		cartCabbage.setVegetable(cabbage);
+		
+
 		
 		
 		/*
@@ -86,14 +104,17 @@ public class OrderUI {
 		 */
 		
 		Order srinidhiOrder = new Order();
-		srinidhiOrder.setCustId(srinidhiCustomer.getCustomerId());
+		srinidhiOrder.setCustomerId(srinidhiCustomer.getCustomerId());
 		srinidhiOrder.setTotalAmount(200);
-		srinidhiOrder.setVegList(srinidhiOrderList);
+		
+		List<Vegetable> srinidhiVegetableList = cartService.viewAllItems(srinidhiCustomer.getCart());
+		srinidhiOrder.setVegetableList(srinidhiVegetableList);
 		
 		Order pallaviOrder = new Order();
-		pallaviOrder.setCustId(pallaviCustomer.getCustomerId());
+		pallaviOrder.setCustomerId(pallaviCustomer.getCustomerId());
 		pallaviOrder.setTotalAmount(100);
-		pallaviOrder.setVegList(pallaviOrderList);
+		List<Vegetable> pallaviVegetableList = cartService.viewAllItems(pallaviCustomer.getCart());
+		pallaviOrder.setVegetableList(pallaviVegetableList);
 		
 		
 		/*
@@ -130,13 +151,13 @@ public class OrderUI {
 		System.out.println();
 		System.out.println("Updating order details\n");
 		
-		List<Vegetable> updateList = srinidhiOrder.getVegList();
+		List<Vegetable> updateList = srinidhiOrder.getVegetableList();
 		updateList.add(capsicum);
 		
 		double updateAmount = srinidhiOrder.getTotalAmount() + 30;
 		
 		srinidhiOrder.setTotalAmount(updateAmount);
-		srinidhiOrder.setVegList(updateList);
+		srinidhiOrder.setVegetableList(updateList);
 		
 		srinidhiOrder = orderService.updateOrderDetails(srinidhiOrder);
 		
@@ -196,8 +217,8 @@ public class OrderUI {
 	public void displayOrderDetails(Order order) {
 
 		
-		if(order.getVegList().isEmpty()) {
-			System.out.println("Order "+order.getOrderNo() + " Details:"+"\nCustomer Id: "+ order.getCustId()
+		if(order.getVegetableList().isEmpty()) {
+			System.out.println("Order "+order.getOrderNo() + " Details:"+"\nCustomer Id: "+ order.getCustomerId()
 								+"\nDate Order Placed: " + order.getOrderDate()
 								+ "\nAmount: "+ order.getTotalAmount()+" \nStatus"+ order.getStatus()+"\nOrder Id:"
 								+ order.getOrderNo());
@@ -206,7 +227,7 @@ public class OrderUI {
 			System.out.println("Order "+order.getOrderNo() + " Details:\nDate Order Placed: " + order.getOrderDate()
 								+ "\nAmount: "+ order.getTotalAmount()+" \nStatus: "+ order.getStatus()+"\nOrder Id:"
 								+ order.getOrderNo());
-			List<Vegetable> orderVegList = order.getVegList();
+			List<Vegetable> orderVegList = order.getVegetableList();
 			for(Vegetable vegetable : orderVegList) {
 				displayVegetableDetails(vegetable);
 			}

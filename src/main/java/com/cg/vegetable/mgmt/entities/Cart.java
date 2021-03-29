@@ -14,8 +14,8 @@ public class Cart {
 	@Id
 	private int cartId;
 	private int custId;
-	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
-	private List<Vegetable> vegetables;
+//	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
+//	private List<Vegetable> vegetables;
 
 	public int getCartId() {
 		return cartId;
@@ -33,13 +33,13 @@ public class Cart {
 		this.custId = custId;
 	}
 
-	public List<Vegetable> getVegetables() {
-		return vegetables;
-	}
-
-	public void setVegetables(List<Vegetable> vegetables) {
-		this.vegetables = vegetables;
-	}
+//	public List<Vegetable> getVegetables() {
+//		return vegetables;
+//	}
+//
+//	public void setVegetables(List<Vegetable> vegetables) {
+//		this.vegetables = vegetables;
+//	}
 
 	@Override
 	public int hashCode() {
@@ -62,7 +62,7 @@ public class Cart {
 
 	@Override
 	public String toString() {
-		return "Cart [cartId=" + cartId + ", custId=" + custId + ", vegetables=" + vegetables + "]";
+		return "Cart [cartId=" + cartId + ", custId=" + custId + "]";
 	}
 	
 	

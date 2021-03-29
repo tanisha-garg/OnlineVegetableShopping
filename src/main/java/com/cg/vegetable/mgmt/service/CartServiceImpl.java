@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.vegetable.mgmt.entities.Cart;
+import com.cg.vegetable.mgmt.entities.CartVegetable;
 import com.cg.vegetable.mgmt.entities.Vegetable;
+import com.cg.vegetable.mgmt.exceptions.CartException;
 import com.cg.vegetable.mgmt.exceptions.CartIsEmptyException;
 import com.cg.vegetable.mgmt.exceptions.CustomerNotFoundException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableQuantityException;
@@ -20,6 +22,7 @@ import com.cg.vegetable.mgmt.exceptions.VegetableIsNullException;
 import com.cg.vegetable.mgmt.exceptions.VegetableMustHaveValueException;
 import com.cg.vegetable.mgmt.exceptions.VegetableNotFoundException;
 import com.cg.vegetable.mgmt.repository.ICartRepository;
+import com.cg.vegetable.mgmt.repository.ICartVegetableRepository;
 import com.cg.vegetable.mgmt.repository.ICustomerRepository;
 import com.cg.vegetable.mgmt.repository.IVegetableMgmtRepository;
 
@@ -35,7 +38,8 @@ public class CartServiceImpl implements ICartService {
 	@Autowired
 	private IVegetableMgmtRepository vegRepository;
 
-
+	@Autowired
+	private ICartVegetableRepository cartVegetableRepository;
 
 	@Override
 	public Vegetable addToCart(int customerId, Vegetable vegetable) {
@@ -43,100 +47,90 @@ public class CartServiceImpl implements ICartService {
 		if (!vegOptional.isPresent()) {
 			throw new VegetableNotFoundException("vegetable not found for this id");
 		}
-
 		vegetable = vegOptional.get();
 		Cart cart = cartRepository.findCartByCustId(customerId);
-
-		List<Vegetable> items = cart.getVegetables(); // suspected
-		if (items.isEmpty()) {
-			items = new ArrayList<>();
-			cart.setVegetables(items);
-			cartRepository.save(cart);
-			vegetable.setCart(cart);
-			vegRepository.save(vegetable);
+		boolean exists = cartVegetableRepository.existsByCartAndVegetable(cart, vegetable);
+		if (exists) {
+			CartVegetable cartVegetable = cartVegetableRepository.findCartVegetableByCartAndVegetable(cart, vegetable);
+			int quantity = cartVegetable.getQuantity();
+			quantity++;
+			cartVegetable.setQuantity(quantity);
+			cartVegetableRepository.save(cartVegetable);
+			return vegetable;
 		}
-
-		if (!items.contains(vegetable)) {
-			items.add(vegetable);
-			cart.setVegetables(items);
-			cartRepository.save(cart);
-			vegetable.setCart(cart);
-			vegRepository.save(vegetable);
-
-		} else {
-			increaseVegQuantity(vegetable.getVegId(), vegetable.getQuantity());
-		}
+		CartVegetable cartVegetable = new CartVegetable(cart, vegetable, 1);
+		cartVegetableRepository.save(cartVegetable);
 		return vegetable;
 	}
 
-	 
-
 	@Override
-	public Cart increaseVegQuantity(int vegid, int quantity) {
-//		Optional<Vegetable> incOptional = vegRepository.findById(vegid);
-//		Vegetable veg = incOptional.get();
-//		List<Vegetable> vegList = cart.getVegetables();
-//		for (Vegetable vegetable : vegList) {
-//			if (vegetable == veg) {
-//				vegetable.setQuantity(quantity + vegetable.getQuantity());
-//			}
-//		}
-//		return cartRepository.save(cart);
-		return null;
+	public Cart increaseVegQuantity(int customerId, int vegid, int quantityToBeAdded) {
+		Optional<Vegetable> vegOptional = vegRepository.findById(vegid);
+		if (!vegOptional.isPresent()) {
+			throw new VegetableNotFoundException("vegetable not found for this id");
+		}
+		Vegetable vegetable = vegOptional.get();
+		Cart cart = cartRepository.findCartByCustId(customerId);
+		boolean exists = cartVegetableRepository.existsByCartAndVegetable(cart, vegetable);
+		if (!exists) {
+			throw new CartException("quantity can't be increased as vegetable is not found in cart");
+		}
+		CartVegetable cartVegetable = cartVegetableRepository.findCartVegetableByCartAndVegetable(cart, vegetable);
+		int existingQuantity = cartVegetable.getQuantity();
+		int updatedQuantity = existingQuantity + quantityToBeAdded;
+		cartVegetable.setQuantity(updatedQuantity);
+		cartVegetableRepository.save(cartVegetable);
+		return cart;
 	}
 
 	@Override
-	public Cart decreaseVegQuantity(int vegid, int quantity) {
-		// TODO Auto-generated method stub
-//		Optional<Vegetable> incOptional = vegRepository.findById(vegid);
-//		Vegetable veg = incOptional.get();
-	
-//		List<Vegetable> vegList = cart.getVegetables();
-//		for (Vegetable vegetable : vegList) {
-//			if (vegetable == veg) {
-//				vegetable.setQuantity(vegetable.getQuantity() - quantity);
-//			}
-////		}
-//		return cartRepository.save(cart);
-		return null;
+	public Cart decreaseVegQuantity(int customerId, int vegid, int quantityToBeRemoved) {
+		Optional<Vegetable> vegOptional = vegRepository.findById(vegid);
+		if (!vegOptional.isPresent()) {
+			throw new VegetableNotFoundException("vegetable not found for this id");
+		}
+		Vegetable vegetable = vegOptional.get();
+		Cart cart = cartRepository.findCartByCustId(customerId);
+		boolean exists = cartVegetableRepository.existsByCartAndVegetable(cart, vegetable);
+		if (!exists) {
+			throw new CartException("quantity can't be increased as vegetable is not found in cart");
+		}
+		CartVegetable cartVegetable = cartVegetableRepository.findCartVegetableByCartAndVegetable(cart, vegetable);
+		int existingQuantity = cartVegetable.getQuantity();
+		int updatedQuantity = existingQuantity - quantityToBeRemoved;
+		if (updatedQuantity <= 0) {
+			cartVegetableRepository.delete(cartVegetable);
+		}
+		cartVegetable.setQuantity(updatedQuantity);
+		cartVegetableRepository.save(cartVegetable);
+		return cart;
 	}
 
 	@Override
-	public Cart removeVegetable(Cart cart, int vegid) {
-		Optional<Vegetable> optional = vegRepository.findById(vegid);
-		if (!optional.isPresent()) {
-			throw new VegetableNotFoundException("Vegetable to be removed does not exist");
+	public Cart removeVegetable(int customerId, int vegid) {
+		Optional<Vegetable> vegOptional = vegRepository.findById(vegid);
+		if (!vegOptional.isPresent()) {
+			throw new VegetableNotFoundException("vegetable not found for this id");
 		}
-		Vegetable removed = optional.get();
-		List<Vegetable> vegList = cart.getVegetables();
-		Iterator vegItr = vegList.iterator();
-		for (Vegetable v : vegList) {
-			if (v == removed) {
-				vegItr.remove();
-			}
-		}
-		return cartRepository.save(cart);
+		Vegetable vegetable = vegOptional.get();
+		Cart cart = cartRepository.findCartByCustId(customerId);
+		cartVegetableRepository.deleteByCartAndVegetable(cart, vegetable);
+		return cart;
 
 	}
 
 	@Override
 	public Cart removeAllVegetables(Cart cart) {
-		List<Vegetable> allVeg = cart.getVegetables();
-		allVeg.removeAll(allVeg);
-		return cartRepository.save(cart);
+		cartVegetableRepository.deleteByCart(cart);
+		return cart;
 
 	}
 
 	@Override
 	public List<Vegetable> viewAllItems(Cart cart) {
-		List<Vegetable> allVeg = cart.getVegetables();
+		List<Vegetable> allVeg = cartVegetableRepository.findVegetablesByCart(cart);
 		return allVeg;
 	}
-	
-	
-	
-	
-	
 
 	public void validateVegetable(Vegetable vegetable) {
 		if (vegetable == null) {
@@ -156,7 +150,6 @@ public class CartServiceImpl implements ICartService {
 //
 //
 	public void validateInc(int quantity) {
-		// TODO Auto-generated method stub
 		if (quantity <= 1) {
 			throw new VegetableMustHaveValueException("Cart Must have the value");
 		}

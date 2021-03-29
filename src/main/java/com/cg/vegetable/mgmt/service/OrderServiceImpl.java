@@ -1,17 +1,15 @@
 package com.cg.vegetable.mgmt.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cg.vegetable.mgmt.entities.BillingDetails;
-import com.cg.vegetable.mgmt.entities.Order;
+import com.cg.vegetable.mgmt.constants.*;
+import com.cg.vegetable.mgmt.entities.*;
 import com.cg.vegetable.mgmt.exceptions.*;
-import com.cg.vegetable.mgmt.repository.IOrderRepository;
+import com.cg.vegetable.mgmt.repository.*;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -21,18 +19,33 @@ public class OrderServiceImpl implements IOrderService {
 	
 	@Autowired
 	private IBillingService billingService;
+	
+	@Autowired
+	private ICartRepository cartRepository;
+	
+	@Autowired
+	private ICartVegetableRepository cartVegetableRepository;
 
 	@Transactional
 	@Override
 	public Order addOrder(Order order) {
 		order.setStatus("Order Placed");
 		order.setOrderDate(currentTime());
+		Cart cart = cartRepository.findCartByCustId(order.getCustomerId());
+		List<CartVegetable> vegetableList = cartVegetableRepository.findByCart(cart);
+		Optional<Double> optionalCost = vegetableList.stream().
+										map(cv -> cv.getQuantity() * cv.getVegetable().getPrice()).
+										reduce((cost1, cost2) -> cost1+cost2);
+		if(!optionalCost.isPresent()) {
+			throw new InvalidVegetablePriceException("Cannot find the cost of the vegetable");
+		}
+		order.setTotalAmount(optionalCost.get());
 		Order saved = orderRepository.save(order);
 		BillingDetails bill = new BillingDetails();
-		bill.setTransactionStatus("Pending");
-		bill.setTransactionMode("Cash On Delivery");
+		bill.setTransactionStatus(TransactionStatus.PENDING);
+		bill.setTransactionMode(TransactionMode.CASH_ON_DELIVERY);
 		bill.setOrderId(saved.getOrderNo());
-		bill = billingService.addBill(bill);
+		billingService.addBill(bill);
 		return saved;
 	}
 
@@ -43,8 +56,7 @@ public class OrderServiceImpl implements IOrderService {
 		if (!orderOptional.isPresent()) {
 			throw new OrderNotFoundException("Order with id " + id + " doesn't exist");
 		}
-		Order order2 = orderOptional.get();
-		return order2;
+		return orderOptional.get();
 	}
 
 	@Transactional
@@ -61,39 +73,22 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public List<Order> viewAllOrders(int custid){
-		List<Order> orderList = orderRepository.findAll();
-		List<Order> desiredList = new ArrayList<>();
+		List<Order> orderList = orderRepository.findByCustomerId(custid);		
 		if(orderList.isEmpty()) {
-			throw new OrderNotFoundException("Order Not Found");
+			throw new OrderNotFoundException("Orders not found");
 		}
-		else {
-			for(Order order : orderList) {
-				if(order.getCustId() == custid) {
-					desiredList.add(order);
-				}
-			}
-		}
-		return desiredList;
+		return orderList;
 	}
 		
 	
 
 	@Override
 	public List<Order> viewOrderList(LocalDate date) {
-		List<Order> orderList = orderRepository.findAll();
-		List<Order> desiredList = new ArrayList<>();
+		List<Order> orderList = orderRepository.findByOrderDate(date);	
 		if(orderList.isEmpty()) {
-			throw new OrderNotFoundException("Order Not Found");
+			throw new OrderNotFoundException("Orders not found");
 		}
-		else {
-			for(Order order : orderList) {
-				LocalDate orderDate = order.getOrderDate();
-				if(orderDate.isEqual(date)) {
-					desiredList.add(order);
-				}
-			}
-		}
-		return desiredList;
+		return orderList;
 	}
 
 	@Override

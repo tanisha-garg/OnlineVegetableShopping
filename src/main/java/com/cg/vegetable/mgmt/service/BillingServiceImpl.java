@@ -3,7 +3,6 @@ package com.cg.vegetable.mgmt.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +17,7 @@ public class BillingServiceImpl implements IBillingService{
 	
 	@Autowired
 	private IBillingRepository billingRepository;
-	
-	public LocalDateTime currentDateTime() {
-		return LocalDateTime.now();
-	}
+
 	
 	/*
 	 * 
@@ -32,13 +28,11 @@ public class BillingServiceImpl implements IBillingService{
 	 * 
 	 * */
 
-	@Transactional
 	@Override
 	public BillingDetails addBill(BillingDetails bill) {
 		validateBill(bill);
 		bill.setTransactionDate(currentDateTime());
-		BillingDetails saved = billingRepository.save(bill);
-		return saved;
+		return billingRepository.save(bill);
 
 	}
 	
@@ -48,6 +42,7 @@ public class BillingServiceImpl implements IBillingService{
 	 * 
 	 *  @param bill is BillingDetails
 	 *  @return updated BillingDetails
+	 *  
 	 * */
 
 	@Transactional
@@ -59,8 +54,7 @@ public class BillingServiceImpl implements IBillingService{
 		if(!exists) {
 			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
 		}
-		BillingDetails saved = billingRepository.save(bill);
-		return saved;
+		return billingRepository.save(bill);
 
 	}
 	
@@ -78,9 +72,21 @@ public class BillingServiceImpl implements IBillingService{
 		if(!billOptional.isPresent()) {
 			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
 		}
-		BillingDetails bill = billOptional.get();
-		return bill;
+		return billOptional.get();
 	
+	}
+	
+	/*
+	 * 
+	 * Generates the time when bill is created
+	 * 
+	 * @return LocalDateTime.now() is current time 
+	 * 
+	 * */
+	
+	
+	public LocalDateTime currentDateTime() {
+		return LocalDateTime.now();
 	}
 	
 	/*
