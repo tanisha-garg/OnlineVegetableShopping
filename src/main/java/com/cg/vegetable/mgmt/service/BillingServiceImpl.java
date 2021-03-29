@@ -3,7 +3,6 @@ package com.cg.vegetable.mgmt.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +44,6 @@ public class BillingServiceImpl implements IBillingService{
 	 *  
 	 * */
 
-	@Transactional
 	@Override
 	public BillingDetails updateBill(BillingDetails bill) {
 		validateBill(bill);
