@@ -13,22 +13,20 @@ public class Customer {
 	@GeneratedValue
 	private int customerId;
 
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = { CascadeType.ALL })
 	private Address address;
-	
+
 	private String name;
 	private String mobileNumber;
 	private String emailId;
 	private String password;
 	private String confirmPassword;
-	
-	@OneToOne(cascade = {CascadeType.ALL})
-	private Cart cart;
-	
+
 	public Customer() {
 	}
-	
-	public Customer(String name, String mobileNumber, String emailId) {
+
+	public Customer(int customerId, String name, String mobileNumber, String emailId) {
+		this.customerId = customerId;
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.emailId = emailId;
@@ -86,14 +84,4 @@ public class Customer {
 		this.confirmPassword = confirmPassword;
 	}
 
-
-	public Cart getCart() {
-		return cart;
-	}
-
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
-
-	
 }
