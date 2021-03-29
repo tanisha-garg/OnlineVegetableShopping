@@ -1,9 +1,6 @@
 package com.cg.vegetable.mgmt.service;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -13,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 
 import org.mockito.InjectMocks;
@@ -20,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 //import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 //import com.cg.vegetable.mgmt.entities.Address;
@@ -28,152 +27,150 @@ import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.ICustomerRepository;
 import com.cg.vegetable.mgmt.service.CustomerServiceImpl;
 
-//@ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class CustomerServiceImplUnitTests {
 
-	@Mock
-	private ICustomerRepository customerRepository;
-	
-	
-	@Spy
-	@InjectMocks
-	CustomerServiceImpl customerService;
+    @Mock
+    private ICustomerRepository customerRepository;
 
-	
+
+    @Spy
+    @InjectMocks
+    CustomerServiceImpl customerService;
+
 
 //	@BeforeEach
 //	public void setUp() {
 //		customerService = new CustomerServiceImp();
 //	}
 
-	/*
-	 * Scenario: When customer is added successfully.
-	 */
+    /*
+     * Scenario: When customer is added successfully.
+     */
+    @Test
+    public void test_AddCustomer_1() {
+        Customer customer = mock(Customer.class);
+        Customer customerSaved = Mockito.mock(Customer.class);
+        doNothing().when(customerService).validateCustomer(customer);
+        when(customerRepository.save(customer)).thenReturn(customerSaved);
+        Customer result = customerService.addCustomer(customer);
+        Assertions.assertNotNull(result);
+        //	Assertions.assertEquals(customerSaved, result);
+        verify(customerRepository).save(customer);
+        verify(customerService).validateCustomer(customer);
+    }
 
-	@Test
-	public void test_AddCustomer_1() {
-		Customer customer = Mockito.mock(Customer.class);
-		Customer customerSaved = Mockito.mock(Customer.class);
-		doNothing().when(customerService).validateCustomer(customer);
-		when(customerRepository.save(customer)).thenReturn(customerSaved);
-		Customer result = customerService.addCustomer(customer);
-		Assertions.assertNotNull(result);
-	//	Assertions.assertEquals(customerSaved, result);
-		verify(customerRepository).save(customer);
-		verify(customerService).validateCustomer(customer);
-	}
+    /*
+     * * Scenario:  When customer details are null Result:
+     *   Result:   Customer not added exception
+     */
 
-	/*
-	 * * Scenario:  When customer details are null Result: 
-	 *   Result:   Customer not added exception
-	 */
+    @Test
+    public void test_AddCustomer_2() {
+        Customer customer = Mockito.mock(Customer.class);
+        doThrow(CustomerNotAddedException.class).when(customerService).validateCustomer(customer);
+        Executable executable = () -> customerService.addCustomer(customer);
+        Assertions.assertThrows(CustomerNotAddedException.class, executable);
+        verify(customerRepository, never()).save(customer);
+    }
 
-	@Test
-	public void test_AddCustomer_2() {
-		Customer customer = Mockito.mock(Customer.class);
-		doThrow(CustomerNotAddedException.class).when(customerService).validateCustomer(customer);
-		Executable executable = () -> customerService.addCustomer(customer);
-		Assertions.assertThrows(CustomerNotAddedException.class, executable);
-		verify(customerRepository, never()).save(customer);
-	}
+    /*
+     * * Scenario: When customer details are updated successfully
+     */
 
-	/*
-	 * * Scenario: When customer details are updated successfully
-	 */
+    @Test
+    public void updateCustomerTest_1() {
+        Integer customerId = 2;
+        Customer customer = Mockito.mock(Customer.class);
+        Mockito.when(customer.getCustomerId()).thenReturn(customerId);
+        doNothing().when(customerService).validateCustomer(customer);
+        when(customerRepository.existsById(customerId)).thenReturn(true);
+        when(customerRepository.save(customer)).thenReturn(customer);
+        Customer result = customerService.updateCustomer(customer);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(customer, result);
+        verify(customerRepository).save(customer);
+        verify(customerService).validateCustomer(customer);
 
-	@Test
-	public void updateCustomerTest_1() {
-		Integer customerId=2;
-		Customer customer = Mockito.mock(Customer.class);
-		Mockito.when(customer.getCustomerId()).thenReturn(customerId);
-		doNothing().when(customerService).validateCustomer(customer);
-		when(customerRepository.existsById(customerId)).thenReturn(true);
-		when(customerRepository.save(customer)).thenReturn(customer);
-		Customer result = customerService.updateCustomer(customer);
-		Assertions.assertNotNull(result);
-		Assertions.assertEquals(customer, result);
-		verify(customerRepository).save(customer);
-		verify(customerService).validateCustomer(customer);
+    }
 
-	}
+    /*
+     * * Scenario: When customer details are not updated successfully
+     */
+    @Test
+    public void updateCustomerTest_2() {
+        Customer customer = null;
+        doThrow(CustomerNotUpdatedException.class).when(customerService).validateCustomer(customer);
+        Executable executable = () -> customerService.addCustomer(customer);
+        Assertions.assertThrows(CustomerNotUpdatedException.class, executable);
+        verify(customerRepository, never()).save(customer);
+    }
 
-	/*
-	 * * Scenario: When customer details are not updated successfully
-	 */
-	@Test
-	public void updateCustomerTest_2() {
-		Customer customer = null;
-		doThrow(CustomerNotUpdatedException.class).when(customerService).validateCustomer(customer);
-		Executable executable = () -> customerService.addCustomer(customer);
-		Assertions.assertThrows(CustomerNotUpdatedException.class, executable);
-		verify(customerRepository, never()).save(customer);
-	}
+    /*
+     * * Scenario: When customer is removed successfully
+     */
 
-	/*
-	 * * Scenario: When customer is removed successfully
-	 */
+    @Test
+    public void removeCustomerTest_1() {
+        Integer customerId = 2;
+        Customer customer = Mockito.mock(Customer.class);
+        when(customer.getCustomerId()).thenReturn(customerId);
+        when(customerRepository.existsById(customerId)).thenReturn(true);
+        Customer result = customerService.removeCustomer(customer);
+        Assertions.assertNull(result);
+        verify(customerRepository).deleteById(customerId);
 
-	@Test
-	public void removeCustomerTest_1() {
-		Integer customerId =2;
-		Customer customer = Mockito.mock(Customer.class);
-		when(customer.getCustomerId()).thenReturn(customerId);
-		when(customerRepository.existsById(customerId)).thenReturn(true);
-		Customer result = customerService.removeCustomer(customer);
-		Assertions.assertNull(result);
-		
-	}
+    }
 
-	/*
-	 * * Scenario: When customer is not removed successfully
-	 */
-	@Test
-	public void removeCustomerTest_2() {
-		Integer customerId = 1;
-		Customer customer = Mockito.mock(Customer.class);
-		when(customer.getCustomerId()).thenReturn(customerId);
-		when(customerRepository.existsById(customerId)).thenReturn(false);
-		Executable executable = ()-> customerService.removeCustomer(customer);		
-		Assertions.assertThrows(CustomerNotRemovedException.class,executable);
-		verify(customerRepository,never()).delete(customer);
-	}
-	/*
-	 * * Scenario: When customer is successfully viewed using customerId
-	 */
+    /*
+     * * Scenario: When customer is not removed successfully,
+     */
+    @Test
+    public void removeCustomerTest_2() {
+        Integer customerId = 1;
+        Customer customer = Mockito.mock(Customer.class);
+        when(customer.getCustomerId()).thenReturn(customerId);
+        when(customerRepository.existsById(customerId)).thenReturn(false);
+        Executable executable = () -> customerService.removeCustomer(customer);
+        Assertions.assertThrows(CustomerNotRemovedException.class, executable);
+        verify(customerRepository, never()).delete(customer);
+    }
+    /*
+     * * Scenario: When customer is successfully viewed using customerId
+     */
 
-	@Test
-	public void viewCustomerTest_1() {
-		int customerId=2;
-		Customer customer = Mockito.mock(Customer.class);
-		doNothing().when(customerService).validateCustomer(customer);
-		when(customer.getCustomerId()).thenReturn(customerId);
-		Optional<Customer> optional = Optional.of(customer);
-		when(customerRepository.findById(customerId)).thenReturn(optional);
-		Customer result = customerService.viewCustomer(customer);
-		Assertions.assertNotNull(result);
-		Assertions.assertEquals(customer,result);
-		//verify(customerRepository).save(customer);
-		verify(customerService).validateCustomer(customer);
+    @Test
+    public void viewCustomerTest_1() {
+        int customerId = 2;
+        Customer customer = mock(Customer.class);
+        doNothing().when(customerService).validateCustomer(customer);
+        when(customer.getCustomerId()).thenReturn(customerId);
+        Optional<Customer> optional = Optional.of(customer);
+        when(customerRepository.findById(customerId)).thenReturn(optional);
+        Customer result = customerService.viewCustomer(customer);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(customer, result);
+        //verify(customerRepository).save(customer);
+        verify(customerService).validateCustomer(customer);
 
- }
+    }
 
-	/*
-	 * * Scenario: When customer is not successfully viewed using customerId
-	 */
+    /*
+     * * Scenario: When customer is not successfully viewed using customerId
+     */
 
-	@Test
-	public void test_ViewCustomer_2() {
-		Customer customer = Mockito.mock(Customer.class);
-		doThrow(CustomerNotFoundException.class).when(customerService).validateCustomer(customer);
-		Executable executable = () -> customerService.viewCustomer(customer);
-		Assertions.assertThrows(CustomerNotFoundException.class, executable);
-		verify(customerRepository, never()).save(customer);
-	}
+    @Test
+    public void test_ViewCustomer_2() {
+        Customer customer = Mockito.mock(Customer.class);
+        doThrow(CustomerNotFoundException.class).when(customerService).validateCustomer(customer);
+        Executable executable = () -> customerService.viewCustomer(customer);
+        Assertions.assertThrows(CustomerNotFoundException.class, executable);
+        verify(customerRepository, never()).save(customer);
+    }
 
-	/*
-	 * scenario :When all customers are viewed successfully
-	 */
+    /*
+     * scenario :When all customers are viewed successfully
+     */
 	
 	/*
 	@Test
@@ -202,43 +199,43 @@ public class CustomerServiceImplUnitTests {
 	}
 	 
 	*/
-	/*
-	 * scenario : Customer name is empty
-	 */
+    /*
+     * scenario : Customer name is empty
+     */
 
-	@Test
-	public void test_ValidateName1() {
-		String name = "";
-		Customer customer = new Customer(name, "9863527891", "agc@ghb.com");
-		Executable executable = () -> customerService.addCustomer(customer);
-		Assertions.assertThrows(InvalidCustomerNameException.class, executable);
-	}
-	
-	/*
-	 * when InvalidCustomerNameException is thrown
-	 * */
-	@Test
-	void test_validateCustomer_2() {
-		Customer customer=Mockito.mock(Customer.class);
-		when(customer.getName()).thenReturn("");
-		Executable executable = () -> customerService.validateCustomer(customer);
-		Assertions.assertThrows(InvalidCustomerNameException.class, executable);
-		
-	}
-	
-	
-	/*
-	 * when InvalidrEmailIdException is thrown
-	 * */
-	@Test
-	void test_validateCustomer_3() {
-		Customer customer=Mockito.mock(Customer.class);
-		when(customer.getName()).thenReturn("valid");
-		when(customer.getEmailId()).thenReturn("");
-		Executable executable = () -> customerService.validateCustomer(customer);
-		Assertions.assertThrows(InvalidEmailIdException.class, executable);
-		
-	}
+    @Test
+    public void test_ValidateName1() {
+        String name = "";
+        Customer customer = new Customer(name, "9863527891", "agc@ghb.com");
+        Executable executable = () -> customerService.addCustomer(customer);
+        Assertions.assertThrows(InvalidCustomerNameException.class, executable);
+    }
 
-	
+    /*
+     * when InvalidCustomerNameException is thrown
+     * */
+    @Test
+    void test_validateCustomer_2() {
+        Customer customer = Mockito.mock(Customer.class);
+        when(customer.getName()).thenReturn("");
+        Executable executable = () -> customerService.validateCustomer(customer);
+        Assertions.assertThrows(InvalidCustomerNameException.class, executable);
+
+    }
+
+
+    /*
+     * when InvalidrEmailIdException is thrown
+     * */
+    @Test
+    void test_validateCustomer_3() {
+        Customer customer = Mockito.mock(Customer.class);
+        when(customer.getName()).thenReturn("valid");
+        when(customer.getEmailId()).thenReturn("");
+        Executable executable = () -> customerService.validateCustomer(customer);
+        Assertions.assertThrows(InvalidEmailIdException.class, executable);
+
+    }
+
+
 }

@@ -2,10 +2,7 @@ package com.cg.vegetable.mgmt.entities;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class BillingDetails {
@@ -96,6 +93,13 @@ public class BillingDetails {
 		if (billingId != other.billingId)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "BillingDetails [billingId=" + billingId + ", orderId=" + orderId + ", transactionMode="
+				+ transactionMode + ", transactionDate=" + transactionDate + ", transactionStatus=" + transactionStatus
+				+ ", address=" + address + "]";
 	}
 	
 	

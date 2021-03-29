@@ -21,14 +21,7 @@ public class Vegetable {
 	private double price;
 	private int quantity;
 	
-	@ManyToOne
-	private Cart cart;
-	public Cart getCart() {
-		return cart;
-	}
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
+
 	public Vegetable() {
 		
 	}
@@ -75,4 +68,27 @@ public class Vegetable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	@Override
+	public int hashCode() {
+		return vegId;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vegetable other = (Vegetable) obj;
+		if (vegId != other.vegId)
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "Vegetable [vegId=" + vegId + ", name=" + name + ", type=" + type + ", category=" + category + ", price="
+				+ price + ", quantity=" + quantity ;
+	}
+	
 }
