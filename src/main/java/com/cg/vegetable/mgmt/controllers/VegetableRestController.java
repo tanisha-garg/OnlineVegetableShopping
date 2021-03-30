@@ -41,15 +41,14 @@ public class VegetableRestController {
 	@Autowired
 	private VegetableUtil vegUtil;
 	
-	@Autowired
-	private IVegetableMgmtRepository vegRepository;
+
 	
 	 @ResponseStatus(HttpStatus.CREATED)
 	    @PostMapping("/add")
-	    public String addVegetable(@RequestBody AddVegetableRequest requestData) {
+	    public VegetableDetails addVegetable(@RequestBody AddVegetableRequest requestData) {
 	        Vegetable created = new Vegetable(requestData.getName(),requestData.getCategory(),requestData.getType(),requestData.getPrice(),requestData.getQuantity());
 	        Vegetable added=vegService.addVegetable(created);
-	        return "created vegetable with id=" + created.getVegId();
+	        return vegUtil.toDetails(added);
 	    }
 	 	
 	 @GetMapping(value = "/byid/{id}")
@@ -60,8 +59,8 @@ public class VegetableRestController {
 	    }
 	 @DeleteMapping("/delete")
 	    public String delete(@RequestBody DeleteVegetableRequest requestData){
-	        Optional<Vegetable>vegOptional=vegRepository.findById(requestData.getVegId());
-	        Vegetable removed = vegService.removeVegetable(vegOptional.get());
+	        Vegetable vegetable=vegService.viewVegetable(requestData.getVegId());
+	        Vegetable removed = vegService.removeVegetable(vegetable);
 	        return "vegetable deleted for id="+requestData.getVegId();
 	    }
 	 
@@ -70,7 +69,7 @@ public class VegetableRestController {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setName(requestData.getName());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
-		 VegetableDetails desired=vegUtil.toDetails(vegetable);
+		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
 	        return desired;
 	    }
 	 
@@ -79,7 +78,7 @@ public class VegetableRestController {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setCategory(requestData.getCategory());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
-		 VegetableDetails desired=vegUtil.toDetails(vegetable);
+		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
 	        return desired;
 	    }
 	 
@@ -88,7 +87,7 @@ public class VegetableRestController {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setType(requestData.getType());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
-		 VegetableDetails desired=vegUtil.toDetails(vegetable);
+		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
 	        return desired;
 	    }
 	 @PutMapping("/changeQuantity")
@@ -96,7 +95,7 @@ public class VegetableRestController {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setQuantity(requestData.getQuantity());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
-		 VegetableDetails desired=vegUtil.toDetails(vegetable);
+		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
 	        return desired;
 	    }
 	 @PutMapping("/changePrice")
@@ -104,7 +103,7 @@ public class VegetableRestController {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setPrice(requestData.getPrice());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
-		 VegetableDetails desired=vegUtil.toDetails(vegetable);
+		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
 	        return desired;
 	    }
 	 
