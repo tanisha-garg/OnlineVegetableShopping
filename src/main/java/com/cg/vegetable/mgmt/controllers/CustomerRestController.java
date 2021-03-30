@@ -25,49 +25,45 @@ public class CustomerRestController
     private CustomerUtil customerUtil;
     
     @Autowired
-    private ICustomerRepository  customerRepository;
+    private ICustomerRepository customerRepository;
 
-    @DeleteMapping( "/removeCustomer/{id}")
+    @DeleteMapping( "/remove/{id}")
     public String removeCustomer(@PathVariable Integer id)
     {
-    	Optional<Customer> optional= customerRepository.findById(id);
-        Customer customer = optional.get();
+        Customer customer = customerService.viewCustomer(id);
         customerService.removeCustomer(customer);
         return "Customer removed successfully";
     }
     
         
-    @GetMapping("/viewCustomer/{id}")
+    @GetMapping("/get/{id}/")
 	public CustomerDetails fetchCustomerDetails(@PathVariable int id) {
-    	Optional<Customer> optional= customerRepository.findById(id);
-		Customer customer = optional.get();
+		Customer customer = customerService.viewCustomer(id);
 		//Customer details = customerService.viewCustomer(customer);
 		CustomerDetails details= customerUtil.toDetail(customer);
 		return details;
-  
     }
     
-    @PostMapping("/addCustomer")
-    public String addCustomer(@RequestBody CustomerDetails requestData)
+    @PostMapping("/add")
+    public CustomerDetails addCustomer(@RequestBody CustomerDetails requestData)
     {
         Customer customer = new Customer(requestData.getName(),
         		requestData.getMobileNumber(),requestData.getEmailId());
-        
-        Customer addedCustomer= customerService.addCustomer(customer);
-        return "Customer with customerId"+addedCustomer.getCustomerId()+" added";
+        customer= customerService.addCustomer(customer);
+        CustomerDetails response=customerUtil.toDetail(customer);
+        return response;
     }
     
-    
-    @PutMapping("/updateCustomerDetails/{id}")
+
+    @PutMapping("{id}/update/details")
     public CustomerDetails updateCustomer(@RequestBody UpdateCustomerDetailsRequest requestData ,
     		@PathVariable Integer id) {
-    	Optional<Customer> optional= customerRepository.findById(id);
-    	Customer customer= optional.get();
+    	Customer customer=customerService.viewCustomer(id);
     	customer.setName(requestData.getName());
 		customer.setMobileNumber(requestData.getMobileNumber());
 		customer.setEmailid(requestData.getEmailId());		
-		Customer updatedCustomer = customerService.updateCustomer(customer);
-		CustomerDetails details = customerUtil.toDetail(updatedCustomer);
+		customer = customerService.updateCustomer(customer);
+		CustomerDetails details = customerUtil.toDetail(customer);
 		return  details;
     }
     

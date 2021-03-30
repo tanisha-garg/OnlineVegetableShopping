@@ -1,11 +1,13 @@
 package com.cg.vegetable.mgmt.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,10 +47,11 @@ public class BillingServiceImplUnitTest {
 	 * Scenario: Add Bill successfully
 	 * Test Case: Add Bill
 	 */	
+	
 	@Test
 	public void testAddBill_1() {
-		BillingDetails saved = Mockito.mock(BillingDetails.class);
-		BillingDetails billDetails = Mockito.mock(BillingDetails.class);
+		BillingDetails saved = mock(BillingDetails.class);
+		BillingDetails billDetails = mock(BillingDetails.class);
 		doNothing().when(billingService).validateBill(billDetails);
 		LocalDateTime now = LocalDateTime.now();
 		doReturn(now).when(billingService).currentDateTime();
@@ -61,17 +64,16 @@ public class BillingServiceImplUnitTest {
 	}
 	
 	/*
-	 * Scenario: TransactionMode Validation - Blank input
+	 * Scenario: Failure
 	 * Test Case: Add Bill
 	 */	
 	
 	@Test
 	public void testAddBill_2() {
-//		String transactionMode = "";
-		BillingDetails bill = Mockito.mock(BillingDetails.class);
+		BillingDetails bill = mock(BillingDetails.class);
 		doThrow(InvalidBillException.class).when(billingService).validateBill(bill);
 		Executable executable = () -> billingService.addBill(bill);
-		assertThrows(InvalidTransactionModeException.class, executable);
+		assertThrows(InvalidBillException.class, executable);
 		verify(billingRepository, never()).save(bill);
 		
 	}
@@ -143,6 +145,71 @@ public class BillingServiceImplUnitTest {
 		verify(billingRepository, never()).save(bill);
 	}
 	
+	/*
+	 * 
+	 * When bill passes is null
+	 * Expectation: InvalidBillException thrown
+	 * */
+	
+	@Test
+	public void validateBill_1() {
+		BillingDetails bill = null;
+		Executable executable = () -> billingService.validateBill(bill);
+		assertThrows(InvalidBillException.class, executable);
+//		when(bill.getTransactionMode()).thenReturn("cod");
+//		when(bill.getTransactionStatus()).thenReturn("successful");
+//		verify(billingService, never()).validateMode(bill.getTransactionMode());
+//		verify(billingService, never()).validateMode(bill.getTransactionStatus());
+		
+	}
+	
+	/*
+	 * 
+	 * When transaction mode is null
+	 * */
+	
+	@Test
+	public void validateMode_1() {
+		String transactionMode = null;
+		Executable executable = () -> billingService.validateMode(transactionMode);
+		assertThrows(InvalidTransactionModeException.class, executable);
+	}
+	
+	/*
+	 * 
+	 * When transaction mode is empty
+	 * */
+	
+	@Test
+	public void validateMode_2() {
+		String transactionMode = "";
+		Executable executable = () -> billingService.validateMode(transactionMode);
+		assertThrows(InvalidTransactionModeException.class, executable);
+	}
+	
+	/*
+	 * 
+	 * When transaction status is null
+	 * */
+	
+	@Test
+	public void validateStatus_1() {
+		String transactionStatus = null;
+		Executable executable = () -> billingService.validateMode(transactionStatus);
+		assertThrows(InvalidTransactionModeException.class, executable);
+	}
+	
+	/*
+	 * 
+	 * When transaction mode is null
+	 * */
+	
+	@Test
+	public void validateStatus_2() {
+		String transactionStatus = "";
+		Executable executable = () -> billingService.validateMode(transactionStatus);
+		assertThrows(InvalidTransactionModeException.class, executable);
+	}
 
 	
 }

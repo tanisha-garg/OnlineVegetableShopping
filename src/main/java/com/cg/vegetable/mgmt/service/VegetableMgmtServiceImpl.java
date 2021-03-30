@@ -26,35 +26,50 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	IVegetableMgmtRepository vegetableRepository;
 	
 	
-	public void validateVegetable(Vegetable vegetable) {
-		validateName(vegetable.getName());
-		validateCategory(vegetable.getCategory());
-		validateType(vegetable.getType());
-		validatePrice(vegetable.getPrice());
-		validateQuantity(vegetable.getQuantity());
-	}
+	/*
+	 * scenario : Vegetable saved successfully in database
+	 * input: Vegetable type argument 	
+	 * expectation:Vegetable should be added in database after validation
+	 * 
+	 */
+	
 	@Override
-	public Vegetable addVegetable(Vegetable dto) {
-		validateVegetable(dto);
-		Vegetable vegetable= vegetableRepository.save(dto);		
-		return vegetable;
+	public Vegetable addVegetable(Vegetable vegetable) {
+		validateVegetable(vegetable);
+		return  vegetableRepository.save(vegetable);		
 	}
 
+	
+	
+	/*
+	 * scenario :   UpdatedVegetable saved successfully in database
+	 * input:       Vegetable type argument after updation 	
+	 * expectation: UpdatedVegetable should be added in database after validation
+	 * 
+	 */
+	
 	@Override
-	public Vegetable updateVegetable(Vegetable dto) {
-		int vegId = dto.getVegId();
+	public Vegetable updateVegetable(Vegetable vegetable) {
+		int vegId = vegetable.getVegId();
 		boolean exists = vegetableRepository.existsById(vegId);
 		if(!exists) {
 			throw new VegetableNotFoundException("Vegetable not found with id" + vegId);
 		}
-		Vegetable saved = vegetableRepository.save(dto);
+		Vegetable saved = vegetableRepository.save(vegetable);
 		return saved;
 	}
-
+	
+	/*
+	 * scenario :   Vegetable to be removed from database
+	 * input:       Vegetable type argument which has to be removed
+	 * expectation: UpdatedVegetable should be added in database after validation
+	 * 
+	 */
+	
 	@Override
-	public Vegetable removeVegetable(Vegetable dto) {
-		validateVegetable(dto);
-		Optional<Vegetable>optional=vegetableRepository.findById(dto.getVegId());
+	public Vegetable removeVegetable(Vegetable vegetable) {
+		validateVegetable(vegetable);
+		Optional<Vegetable>optional=vegetableRepository.findById(vegetable.getVegId());
 		if(!optional.isPresent()) {
 			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
 		 }
@@ -81,17 +96,23 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	@Override
 	public List<Vegetable> viewVegetableList(String category) {
 		validateCategory(category);
-		List<Vegetable>allVegetables=vegetableRepository.findAll();
-		List<Vegetable>result=allVegetables.stream().filter(v->v.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
-		return result;
+		List<Vegetable>allVegetables=vegetableRepository.findByCategory(category);
+		return allVegetables;
 	}
 
 	@Override
 	public List<Vegetable> viewVegetableByName(String name) {
 		validateCategory(name);
-		List<Vegetable>allVegetables=vegetableRepository.findAll();
-		List<Vegetable>result=allVegetables.stream().filter(v->v.getCategory().equalsIgnoreCase(name)).collect(Collectors.toList());
-		return result;
+		List<Vegetable>allVegetables=vegetableRepository.findByName(name);
+		return allVegetables;
+	}
+	
+	public void validateVegetable(Vegetable vegetable) {
+		validateName(vegetable.getName());
+		validateCategory(vegetable.getCategory());
+		validateType(vegetable.getType());
+		validatePrice(vegetable.getPrice());
+		validateQuantity(vegetable.getQuantity());
 	}
 	
 	public void validateName(String name) {

@@ -2,6 +2,8 @@ package com.cg.vegetable.mgmt.service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +31,21 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	private IVegetableMgmtRepository vegetableMgmtRepository;
 
+	
+	/*
+	 * 
+	 * Saves order in database and reduces the vegetable stock quantity from cartVegetable.
+	 * Bill is generated automatically when an order is placed.
+	 * 
+	 * @param order is Order
+	 * @return saved Order
+	 * 
+	 * */
 
 	@Transactional
 	@Override
 	public Order addOrder(Order order) {
-		order.setStatus("Order Placed");
+		order.setStatus(OrderStatus.PLACED);
 		order.setOrderDate(currentTime());
 		Cart cart = cartRepository.findCartByCustId(order.getCustomerId());
 		List<CartVegetable> vegetableList = cartVegetableRepository.findByCart(cart);
@@ -42,9 +54,13 @@ public class OrderServiceImpl implements IOrderService {
 										reduce((cost1, cost2) -> cost1+cost2);
 		if(!optionalCost.isPresent()) {
 			throw new InvalidVegetablePriceException("Cannot find the cost of the vegetable");
-		}
+		}		
+		
 		List<CartVegetable>cartVegetables=cartVegetableRepository.findByCart(cart);
 		reduceVegetableStockAfterOrder(cartVegetables);
+		List<Vegetable> orderVegList = vegetableList.stream().map(veg -> veg.getVegetable()).
+				collect(Collectors.toList());
+		order.setVegetableList(orderVegList);
 		order.setTotalAmount(optionalCost.get());
 		Order saved = orderRepository.save(order);
 		BillingDetails bill = new BillingDetails();
@@ -56,28 +72,36 @@ public class OrderServiceImpl implements IOrderService {
 		return saved;
 	}
 
-	public void reduceVegetableStockAfterOrder(Collection<CartVegetable>cartVegetables){
-		for(CartVegetable cartVegetable:cartVegetables){
-			int vegetableQuantInCart=cartVegetable.getQuantity();
-			Vegetable vegetable=cartVegetable.getVegetable();
-			int stockedQuantity=vegetable.getQuantity();
-			stockedQuantity=stockedQuantity-vegetableQuantInCart;
-			vegetable.setQuantity(stockedQuantity);
-			vegetableMgmtRepository.save(vegetable);
-		}
-	}
+
+	/*
+	 * 
+	 * View order based on order id
+	 * 
+	 * @param orderId is orderNo
+	 * @return Order
+	 * 
+	 * */
 
 	@Override
-	public Order viewOrder(Order order) {
-		int id = order.getOrderNo();
-		Optional<Order> orderOptional = orderRepository.findById(id);
+	public Order viewOrder(int orderId) {
+		Optional<Order> orderOptional = orderRepository.findById(orderId);
 		if (!orderOptional.isPresent()) {
-			throw new OrderNotFoundException("Order with id " + id + " doesn't exist");
+			throw new OrderNotFoundException("Order with id " + orderId + " doesn't exist");
 		}
 		return orderOptional.get();
 	}
+	
+	
+	/*
+	 * 
+	 * Update order 
+	 * 
+	 * @param order is Order to be updated
+	 * @return saved is updated Order
+	 * 
+	 * */
 
-	@Transactional
+	
 	@Override
 	public Order updateOrderDetails(Order order) {
 		int id = order.getOrderNo();
@@ -88,10 +112,19 @@ public class OrderServiceImpl implements IOrderService {
 		Order saved = orderRepository.save(order);
 		return saved;
 	}
+	
+	/*
+	 * 
+	 * View all orders placed by a particular customer
+	 * 
+	 * @param custId is customerId whose orders have to be fetched
+	 * @return orderList is the list of orders placed by a particular customer
+	 * 
+	 * */
 
 	@Override
-	public List<Order> viewAllOrders(int custid){
-		List<Order> orderList = orderRepository.findByCustomerId(custid);		
+	public List<Order> viewAllOrders(int custId){
+		List<Order> orderList = orderRepository.findByCustomerId(custId);		
 		if(orderList.isEmpty()) {
 			throw new OrderNotFoundException("Orders not found");
 		}
@@ -99,6 +132,14 @@ public class OrderServiceImpl implements IOrderService {
 	}
 		
 	
+	/*
+	 * 
+	 * View all orders placed on a particular date
+	 * 
+	 * @param date is Date 
+	 * @return orderList is list of orders which are placed on a particular date
+	 * 
+	 * */
 
 	@Override
 	public List<Order> viewOrderList(LocalDate date) {
@@ -108,6 +149,14 @@ public class OrderServiceImpl implements IOrderService {
 		}
 		return orderList;
 	}
+	
+	/*
+	 * 
+	 * View the list of orders present in database  
+	 * 
+	 * @return orderList is the list of all the orders
+	 * 
+	 * */
 
 	@Override
 	public List<Order> viewOrderList() {
@@ -117,13 +166,71 @@ public class OrderServiceImpl implements IOrderService {
 		}
 		return orderList;
 	}
+	
+	/*
+	 * 
+	 * Canceling an order based on orderId
+	 * 
+	 * @param orderId is the orderId which has to be cancelled
+	 *
+	 * 
+	 * */
 
 	@Transactional
 	@Override
-	public void cancelOrder(int orderid) {
-		 orderRepository.deleteById(orderid);
+	public Order cancelOrder(int orderId) {
+		Optional<Order> optionalOrder = orderRepository.findById(orderId);
+		Order order = optionalOrder.get();
+		orderRepository.deleteById(orderId);
+		return order;
 	}
 	
+	/*
+	 * 
+	 * Reduce the vegetable stock in database once the order is placed
+	 * 
+	 * @param cartVegetables is a collection of CartVegetables
+	 * 
+	 * */
+	
+	public void reduceVegetableStockAfterOrder(Collection<CartVegetable>cartVegetables){
+		for(CartVegetable cartVegetable:cartVegetables){
+			int vegetableQuantInCart=cartVegetable.getQuantity();
+			Vegetable vegetable=cartVegetable.getVegetable();
+			int stockedQuantity=vegetable.getQuantity();
+			stockedQuantity=stockedQuantity-vegetableQuantInCart;
+			vegetable.setQuantity(stockedQuantity);
+			vegetableMgmtRepository.save(vegetable);
+		}
+	}
+	
+	
+	/*
+	 * 
+	 * Increase the vegetable stock in database once the order is placed
+	 * 
+	 * @param cartVegetables is a collection of CartVegetables
+	 * 
+	 * */
+	
+	public void increaseVegetableStockAfterCancellingOrder(Collection<CartVegetable>cartVegetables) {
+		for(CartVegetable cartVegetable : cartVegetables) {
+			int vegetableQuantityInCart = cartVegetable.getQuantity();
+			Vegetable vegetable = cartVegetable.getVegetable();
+			int stockedQuantity = vegetable.getQuantity();
+			stockedQuantity =stockedQuantity + vegetableQuantityInCart;
+			vegetable.setQuantity(stockedQuantity);
+			vegetableMgmtRepository.save(vegetable);
+		}
+	}
+	
+	/*
+	 * 
+	 * Generates the time when order is placed
+	 * 
+	 * @return LocalDateTime.now() is current time 
+	 * 
+	 * */
 	
 	public LocalDate currentTime() {
 		return LocalDate.now();

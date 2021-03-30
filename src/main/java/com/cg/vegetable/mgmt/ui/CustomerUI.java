@@ -56,7 +56,6 @@ public class CustomerUI {
 		customer1.setPassword("abeer@100");
 		customer1.setAddress(address1);
 		
-		
 	
 		customer2.setName("abc");
 		customer2.setEmailid("abc102@gmail.com");
