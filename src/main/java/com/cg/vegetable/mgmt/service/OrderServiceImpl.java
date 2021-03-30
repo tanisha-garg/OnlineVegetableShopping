@@ -23,6 +23,9 @@ public class OrderServiceImpl implements IOrderService {
 	private IBillingService billingService;
 	
 	@Autowired
+	private IBillingRepository billingRepository;
+	
+	@Autowired
 	private ICartRepository cartRepository;
 	
 	@Autowired
@@ -45,10 +48,14 @@ public class OrderServiceImpl implements IOrderService {
 	@Transactional
 	@Override
 	public Order addOrder(Order order) {
+		validateOrder(order);
 		order.setStatus(OrderStatus.PLACED);
 		order.setOrderDate(currentTime());
 		Cart cart = cartRepository.findCartByCustId(order.getCustomerId());
 		List<CartVegetable> vegetableList = cartVegetableRepository.findByCart(cart);
+		if(vegetableList == null || vegetableList.isEmpty()) {
+			throw new OrderNotAddedException("Order cannot be added because cart is empty");
+		}
 		Optional<Double> optionalCost = vegetableList.stream().
 										map(cv -> cv.getQuantity() * cv.getVegetable().getPrice()).
 										reduce((cost1, cost2) -> cost1+cost2);
@@ -56,8 +63,7 @@ public class OrderServiceImpl implements IOrderService {
 			throw new VegetableCostNotFoundException("Cannot find the cost of the vegetable");
 		}		
 		
-		List<CartVegetable>cartVegetables=cartVegetableRepository.findByCart(cart);
-		reduceVegetableStockAfterOrder(cartVegetables);
+		reduceVegetableStockAfterOrder(vegetableList);
 		List<Vegetable> orderVegList = vegetableList.stream().map(veg -> veg.getVegetable()).
 				collect(Collectors.toList());
 		order.setVegetableList(orderVegList);
@@ -104,6 +110,7 @@ public class OrderServiceImpl implements IOrderService {
 	
 	@Override
 	public Order updateOrderDetails(Order order) {
+		validateOrder(order);
 		int id = order.getOrderNo();
 		boolean exists = orderRepository.existsById(id);
 		if (!exists) {
@@ -181,6 +188,8 @@ public class OrderServiceImpl implements IOrderService {
 	public Order cancelOrder(int orderId) {
 		Optional<Order> optionalOrder = orderRepository.findById(orderId);
 		Order order = optionalOrder.get();
+		BillingDetails bill = billingRepository.findBillingDetailsByOrderId(orderId);
+		billingRepository.delete(bill);
 		orderRepository.deleteById(orderId);
 		return order;
 	}
@@ -234,6 +243,19 @@ public class OrderServiceImpl implements IOrderService {
 	
 	public LocalDate currentTime() {
 		return LocalDate.now();
+	}
+	
+	/*
+	 * Validated Order
+	 * 
+	 * @param order
+	 * 
+	 * */
+	
+	public void validateOrder(Order order) {
+		if(order == null) {
+			throw new InvalidOrderException("Order cannot be null");
+		}
 	}
 
 }
