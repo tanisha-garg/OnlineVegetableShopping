@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.cg.vegetable.mgmt.dto.BillingDetailsDTO;
-import com.cg.vegetable.mgmt.dto.ChangeTransactionStatusRequest;
+import com.cg.vegetable.mgmt.dto.UpdateTransactionStatusRequest;
 import com.cg.vegetable.mgmt.dto.AddBillDetailsRequest;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.service.IBillingService;
@@ -26,10 +26,10 @@ public class BillingRestController {
         return billUtil.toDetails(bill);
     }
 
-    @PutMapping("updateStatus/id")
-    public BillingDetailsDTO changeTransactionStatus(@RequestBody ChangeTransactionStatusRequest requestData,
-    												  @PathVariable int id) {
-        BillingDetails bill = billingService.viewBill(requestData.getBillingId());
+    @PutMapping("/updateStatus/{id}")
+    public BillingDetailsDTO updateTransactionStatus(@RequestBody UpdateTransactionStatusRequest requestData,
+    												@PathVariable("id") int id) {
+        BillingDetails bill = billingService.viewBill(id);
         bill.setTransactionStatus(requestData.getTransactionStatus());
         BillingDetails updatedBill = billingService.updateBill(bill);
         return billUtil.toDetails(updatedBill);
