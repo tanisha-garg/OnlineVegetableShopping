@@ -83,7 +83,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 		validateId(vegId);
 		Optional<Vegetable>optional=vegetableRepository.findById(vegId);		
 		if(!optional.isPresent()) 
-			 throw new VegetableNotFoundException("Vegetable for given id does not exist"+vegId);
+			 throw new VegetableNotFoundException("Vegetable does not exist  for given id "+vegId);
 		return optional.get();
 	}
 	
