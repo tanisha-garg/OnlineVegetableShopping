@@ -107,16 +107,16 @@ public class VegetableRestController {
 	        return desired;
 	    }
 	 
-	 @GetMapping("/viewAll/{name}")
+	 @GetMapping("/viewAllByName/{name}")
 	    public List<VegetableDetails>findVegetablesByName(@PathVariable("name") @NotBlank String name){
 	      List<Vegetable>vegList=  vegService.viewVegetableByName(name);
 	      List<VegetableDetails>desired=vegUtil.toDetailsList(vegList);
 	      return desired;
 	    }
 	 
-	 @GetMapping("/viewAll/{category}")
+	 @GetMapping("/viewAllByCategory/{category}")
 	    public List<VegetableDetails>findVegetablesByCategory(@PathVariable("category") @NotBlank String category){
-	      List<Vegetable>vegList=  vegService.viewVegetableByName(category);
+	      List<Vegetable>vegList=  vegService.viewVegetableByCategory(category);
 	      List<VegetableDetails>desired=vegUtil.toDetailsList(vegList);
 	      return desired;
 	    }

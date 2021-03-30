@@ -50,6 +50,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	
 	@Override
 	public Vegetable updateVegetable(Vegetable vegetable) {
+		validateVegetable(vegetable);
 		int vegId = vegetable.getVegId();
 		boolean exists = vegetableRepository.existsById(vegId);
 		if(!exists) {
@@ -82,7 +83,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 		validateId(vegId);
 		Optional<Vegetable>optional=vegetableRepository.findById(vegId);		
 		if(!optional.isPresent()) 
-			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
+			 throw new VegetableNotFoundException("Vegetable for given id does not exist"+vegId);
 		return optional.get();
 	}
 	
@@ -93,7 +94,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	}
 
 	@Override
-	public List<Vegetable> viewVegetableList(String category) {
+	public List<Vegetable> viewVegetableByCategory(String category) {
 		validateCategory(category);
 		List<Vegetable>allVegetables=vegetableRepository.findByCategory(category);
 		return allVegetables;
