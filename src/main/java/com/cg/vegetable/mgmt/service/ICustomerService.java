@@ -6,13 +6,14 @@ import com.cg.vegetable.mgmt.entities.Customer;
 
 public interface ICustomerService {
 
-	public Customer addCustomer(Customer customer);
-	
-	public Customer updateCustomer(Customer customer);
-	
-	public Customer removeCustomer(Customer customer);
-	
-	public Customer viewCustomer(Customer customer); 
-	
-	public List<Customer> viewCustomerList(String location);
+	Customer addCustomer(Customer customer);
+
+	Customer updateCustomer(Customer customer);
+
+	Customer removeCustomer(Customer customer);
+
+	Customer viewCustomer(Integer customerId);
+
+	List<Customer> viewCustomerList(String location);
+
 }
