@@ -4,8 +4,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,15 +14,13 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.entities.Order;
-import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.IOrderRepository;
-import com.cg.vegetable.mgmt.service.OrderServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceImplUnitTest {
+	
 	@Mock
 	IOrderRepository repository;
 
@@ -33,7 +29,8 @@ public class OrderServiceImplUnitTest {
 	OrderServiceImpl orderService;
 
 	/*
-	 * Scenario: Order is added successfully
+	 * Scenario: Order is saved successfully
+	 * Input: Mock Order object
 	 */
 	@Test
 	public void test_AddOrder_1() {

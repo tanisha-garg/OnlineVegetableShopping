@@ -53,7 +53,7 @@ public class OrderServiceImpl implements IOrderService {
 										map(cv -> cv.getQuantity() * cv.getVegetable().getPrice()).
 										reduce((cost1, cost2) -> cost1+cost2);
 		if(!optionalCost.isPresent()) {
-			throw new InvalidVegetablePriceException("Cannot find the cost of the vegetable");
+			throw new VegetableCostNotFoundException("Cannot find the cost of the vegetable");
 		}		
 		
 		List<CartVegetable>cartVegetables=cartVegetableRepository.findByCart(cart);
