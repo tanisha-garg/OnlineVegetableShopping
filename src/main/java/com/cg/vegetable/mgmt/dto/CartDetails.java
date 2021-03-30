@@ -9,7 +9,7 @@ public class CartDetails {
 	
 	private int cartId;
 	private int custId;
-	private List<CartVegetable>vegetables;
+	private List<ViewAllInCart>vegetables;
 	public int getCartId() {
 		return cartId;
 	}
@@ -22,10 +22,10 @@ public class CartDetails {
 	public void setCustId(int custId) {
 		this.custId = custId;
 	}
-	public List<CartVegetable> getVegetables() {
+	public List<ViewAllInCart> getVegetables() {
 		return vegetables;
 	}
-	public void setVegetables(List<CartVegetable> vegetables) {
+	public void setVegetables(List<ViewAllInCart> vegetables) {
 		this.vegetables = vegetables;
 	} 
 

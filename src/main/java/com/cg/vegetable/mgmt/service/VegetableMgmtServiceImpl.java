@@ -68,14 +68,13 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	
 	@Override
 	public Vegetable removeVegetable(Vegetable vegetable) {
-		validateVegetable(vegetable);
-		Optional<Vegetable>optional=vegetableRepository.findById(vegetable.getVegId());
-		if(!optional.isPresent()) {
-			 throw new VegetableNotFoundException("Vegetable to be removed does not exist");
-		 }
-		 Vegetable removed = optional.get();
-		 vegetableRepository.delete(removed);
-		 return removed;
+		int vegId = vegetable.getVegId();
+		boolean exists=vegetableRepository.existsById(vegId);
+		if(!exists) {
+			throw new VegetableNotFoundException("No vegetable found");
+		}
+		vegetableRepository.deleteById(vegId);
+		return vegetable;
 	}
 
 	@Override

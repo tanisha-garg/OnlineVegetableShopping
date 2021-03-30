@@ -162,11 +162,10 @@ public class CustomerServiceImplUnitTests {
      */
 
     @Test
-    public void test_ViewCustomer_2() { 
-    	int customerId=2;
-        Customer customer = mock(Customer.class);
-    //    doThrow(CustomerNotFoundException.class).when(customerService).validateCustomer(customer);
-        Executable executable = () -> customerService.viewCustomer(customerId);
+    public void test_ViewCustomer_2() {
+        Customer customer = Mockito.mock(Customer.class);
+        doThrow(CustomerNotFoundException.class).when(customerService).validateCustomer(customer);
+        Executable executable = () -> customerService.viewCustomer(customer.getCustomerId());
         Assertions.assertThrows(CustomerNotFoundException.class, executable);
         verify(customerRepository, never()).save(customer);
     }
