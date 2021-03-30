@@ -1,7 +1,5 @@
 package com.cg.vegetable.mgmt.dto;
 
-import java.time.LocalDateTime;
-
 public class AddBillDetailsRequest {
 	
 	private int billingId;
