@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.cg.vegetable.mgmt.entities.Vegetable;
 
-public class OrderDetails {
+public class OrderDetailsResponse {
 	
 	private int orderId;
 	private String customerName;
