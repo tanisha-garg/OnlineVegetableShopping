@@ -194,6 +194,16 @@ public class OrderUI {
 			displayOrderDetails(order);
 		}
 		
+		/*
+		 * Cancelling an order
+		 * 
+		 * */
+		
+//		System.out.println();
+//		System.out.println("Cancelling an order by order id");
+//		orderService.cancelOrder(pallaviOrder.getOrderNo());
+		
+		
 	}
 	
 	/*

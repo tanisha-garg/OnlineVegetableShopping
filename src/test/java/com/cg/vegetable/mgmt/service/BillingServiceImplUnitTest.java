@@ -84,8 +84,8 @@ public class BillingServiceImplUnitTest {
 	public void viewBill_1() {
 		int billingId = 1;
 		BillingDetails bill = mock(BillingDetails.class);
-		Optional<BillingDetails> optional = Optional.of(bill);
-		when(billingRepository.findById(billingId)).thenReturn(optional);
+		Optional<BillingDetails> optionalBill = Optional.of(bill);
+		when(billingRepository.findById(billingId)).thenReturn(optionalBill);
 		BillingDetails result = billingService.viewBill(billingId);
 		assertEquals(bill, result);
 		verify(billingRepository).findById(billingId);
