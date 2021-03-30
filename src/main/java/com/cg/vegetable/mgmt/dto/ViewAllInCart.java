@@ -1,14 +1,19 @@
 package com.cg.vegetable.mgmt.dto;
 
 public class ViewAllInCart {
-	int cartId;
-
-	public int getCartId() {
-		return cartId;
+	private String name;
+	private int quantity;
+	public String getName() {
+		return name;
 	}
-
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 

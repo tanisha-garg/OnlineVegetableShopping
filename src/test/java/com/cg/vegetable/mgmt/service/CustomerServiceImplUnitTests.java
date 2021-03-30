@@ -147,7 +147,7 @@ public class CustomerServiceImplUnitTests {
         when(customer.getCustomerId()).thenReturn(customerId);
         Optional<Customer> optional = Optional.of(customer);
         when(customerRepository.findById(customerId)).thenReturn(optional);
-        Customer result = customerService.viewCustomer(customer);
+        Customer result = customerService.viewCustomer(customer.getCustomerId());
         Assertions.assertNotNull(result);
         Assertions.assertEquals(customer, result);
         //verify(customerRepository).save(customer);
@@ -163,7 +163,7 @@ public class CustomerServiceImplUnitTests {
     public void test_ViewCustomer_2() {
         Customer customer = Mockito.mock(Customer.class);
         doThrow(CustomerNotFoundException.class).when(customerService).validateCustomer(customer);
-        Executable executable = () -> customerService.viewCustomer(customer);
+        Executable executable = () -> customerService.viewCustomer(customer.getCustomerId());
         Assertions.assertThrows(CustomerNotFoundException.class, executable);
         verify(customerRepository, never()).save(customer);
     }
