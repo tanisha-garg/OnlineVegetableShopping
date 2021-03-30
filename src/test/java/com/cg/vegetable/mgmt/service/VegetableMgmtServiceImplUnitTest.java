@@ -191,6 +191,7 @@ class VegetableMgmtServiceImplUnitTest {
 		Vegetable saved = Mockito.mock(Vegetable.class);
 		when(vegetable.getVegId()).thenReturn(vegId);
 		when(vegetableRepository.existsById(vegId)).thenReturn(true);
+		doNothing().when(vegetableService).validateVegetable(vegetable);
 		when(vegetableRepository.save(vegetable)).thenReturn(saved);
 		Vegetable result = vegetableService.updateVegetable(vegetable);
 		assertNotNull(result);
@@ -210,6 +211,7 @@ class VegetableMgmtServiceImplUnitTest {
 		Vegetable vegetable = Mockito.mock(Vegetable.class);
 		when(vegetable.getVegId()).thenReturn(vegId);
 		when(vegetableRepository.existsById(vegId)).thenReturn(false);
+		doNothing().when(vegetableService).validateVegetable(vegetable);
 		Executable executable = () -> vegetableService.updateVegetable(vegetable);
 		assertThrows(VegetableNotFoundException.class, executable);
 		verify(vegetableRepository, never()).save(vegetable);
