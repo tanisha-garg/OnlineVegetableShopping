@@ -8,10 +8,6 @@ public class AddBillDetailsRequest {
 	private int orderId;
 	private String transactionMode;
 	private String transactionStatus;
-	
-	public AddBillDetailsRequest() {
-		
-	}
 
 	public int getBillingId() {
 		return billingId;

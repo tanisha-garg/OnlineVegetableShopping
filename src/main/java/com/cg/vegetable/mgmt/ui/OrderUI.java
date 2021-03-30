@@ -138,12 +138,12 @@ public class OrderUI {
 		System.out.println("Updating order details\n");
 		
 		List<Vegetable> updateList = srinidhiOrder.getVegetableList();
-		updateList.add(capsicum);
+		//updateList.add(capsicum);
 		
-		double updateAmount = srinidhiOrder.getTotalAmount() + 30;
+		//double updateAmount = srinidhiOrder.getTotalAmount() + 30;
 		
-		srinidhiOrder.setTotalAmount(updateAmount);
-		srinidhiOrder.setVegetableList(updateList);
+		//srinidhiOrder.setTotalAmount(updateAmount);
+		//srinidhiOrder.setVegetableList(updateList);
 		
 		srinidhiOrder = orderService.updateOrderDetails(srinidhiOrder);
 		
@@ -174,7 +174,7 @@ public class OrderUI {
 		System.out.println("Viewing All Orders placed on a particular date\n");
 
 		
-		LocalDate date = LocalDate.parse("2021-03-29", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate date = LocalDate.parse("2021-03-30", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		List<Order> desiredList = orderService.viewOrderList(date);
 		for(Order order : desiredList) {
 			displayOrderDetails(order);

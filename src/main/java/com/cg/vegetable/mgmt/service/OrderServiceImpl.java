@@ -2,6 +2,8 @@ package com.cg.vegetable.mgmt.service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,9 +54,13 @@ public class OrderServiceImpl implements IOrderService {
 										reduce((cost1, cost2) -> cost1+cost2);
 		if(!optionalCost.isPresent()) {
 			throw new InvalidVegetablePriceException("Cannot find the cost of the vegetable");
-		}
+		}		
+		
 		List<CartVegetable>cartVegetables=cartVegetableRepository.findByCart(cart);
 		reduceVegetableStockAfterOrder(cartVegetables);
+		List<Vegetable> orderVegList = vegetableList.stream().map(veg -> veg.getVegetable()).
+				collect(Collectors.toList());
+		order.setVegetableList(orderVegList);
 		order.setTotalAmount(optionalCost.get());
 		Order saved = orderRepository.save(order);
 		BillingDetails bill = new BillingDetails();

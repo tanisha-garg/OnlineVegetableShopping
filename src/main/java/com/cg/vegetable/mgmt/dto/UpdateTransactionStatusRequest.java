@@ -1,21 +1,8 @@
 package com.cg.vegetable.mgmt.dto;
 
-public class ChangeTransactionStatusRequest {
+public class UpdateTransactionStatusRequest {
 	
-	private int billingId;
 	private String transactionStatus;
-	
-	public ChangeTransactionStatusRequest() {
-		
-	}
-
-	public int getBillingId() {
-		return billingId;
-	}
-
-	public void setBillingId(int billingId) {
-		this.billingId = billingId;
-	}
 
 	public String getTransactionStatus() {
 		return transactionStatus;
