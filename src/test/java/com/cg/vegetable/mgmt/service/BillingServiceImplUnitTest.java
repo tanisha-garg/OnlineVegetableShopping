@@ -92,7 +92,7 @@ public class BillingServiceImplUnitTest {
 		when(billingRepository.findById(billingId)).thenReturn(optional);
 		BillingDetails result = billingService.viewBill(billingId);
 		assertEquals(bill, result);
-		//verify(billingRepository).findById(billingId);
+		verify(billingRepository).findById(billingId);
 	}
 	
 	/*

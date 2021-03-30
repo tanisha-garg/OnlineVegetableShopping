@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 
@@ -17,21 +16,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-//import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
-//import com.cg.vegetable.mgmt.entities.Address;
+
 import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.exceptions.*;
+import com.cg.vegetable.mgmt.repository.ICartRepository;
 import com.cg.vegetable.mgmt.repository.ICustomerRepository;
-import com.cg.vegetable.mgmt.service.CustomerServiceImpl;
+
 
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceImplUnitTests {
 
     @Mock
     private ICustomerRepository customerRepository;
+    
+    @Mock
+    private ICartRepository cartRepository;
 
 
     @Spy
@@ -44,15 +45,18 @@ public class CustomerServiceImplUnitTests {
 //		customerService = new CustomerServiceImp();
 //	}
 
+    
     /*
      * Scenario: When customer is added successfully.
      */
     @Test
     public void test_AddCustomer_1() {
         Customer customer = mock(Customer.class);
+       // Cart cart = mock(Cart.class);
         Customer customerSaved = Mockito.mock(Customer.class);
         doNothing().when(customerService).validateCustomer(customer);
         when(customerRepository.save(customer)).thenReturn(customerSaved);
+      //  when(cartRepository.notify()).thenReturn();
         Customer result = customerService.addCustomer(customer);
         Assertions.assertNotNull(result);
         //	Assertions.assertEquals(customerSaved, result);
@@ -113,11 +117,11 @@ public class CustomerServiceImplUnitTests {
     @Test
     public void removeCustomerTest_1() {
         Integer customerId = 2;
-        Customer customer = Mockito.mock(Customer.class);
+        Customer customer = mock(Customer.class);
         when(customer.getCustomerId()).thenReturn(customerId);
         when(customerRepository.existsById(customerId)).thenReturn(true);
         Customer result = customerService.removeCustomer(customer);
-        Assertions.assertNull(result);
+        Assertions.assertNotNull(result);
         verify(customerRepository).deleteById(customerId);
 
     }
@@ -128,7 +132,7 @@ public class CustomerServiceImplUnitTests {
     @Test
     public void removeCustomerTest_2() {
         Integer customerId = 1;
-        Customer customer = Mockito.mock(Customer.class);
+        Customer customer = mock(Customer.class);
         when(customer.getCustomerId()).thenReturn(customerId);
         when(customerRepository.existsById(customerId)).thenReturn(false);
         Executable executable = () -> customerService.removeCustomer(customer);
@@ -144,13 +148,11 @@ public class CustomerServiceImplUnitTests {
         int customerId = 2;
         Customer customer = mock(Customer.class);
         doNothing().when(customerService).validateCustomer(customer);
-        when(customer.getCustomerId()).thenReturn(customerId);
         Optional<Customer> optional = Optional.of(customer);
         when(customerRepository.findById(customerId)).thenReturn(optional);
-        Customer result = customerService.viewCustomer(customer.getCustomerId());
+        Customer result = customerService.viewCustomer(customerId);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(customer, result);
-        //verify(customerRepository).save(customer);
         verify(customerService).validateCustomer(customer);
 
     }
@@ -183,7 +185,6 @@ public class CustomerServiceImplUnitTests {
 		Assertions.assertNotNull(result);
 		Assertions.assertEquals(list, result);
 	}	
-
 	
 	/*
 	 * Scenario: when list is empty

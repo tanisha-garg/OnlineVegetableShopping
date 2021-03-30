@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cg.vegetable.mgmt.dto.OrderDetails;
+import com.cg.vegetable.mgmt.dto.OrderDetailsResponse;
 import com.cg.vegetable.mgmt.dto.VegetablesOrderedByCustomer;
 import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.entities.Order;
@@ -20,28 +20,23 @@ public class OrderUtil {
 
 	@Autowired
 	private ICustomerService customerService;
+	
+	@Autowired
+	private DateUtil dateUtil;
 
-	public OrderDetails toDetails(Order order) {
+	public OrderDetailsResponse toDetails(Order order) {
 
-		OrderDetails orderDetails = new OrderDetails();
-
+		OrderDetailsResponse orderDetails = new OrderDetailsResponse();
 		Customer customer = customerService.viewCustomer(order.getCustomerId());
-
-		LocalDate date = order.getOrderDate();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-		String formattedString = date.format(formatter);
-
+		String dateText = dateUtil.toText(order.getOrderDate());		
 		orderDetails.setCustomerName(customer.getName());
-		orderDetails.setDate(formattedString);
+		orderDetails.setDate(dateText);
 		orderDetails.setOrderId(order.getOrderNo());
 		orderDetails.setStatus(order.getStatus());
-		orderDetails.setTotalAmount(order.getTotalAmount());
-		
+		orderDetails.setTotalAmount(order.getTotalAmount());		
 		List<Vegetable> vegetablesList = order.getVegetableList();
-		List<VegetablesOrderedByCustomer> desiredList = orderedVegetableDetails(vegetablesList);
-		
+		List<VegetablesOrderedByCustomer> desiredList = orderedVegetableDetails(vegetablesList);		
 		orderDetails.setVegetableList(desiredList);
-
 		return orderDetails;
 	}
 	
@@ -49,11 +44,18 @@ public class OrderUtil {
 		List<VegetablesOrderedByCustomer> desiredList = new ArrayList<>();
 		for(Order order : orderList) {
 			List<Vegetable> vegetableList = order.getVegetableList();
-			desiredList = orderedVegetableDetails(vegetableList);
-			
-		}		
-		
+			desiredList = orderedVegetableDetails(vegetableList);			
+		}				
 		return desiredList;
+	}
+	
+	public List<OrderDetailsResponse> toOrderDetails(List<Order> orderList) {
+		List<OrderDetailsResponse> orderDetailsList = new ArrayList<>();
+		for(Order order : orderList) {
+			OrderDetailsResponse orderDetails = toDetails(order);
+			orderDetailsList.add(orderDetails);
+		}
+		return orderDetailsList;
 	}
 	
 	public List<VegetablesOrderedByCustomer> orderedVegetableDetails(List<Vegetable> vegetableList){
