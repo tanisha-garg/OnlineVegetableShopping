@@ -2,7 +2,7 @@ package com.cg.vegetable.mgmt.dto;
 
 import java.time.LocalDateTime;
 
-public class BillingDetailsDTO {
+public class BillingDetailsResponse {
 	
 	private int billingId;
 	private String transactionMode;
