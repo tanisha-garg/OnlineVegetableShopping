@@ -39,6 +39,14 @@ class VegetableMgmtRestUnitTest {
 	VegetableRestController vegController;
 	
 	
+	/*
+	 * scenario : success scenario , vegetable is saved
+	 *
+	 * input : mock vegetable object passed , stubbed addVegetable
+	 *
+	 *  expectation : vegetable should be added, and displayed in postman
+	 */
+	
 	@Test
 	public void add_Vegetable() {
 		Vegetable vegetable = mock(Vegetable.class);
@@ -54,6 +62,14 @@ class VegetableMgmtRestUnitTest {
 		verify(vegUtil).toDetails(any(Vegetable.class));
 	}
 	
+	/*
+	 * scenario : success scenario , vegetable is fetched
+	 *
+	 * input : mock vegetable object passed , stubbed viewVegetable
+	 *
+	 *  expectation : vegetable should be fetched , and displayed in postman
+	 */
+	
 	@Test
 	public void test_fetchVegetable() {
 		int vegId=2;
@@ -67,6 +83,13 @@ class VegetableMgmtRestUnitTest {
 		verify(vegUtil).toDetails(vegetable);
 		
 	}
+	/*
+	 * scenario : success scenario , vegetable is deleted
+	 *
+	 * input : mock vegetable object passed , stubbed viewVegetable
+	 *
+	 *  expectation : vegetable should be deleted , and deleted vegetable is displayed in postman
+	 */
 	
 	@Test
 	public void test_deleteVegetable() {
@@ -78,6 +101,17 @@ class VegetableMgmtRestUnitTest {
 		vegController.delete(request);
 		verify(vegService).removeVegetable(vegetable);
 	}
+	
+	
+	/*
+	 * scenario : success scenario , vegetable name is changed
+	 *
+	 * input : mock vegetable object passed , stubbed viewVegetable and updateVegetable
+	 *
+	 *  expectation : vegetable name should be updated , and updated vegetable is displayed in postman
+	 */
+	
+	
 	@Test
 	public void test_changeName() {
 		int vegId=4;
@@ -98,6 +132,15 @@ class VegetableMgmtRestUnitTest {
 		
 	}
 	
+	
+
+	/*
+	 * scenario : success scenario , vegetable type is changed
+	 *
+	 * input : mock vegetable object passed , stubbed viewVegetable and updateVegetable
+	 *
+	 *  expectation : vegetable type should be updated , and updated vegetable is displayed in postman
+	 */
 	@Test
 	public void test_changeType() {
 		int vegId=4;
@@ -117,6 +160,14 @@ class VegetableMgmtRestUnitTest {
 		verify(vegUtil).toDetails(vegetable);
 		
 	}
+	
+	/*
+	 * scenario : success scenario , vegetable category is changed
+	 *
+	 * input : mock vegetable object passed , stubbed viewVegetable and updateVegetable
+	 *
+	 *  expectation : vegetable category should be updated , and updated vegetable is displayed in postman
+	 */
 	
 	@Test
 	public void test_changeCategory() {
@@ -138,6 +189,14 @@ class VegetableMgmtRestUnitTest {
 		
 	}
 	
+	/*
+	 * scenario : success scenario , vegetable price is changed
+	 *
+	 * input : mock vegetable object passed , stubbed viewVegetable and updateVegetable
+	 *
+	 *  expectation : vegetable price should be updated , and updated vegetable is displayed in postman
+	 */
+	
 	@Test
 	public void test_changePrice() {
 		int vegId=4;
@@ -157,6 +216,14 @@ class VegetableMgmtRestUnitTest {
 		verify(vegUtil).toDetails(vegetable);
 		
 	}
+	
+	/*
+	 * scenario : success scenario , vegetable Quantity is changed
+	 *
+	 * input : mock vegetable object passed , stubbed viewVegetable and updateVegetable
+	 *
+	 *  expectation : vegetable Quantity should be updated , and updated vegetable is displayed in postman
+	 */
 	
 	@Test
 	public void test_changeQuantity() {

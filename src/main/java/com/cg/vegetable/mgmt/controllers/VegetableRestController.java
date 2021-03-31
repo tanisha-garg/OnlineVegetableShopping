@@ -41,7 +41,13 @@ public class VegetableRestController {
 	private VegetableUtil vegUtil;
 	
 
-	
+	/*
+	 * scenario : success scenario , vegetable is added in database through postman
+	 *
+	 * input : Details of vegetable is required by user
+	 *
+	 *  expectation : vegetable is added , and displayed in postman
+	 */
 	 @ResponseStatus(HttpStatus.CREATED)
 	    @PostMapping("/add")
 	    public VegetableDetails addVegetable(@RequestBody AddVegetableRequest requestData) {
@@ -49,6 +55,14 @@ public class VegetableRestController {
 	        Vegetable added=vegService.addVegetable(created);
 	        return vegUtil.toDetails(added);
 	    }
+	 
+	 /*
+		 * scenario : success scenario , vegetable is fetched from database through postman
+		 *
+		 * input : Id of vegetable is required by user
+		 *
+		 *  expectation : vegetable is fetched , and displayed in postman
+		 */
 	 	
 	 @GetMapping(value = "/byid/{id}")
 	    public VegetableDetails fetchVegetable(@PathVariable("id") Integer vegId) {
@@ -56,12 +70,28 @@ public class VegetableRestController {
 		 VegetableDetails details=vegUtil.toDetails(vegetable);
 	        return details;
 	    }
+	 
+	 /*
+		 * scenario : success scenario , vegetable is deleted in database through postman
+		 *
+		 * input : Details of vegetable is required by user which is to be deleted
+		 *
+		 *  expectation : vegetable is deleted , and deleted vegetable is displayed in postman
+		 */
 	 @DeleteMapping("/delete")
 	    public String delete(@RequestBody DeleteVegetableRequest requestData){
 	        Vegetable vegetable=vegService.viewVegetable(requestData.getVegId());
 	        Vegetable removed = vegService.removeVegetable(vegetable);
 	        return "vegetable deleted for id="+requestData.getVegId();
 	    }
+	 
+	    /*
+		 * scenario : success scenario , vegetable name is changed in database through postman
+		 *
+		 * input : Id and name of vegetable is required by user
+		 *
+		 *  expectation : vegetable name is changed , and displayed in postman
+		 */
 	 
 	 @PutMapping("/changename")
 	    public VegetableDetails changeName(@RequestBody UpdateVegetableNameRequest requestData) {
@@ -72,6 +102,14 @@ public class VegetableRestController {
 	        return desired;
 	    }
 	 
+	        /*
+			 * scenario : success scenario , vegetable category is changed in database through postman
+			 *
+			 * input : Id and category of vegetable is required by user
+			 *
+			 *  expectation : vegetable category is changed , and displayed in postman
+			 */
+	 
 	 @PutMapping("/changeCategory")
 	    public VegetableDetails changeCategory(@RequestBody UpdateVegetableCategoryRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
@@ -79,6 +117,14 @@ public class VegetableRestController {
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
 		 return vegUtil.toDetails(updatedVegetable);
 	    }
+	 
+	 	/*
+		 * scenario : success scenario , vegetable type is changed in database through postman
+		 *
+		 * input : Id and type of vegetable is required by user
+		 *
+		 *  expectation : vegetable type is changed , and displayed in postman
+		 */
 	 
 	 @PutMapping("/changeType")
 	    public VegetableDetails changeType(@RequestBody UpdateVegetableTypeRequest requestData) {
@@ -88,6 +134,14 @@ public class VegetableRestController {
 		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
 	        return desired;
 	    }
+	 
+	 	/*
+		 * scenario : success scenario , vegetable quantity is changed in database through postman
+		 *
+		 * input : Id and quantity of vegetable is required by user
+		 *
+		 *  expectation : vegetable quantity is changed , and displayed in postman
+		 */
 	 @PutMapping("/changeQuantity")
 	    public VegetableDetails changeQuantity(@RequestBody UpdateVegetableQuantityRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
@@ -96,6 +150,14 @@ public class VegetableRestController {
 		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
 	        return desired;
 	    }
+	 
+	 	/*
+		 * scenario : success scenario , vegetable price is changed in database through postman
+		 *
+		 * input : Id and price of vegetable is required by user
+		 *
+		 *  expectation : vegetable price is changed , and displayed in postman
+		 */
 	 @PutMapping("/changePrice")
 	    public VegetableDetails changePrice(@RequestBody UpdateVegetablePriceRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());

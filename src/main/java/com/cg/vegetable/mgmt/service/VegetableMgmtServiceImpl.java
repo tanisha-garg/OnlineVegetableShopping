@@ -61,9 +61,9 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 	}
 	
 	/*
-	 * scenario :   Vegetable to be removed from database
+	 * scenario :   Vegetable removed from database
 	 * input:       Vegetable type argument which has to be removed
-	 * expectation: UpdatedVegetable should be added in database after validation
+	 * expectation: Vegetable to be removed from database
 	 * 
 	 */
 	
@@ -77,6 +77,13 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService{
 		vegetableRepository.deleteById(vegId);
 		return vegetable;
 	}
+	
+	/*
+	 * scenario :   Vegetable to be fetched from database after validation
+	 * input:       Vegetable id of integer type argument which has to be fetched
+	 * expectation: Vegetable to be fetched from database
+	 * 
+	 */
 
 	@Override
 	public Vegetable viewVegetable(int vegId) {
