@@ -1,9 +1,10 @@
 package com.cg.vegetable.mgmt.dto;
 
 public class FeedbackDetails {
+	
+	private int feedbackId;
 	private int custId;
 	private int vegetableId;
-	private int feeedbackId;
 	private int rating;
 	private String comment;
 
@@ -23,12 +24,12 @@ public class FeedbackDetails {
 		this.vegetableId = vegetableId;
 	}
 
-	public int getFeeedbackId() {
-		return feeedbackId;
+	public int getFeedbackId() {
+		return feedbackId;
 	}
 
-	public void setFeeedbackId(int feeedbackId) {
-		this.feeedbackId = feeedbackId;
+	public void setFeedbackId(int feeedbackId) {
+		this.feedbackId = feeedbackId;
 	}
 
 	public int getRating() {
