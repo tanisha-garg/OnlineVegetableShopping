@@ -40,7 +40,7 @@ class VegetableMgmtRestUnitTest {
 	
 	
 	@Test
-	public void add_AddStudent() {
+	public void add_Vegetable() {
 		Vegetable vegetable = mock(Vegetable.class);
 		Vegetable saved = mock(Vegetable.class);
 		VegetableDetails vegDetails=mock(VegetableDetails.class);

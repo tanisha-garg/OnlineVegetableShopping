@@ -185,9 +185,11 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Transactional
 	@Override
-	public Order cancelOrder(int orderId) {
-		Optional<Order> optionalOrder = orderRepository.findById(orderId);
-		Order order = optionalOrder.get();
+	public Order cancelOrder(int orderId) {		
+		Order order = viewOrder(orderId);
+		Cart cart = cartRepository.findCartByCustId(order.getCustomerId());
+		List<CartVegetable> vegetableList = cartVegetableRepository.findByCart(cart);
+		increaseVegetableStockAfterCancellingOrder(vegetableList);
 		BillingDetails bill = billingRepository.findBillingDetailsByOrderId(orderId);
 		billingRepository.delete(bill);
 		orderRepository.deleteById(orderId);
