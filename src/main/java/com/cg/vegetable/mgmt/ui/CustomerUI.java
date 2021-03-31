@@ -27,21 +27,21 @@ public class CustomerUI {
 		address1.setArea("Ashok vihar");
 		address1.setCity("Mumbai");
 		address1.setState("Maharashtra");
-		address1.setPincode("6998086");
+		address1.setPincode("6998086\n\n");
 		
 		address2.setFlatNo("407");
 		address2.setBuildingName("Anand Heights");
 		address2.setArea("Ashok nagar");
 		address2.setCity("Panji");
 		address2.setState("Goa");
-		address2.setPincode("69980342");
+		address2.setPincode("69980342\n\n");
 		
 		address3.setFlatNo("B-701");
 		address3.setBuildingName("Vyankatesh Apartments");
 		address3.setArea("Ashok van");
 		address3.setCity("Chennai");
 		address3.setState("Tamil Nadu");
-		address3.setPincode("69982412"); 
+		address3.setPincode("69982412\n\n"); 
 		
 		
 		
@@ -89,10 +89,16 @@ public class CustomerUI {
 		customerService.updateCustomer(customer1);
 		customerService.updateCustomer(customer2);
 		
-		Customer fetchedCustomer1= customerService.viewCustomer(customer1.getCustomerId());
-		Customer fetchedCustomer2= customerService.viewCustomer(customer2.getCustomerId());
 		
 		System.out.println("\n********************* Updated Customer Details in database *********************\n");
+		
+		Customer fetchedCustomer1= customerService.viewCustomer(customer1.getCustomerId());
+		display(fetchedCustomer1);
+		
+		Customer fetchedCustomer2= customerService.viewCustomer(customer2.getCustomerId());
+		display(fetchedCustomer2);
+		
+		
 		
 		customerService.removeCustomer(fetchedCustomer1);
 		
@@ -109,7 +115,7 @@ public void display(Customer customer) {
 	+"\nCustomer Email: "+customer.getEmailId()+"\nCustomer Mobile Number: "+customer.getMobileNumber()
 	+"\nCustomer Password: "+customer.getPassword()+ "\nCustomer AddressId: "+ customer.getAddress().getAddressId()+"\nCustomer Flat no: "+ customer.getAddress().getFlatNo()
 	+"\nCustomer Building Name: "+ customer.getAddress().getBuildingName()+
-	"\n Customer area: "+ customer.getAddress().getArea()+
+	"\nCustomer area: "+ customer.getAddress().getArea()+
 	"\nCustomer City: "+customer.getAddress().getCity()+
 	"\nCustomer State: "+ customer.getAddress().getState()+
 	"\nCustomer Pincode: "+ customer.getAddress().getPincode());
