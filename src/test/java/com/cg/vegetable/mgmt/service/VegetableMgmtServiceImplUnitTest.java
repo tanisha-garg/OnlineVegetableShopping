@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -60,7 +61,8 @@ class VegetableMgmtServiceImplUnitTest {
 	
 	
 	/*
-	 *  scenario : name is empty
+	 *  scenario : name is empty in add Vegetable
+	 *  
 	 * 	expectation : InvalidVegetableNameException is thrown
 	 */
 	@Test
@@ -73,8 +75,10 @@ class VegetableMgmtServiceImplUnitTest {
 
 	
 	/*
-	 *  scenario : name is empty
-	 * 				add test case
+	 *  scenario : testing validateName Method
+	 *  
+	 *  expectation : InvalidVegetableNameException is thrown
+	 * 				
 	 */
 	@Test
 	public void test_ValidateName() {
@@ -85,8 +89,10 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 *  scenario : type is empty
-	 * 				validate test case
+	 *  scenario : type is empty validateType test case
+	 * 
+	 *  expectation : InvalidVegetableTypeException is thrown
+	 * 				
 	 */
 	@Test
 	public void test_ValidateType() {
@@ -97,7 +103,8 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 *  scenario : category is empty
+	 *  scenario : type is empty validateCategory test case
+	 *  expectation : InvalidVegetableCategoryException is thrown
 	 * 
 	 */
 	@Test
@@ -109,8 +116,8 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 *  scenario : price is negative
-	 * 
+	 *  scenario : price is negative validatePrice test case
+	 * 	expectation : InvalidVegetablePriceException is thrown
 	 */
 	@Test
 	public void testValidatePrice() {
@@ -121,7 +128,8 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 *  scenario : quantity is negative
+	 *  scenario : quantity is negative validateQuantity test case
+	 *  expectation : InvalidVegetableQuantityException is thrown
 	 * 
 	 */
 	@Test
@@ -134,8 +142,9 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 * scenario : to view the vegetable if id is given and 
-	 * 			  vegetable is found successfully
+	 * scenario : to view the vegetable if id is given and vegetable is found successfully
+	 * input : mock vegetable object passed , stubbed findById
+	 * expectation : vegetable fetched			  
 	 * 
 	 */
 	@Test
@@ -151,8 +160,8 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 * scenario : to view the vegetable if id is given and 
-	 * 			  vegetable is not found 
+	 * scenario : to view the vegetable if id is given and  vegetable is not found
+	 * expectation : VegetableNotFoundException to be thrown 
 	 * 
 	 */
 	@Test
@@ -166,8 +175,9 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 * scenario : to view the vegetable if id is given
-	 * 			   but given id is negative
+	 * scenario : to view the vegetable if id is given but given id is negative
+	 * expectation : InvalidVegetableIdException to be thrown
+	 * 			   
 	 */
 	
 	@Test
@@ -180,9 +190,10 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	/*
-	 * updation of vegetable
-	 * scenario : vegetable is fetched then updated successfully
 	 * 
+	 * scenario : vegetable is fetched then updated successfully
+	 * input : mock vegetable object passed , stubbed existsbyId method
+	 * expectation : vegetable should be updated successfully
 	 */
 	@Test
 	public void updateVegetable_1() {
@@ -201,8 +212,9 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 
 	/*
-	 * scenario : updation of vegetable
-	 * 			  but vegetable not found
+	 * scenario : updation of vegetable but vegetable not found
+	 * input : mock vegetable object passed , stubbed existsbyId method
+	 * expectation : VegetableNotFoundException to be thrown		  
 	 * 
 	 */
 	@Test
@@ -219,8 +231,8 @@ class VegetableMgmtServiceImplUnitTest {
 	
 	/*
 	 * 
-	 * scenario : to remove the vegetable
-	 * 			  removed successfully
+	 * scenario : to remove the vegetable if id is given
+	 * expectation : vegetable to be removed successfully
 	 * 
 	 */
 	@Test
@@ -236,7 +248,7 @@ class VegetableMgmtServiceImplUnitTest {
 	
 	/*
 	 * scenario : to remove the vegetable
-	 * 			  but vegetable not found
+	 * expectation: but vegetable not found
 	 * 
 	 * 
 	 */
@@ -251,4 +263,33 @@ class VegetableMgmtServiceImplUnitTest {
 		Assertions.assertThrows(VegetableNotFoundException.class, executable);
 		verify(vegetableRepository, never()).delete(vegetable);
 	}
+	
+	
+	/*@Test
+	void test_viewallVegetables_1(){
+		List<Vegetable>fetchedList=mock(List.class);
+		Mockito.when(vegetableRepository.findAll()).thenReturn(fetchedList);
+		Mockito.when(fetchedList.isEmpty()).thenReturn(false);
+		List<Vegetable> resultList=vegetableService.viewAllVegetables();
+	}
+
+	@Test
+	void test_VegetableListByCategory_1(){
+		String category="XYZ";
+		List<Vegetable>fetchedList=mock(List.class);
+		Mockito.when(vegetableRepository.findAll()).thenReturn(fetchedList);
+		Mockito.when(fetchedList.isEmpty()).thenReturn(false);
+		List<Vegetable> resultList=vegetableService.viewVegetableByCategory(category);
+	}
+
+
+
+	@Test
+	void test_viewVegetableByName_1(){
+		String name="ABC";
+		List<Vegetable>fetchedList=mock(List.class);
+		Mockito.when(vegetableRepository.findAll()).thenReturn(fetchedList);
+		Mockito.when(fetchedList.isEmpty()).thenReturn(false);
+		List<Vegetable> resultList=vegetableService.viewVegetableByName(name);
+	}*/
 }
