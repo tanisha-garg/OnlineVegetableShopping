@@ -2,11 +2,11 @@ package com.cg.vegetable.mgmt.dto;
 
 import java.time.LocalDateTime;
 
-public class BillingDetailsDTO {
+public class BillingDetailsResponse {
 	
 	private int billingId;
 	private String transactionMode;
-	private LocalDateTime transactionDate;
+	private String transactionDate;
 	private String transactionStatus;
 	private String flatNo;
 	private String buildingName;
@@ -14,10 +14,6 @@ public class BillingDetailsDTO {
 	private String city;
 	private String state;
 	private String pincode;
-	
-	public BillingDetailsDTO() {
-		
-	}
 
 	public int getBillingId() {
 		return billingId;
@@ -35,11 +31,11 @@ public class BillingDetailsDTO {
 		this.transactionMode = transactionMode;
 	}
 
-	public LocalDateTime getTransactionDate() {
+	public String getTransactionDate() {
 		return transactionDate;
 	}
 
-	public void setTransactionDate(LocalDateTime transactionDate) {
+	public void setTransactionDate(String transactionDate) {
 		this.transactionDate = transactionDate;
 	}
 

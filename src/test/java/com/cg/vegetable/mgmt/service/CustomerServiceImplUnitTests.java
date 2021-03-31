@@ -162,7 +162,7 @@ public class CustomerServiceImplUnitTests {
      */
 
     @Test
-    public void test_ViewCustomer_2() { 
+    public void test_ViewCustomer_2() {
     	int customerId=2;
         Customer customer = mock(Customer.class);
     //    doThrow(CustomerNotFoundException.class).when(customerService).validateCustomer(customer);

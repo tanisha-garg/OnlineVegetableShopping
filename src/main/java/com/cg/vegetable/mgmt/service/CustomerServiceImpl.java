@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.cg.vegetable.mgmt.entities.Cart;
 import com.cg.vegetable.mgmt.entities.Customer;
+import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.ICartRepository;
 import com.cg.vegetable.mgmt.repository.ICustomerRepository;
+import com.cg.vegetable.mgmt.repository.IOrderRepository;
 
 
 @Service
@@ -27,7 +29,9 @@ public class CustomerServiceImpl implements ICustomerService {
     @Autowired
     private ICartRepository cartRepository;
 
-  
+    @Autowired
+    private ICartService cartService;
+
     @Override
     public Customer addCustomer(Customer customer) {
         validateCustomer(customer);
@@ -63,11 +67,12 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public Customer viewCustomer(Integer customerId) {
-   
+
         Optional<Customer> viewCustomer = customerRepository.findById(customerId);
         if (!viewCustomer.isPresent()) {
             throw new CustomerNotFoundException("Customer doesn't exist for id =" + customerId);
         }
+
         validateCustomer(viewCustomer.get());
         return viewCustomer.get();
 

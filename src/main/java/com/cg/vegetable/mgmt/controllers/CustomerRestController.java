@@ -27,45 +27,49 @@ public class CustomerRestController
     private CustomerUtil customerUtil;
     
 
-    @DeleteMapping( "/removeCustomer/{id}")
+    @DeleteMapping( "/remove/{id}")
     public String removeCustomer(@PathVariable Integer id)
     {
     	Customer customer= customerService.viewCustomer(id); 
-        customerService.removeCustomer(customer);
-        return "Customer removed successfully";
+      customerService.removeCustomer(customer);
+      return "Customer removed successfully";
                
     }
     
         
-    @GetMapping("/viewCustomer/{id}")
+    @GetMapping("/get/{id}/")
 	public CustomerDetails fetchCustomerDetails(@PathVariable int id) {
-    	Customer customer= customerService.viewCustomer(id);
+
+    Customer customer= customerService.viewCustomer(id);
 		CustomerDetails details= customerUtil.toDetail(customer);
 		return details;
-  
     }
-    
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/addCustomer")
+
     public CustomerDetails addCustomer(@RequestBody CustomerDetails requestData)
     {
         Customer customer = new Customer(requestData.getName(),
-        		requestData.getMobileNumber(),requestData.getEmailId());
+        requestData.getMobileNumber(),requestData.getEmailId());
         
         Customer addedCustomer= customerService.addCustomer(customer);
         return customerUtil.toDetail(addedCustomer);
+
     }
     
-    
-    @PutMapping("/updateCustomerDetails/{id}")
+
+    @PutMapping("{id}/update/details")
     public CustomerDetails updateCustomer(@RequestBody UpdateCustomerDetailsRequest requestData ,
     		@PathVariable Integer id) {
+
     	Customer customer= customerService.viewCustomer(id);
+
     	customer.setName(requestData.getName());
 		customer.setMobileNumber(requestData.getMobileNumber());
 		customer.setEmailid(requestData.getEmailId());		
-		Customer updatedCustomer = customerService.updateCustomer(customer);
-		CustomerDetails details = customerUtil.toDetail(updatedCustomer);
+		customer = customerService.updateCustomer(customer);
+		CustomerDetails details = customerUtil.toDetail(customer);
 		return  details;
     }
     

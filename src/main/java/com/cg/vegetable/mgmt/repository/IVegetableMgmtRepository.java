@@ -8,11 +8,7 @@ import com.cg.vegetable.mgmt.entities.Vegetable;
 
 public interface IVegetableMgmtRepository extends JpaRepository<Vegetable,Integer>{
 
-	/*public VegetableDTO addVegetable(VegetableDTO dto);
-	public VegetableDTO updateVegetable(VegetableDTO dto);
-	public VegetableDTO removeVegetable(VegetableDTO dto);
-	public VegetableDTO viewVegetable(VegetableDTO dto);
-	public List<VegetableDTO> viewAllVegetables();
-	public List<VegetableDTO> viewVegetableList(String category);
-	public List<VegetableDTO> viewVegetableByName(String name);*/
+	List<Vegetable> findByCategory(String category);
+	List<Vegetable> findByName(String name);
+
 }

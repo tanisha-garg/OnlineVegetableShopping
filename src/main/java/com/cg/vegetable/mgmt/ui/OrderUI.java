@@ -82,19 +82,7 @@ public class OrderUI {
 		 * */
 		
 		Vegetable srinidhiCart = cartService.addToCart(srinidhiCustomer.getCustomerId(), onion);
-		Vegetable pallaviCart = cartService.addToCart(pallaviCustomer.getCustomerId(), cabbage);
-		
-//		CartVegetable cartOnion = new CartVegetable();
-//		cartOnion.setCart(srinidhiCustomer.getCart());
-//		cartOnion.setCart(pallaviCustomer.getCart());
-//		cartOnion.setQuantity(2);
-//		cartOnion.setVegetable(onion);
-//		
-//		CartVegetable cartCabbage = new CartVegetable();
-//		cartCabbage.setCart(pallaviCustomer.getCart());
-//		cartCabbage.setQuantity(1);
-//		cartCabbage.setVegetable(cabbage);
-		
+		Vegetable pallaviCart = cartService.addToCart(pallaviCustomer.getCustomerId(), cabbage);	
 
 		
 		
@@ -105,14 +93,12 @@ public class OrderUI {
 		
 		Order srinidhiOrder = new Order();
 		srinidhiOrder.setCustomerId(srinidhiCustomer.getCustomerId());
-		srinidhiOrder.setTotalAmount(200);
 		
 		List<Vegetable> srinidhiVegetableList = cartService.viewAllItems(srinidhiCustomer.getCart());
 		srinidhiOrder.setVegetableList(srinidhiVegetableList);
 		
 		Order pallaviOrder = new Order();
 		pallaviOrder.setCustomerId(pallaviCustomer.getCustomerId());
-		pallaviOrder.setTotalAmount(100);
 		List<Vegetable> pallaviVegetableList = cartService.viewAllItems(pallaviCustomer.getCart());
 		pallaviOrder.setVegetableList(pallaviVegetableList);
 		
@@ -140,7 +126,7 @@ public class OrderUI {
 		System.out.println();
 		System.out.println("Viewing order by passing order object\n");
 		
-		Order fetchedOrder = orderService.viewOrder(pallaviOrder);
+		Order fetchedOrder = orderService.viewOrder(pallaviOrder.getOrderNo());
 		displayOrderDetails(fetchedOrder);
 		
 		/*
@@ -152,12 +138,12 @@ public class OrderUI {
 		System.out.println("Updating order details\n");
 		
 		List<Vegetable> updateList = srinidhiOrder.getVegetableList();
-		updateList.add(capsicum);
+		//updateList.add(capsicum);
 		
-		double updateAmount = srinidhiOrder.getTotalAmount() + 30;
+		//double updateAmount = srinidhiOrder.getTotalAmount() + 30;
 		
-		srinidhiOrder.setTotalAmount(updateAmount);
-		srinidhiOrder.setVegetableList(updateList);
+		//srinidhiOrder.setTotalAmount(updateAmount);
+		//srinidhiOrder.setVegetableList(updateList);
 		
 		srinidhiOrder = orderService.updateOrderDetails(srinidhiOrder);
 		
@@ -187,13 +173,13 @@ public class OrderUI {
 		System.out.println();
 		System.out.println("Viewing All Orders placed on a particular date\n");
 
-		/*
-		LocalDate date = LocalDate.parse("2021-03-28", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		LocalDate date = LocalDate.parse("2021-03-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		List<Order> desiredList = orderService.viewOrderList(date);
 		for(Order order : desiredList) {
 			displayOrderDetails(order);
 		}
-		*/
+		
 		
 		/*
 		 * View all customer by passing date
@@ -207,6 +193,16 @@ public class OrderUI {
 		for(Order order : orderList) {
 			displayOrderDetails(order);
 		}
+		
+		/*
+		 * Cancelling an order
+		 * 
+		 * */
+		
+//		System.out.println();
+//		System.out.println("Cancelling an order by order id");
+//		orderService.cancelOrder(pallaviOrder.getOrderNo());
+		
 		
 	}
 	
