@@ -9,6 +9,9 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,7 +33,7 @@ import com.cg.vegetable.mgmt.repository.IBillingRepository;
 import com.cg.vegetable.mgmt.repository.ICartRepository;
 import com.cg.vegetable.mgmt.repository.ICartVegetableRepository;
 import com.cg.vegetable.mgmt.repository.IOrderRepository;
-import com.sun.el.stream.Optional;
+
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceImplUnitTest {
@@ -63,6 +66,8 @@ public class OrderServiceImplUnitTest {
 	public void test_AddOrder_1() {
 		int customerId = 1;
 		int orderId = 2;
+		int quantity = 2;
+	    double price = 10.0;
 		Order order = mock(Order.class);
 		Order saved = mock(Order.class);
 		Double cost =  100.0;
@@ -76,7 +81,14 @@ public class OrderServiceImplUnitTest {
 		when(cartVegetableRepository.findByCart(cart)).thenReturn(vegetableList);
 		when(vegetableList.isEmpty()).thenReturn(false);
 		when(orderRepository.save(order)).thenReturn(saved);
-		Optional optionalCost = Optional.of(cost);
+		
+		Optional<Double> optionalCost = Optional.of(cost);
+		Stream<CartVegetable> cartVegetableStream = mock(Stream.class);
+		Stream<Double> costStream = mock(Stream.class);
+		when(vegetableList.stream()).thenReturn(cartVegetableStream);
+		when(((CartVegetable) cartVegetableStream).getQuantity()).thenReturn(quantity);
+		when(((CartVegetable)cartVegetableStream).getVegetable().getPrice()).thenReturn(price);
+		
 		when(optionalCost.isPresent()).thenReturn(true);
 		Order result = orderService.addOrder(order);
 		BillingDetails bill = mock(BillingDetails.class);
