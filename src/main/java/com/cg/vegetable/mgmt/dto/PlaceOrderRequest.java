@@ -6,7 +6,7 @@ public class PlaceOrderRequest {
 	
 	private int customerId;
 	
-	private List<VegetablesOrderedByCustomer> vegetableList;
+	//private List<VegetablesOrderedByCustomer> vegetableList;
 
 	public int getCustomerId() {
 		return customerId;
@@ -16,13 +16,13 @@ public class PlaceOrderRequest {
 		this.customerId = customerId;
 	}
 
-	public List<VegetablesOrderedByCustomer> getVegetableList() {
-		return vegetableList;
-	}
-
-	public void setVegetableList(List<VegetablesOrderedByCustomer> vegetableList) {
-		this.vegetableList = vegetableList;
-	}
+//	public List<VegetablesOrderedByCustomer> getVegetableList() {
+//		return vegetableList;
+//	}
+//
+//	public void setVegetableList(List<VegetablesOrderedByCustomer> vegetableList) {
+//		this.vegetableList = vegetableList;
+//	}
 	
 	
 
