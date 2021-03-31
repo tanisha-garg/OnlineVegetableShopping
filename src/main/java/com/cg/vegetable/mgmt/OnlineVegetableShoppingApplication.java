@@ -7,6 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import com.cg.vegetable.mgmt.ui.BillingDetailsUI;
 import com.cg.vegetable.mgmt.ui.CartUI;
 import com.cg.vegetable.mgmt.ui.CustomerUI;
+import com.cg.vegetable.mgmt.ui.FeedbackUI;
 import com.cg.vegetable.mgmt.ui.OrderUI;
 import com.cg.vegetable.mgmt.ui.VegetableUI;
 
@@ -31,6 +32,9 @@ public class OnlineVegetableShoppingApplication {
 		
 		CartUI cartUI = context.getBean(CartUI.class);
 		cartUI.start();
+		
+		FeedbackUI feedbackUI = context.getBean(FeedbackUI.class);
+		feedbackUI.start();
 	
 	}
 

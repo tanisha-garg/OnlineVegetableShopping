@@ -15,6 +15,7 @@ public class Feedback {
 	
 	private int rating;
 	private String comments;
+	
 	public int getFeedbackId() {
 		return feedbackId;
 	}
