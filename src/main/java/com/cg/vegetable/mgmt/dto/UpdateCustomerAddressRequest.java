@@ -8,10 +8,7 @@ public class UpdateCustomerAddressRequest {
 	private String city;
 	private String state;
 	private String pincode;
-	
-	public  UpdateCustomerAddressRequest() {
-		
-	}
+
 
 	public int getCustomerId() {
 		return customerId;

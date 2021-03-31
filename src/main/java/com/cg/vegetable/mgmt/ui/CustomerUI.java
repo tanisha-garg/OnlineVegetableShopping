@@ -1,5 +1,7 @@
 package com.cg.vegetable.mgmt.ui;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,22 +22,22 @@ public class CustomerUI {
 		Address address2= new Address();
 		Address address3= new Address();
 		
-		address1.setFlatNo("M8");
-		address1.setBuildingName("Korattur");
+		address1.setFlatNo("206");
+		address1.setBuildingName("Vimal Enclave");
 		address1.setArea("Ashok vihar");
-		address1.setCity("Chennai");
-		address1.setState("Tamil Nadu");
+		address1.setCity("Mumbai");
+		address1.setState("Maharashtra");
 		address1.setPincode("6998086");
 		
-		address2.setFlatNo("Y178");
-		address2.setBuildingName("Anna nagar");
+		address2.setFlatNo("407");
+		address2.setBuildingName("Anand Heights");
 		address2.setArea("Ashok nagar");
-		address2.setCity("Chennai");
-		address2.setState("Tamil Nadu");
+		address2.setCity("Panji");
+		address2.setState("Goa");
 		address2.setPincode("69980342");
 		
-		address3.setFlatNo("BA3");
-		address3.setBuildingName("Vadapalani");
+		address3.setFlatNo("B-701");
+		address3.setBuildingName("Vyankatesh Apartments");
 		address3.setArea("Ashok van");
 		address3.setCity("Chennai");
 		address3.setState("Tamil Nadu");
@@ -43,44 +45,45 @@ public class CustomerUI {
 		
 		
 		
-		System.out.println("adding Customer");
+		System.out.println("   \n  Adding Customer     ");
 		
 		Customer customer1 = new Customer();
 		Customer customer2 = new Customer();
 		Customer customer3 = new Customer();
 		
 		
-		customer1.setName("abeer");
-		customer1.setEmailid("abeer@gmail.com");
-		customer1.setMobileNumber("abeer100");
-		customer1.setPassword("abeer@100");
+		customer1.setName("Ayesha ");
+		customer1.setEmailid("aghikja@gmail.com");
+		customer1.setMobileNumber("9876543219");
+		customer1.setPassword("ayesha_15*43");
 		customer1.setAddress(address1);
 		
 	
-		customer2.setName("abc");
-		customer2.setEmailid("abc102@gmail.com");
-		customer2.setMobileNumber("abc102");
+		customer2.setName("Shivangi");
+		customer2.setEmailid("shivangi_087@gmail.com");
+		customer2.setMobileNumber("7896543120");
 		customer2.setPassword("abc@102");
 		customer2.setAddress(address2);
 		
 	
 		customer3.setName("saurabh");
-		customer3.setEmailid("saurabh@gmail.com");
-		customer3.setMobileNumber("saurabh.103");
-		customer3.setPassword("saurabh@103");
+		customer3.setEmailid("saurabh87@gmail.com");
+		customer3.setMobileNumber("8764321984");
+		customer3.setPassword("saurabh@10*3");
 		customer3.setAddress(address3);
 		
 		customerService.addCustomer(customer1);
 		customerService.addCustomer(customer2);
 		customerService.addCustomer(customer3);
 		
-		System.out.println("\n********************* Saved Customers in database *********************\n");
+		System.out.println("\n********************* Customers saved  in database *********************\n");
 		display(customer1);
 		display(customer2);
 		display(customer3);
 		
-		customer1.setName("wolf");
-		customer2.setPassword("haha");
+		customer1.setPassword("newpswdCreated");
+		customer2.setName("dogs");
+		
 		
 		customerService.updateCustomer(customer1);
 		customerService.updateCustomer(customer2);
@@ -88,14 +91,14 @@ public class CustomerUI {
 		Customer fetchedCustomer1= customerService.viewCustomer(customer1.getCustomerId());
 		Customer fetchedCustomer2= customerService.viewCustomer(customer2.getCustomerId());
 		
-		System.out.println("\n********************* Updated Customers in database *********************\n");
+		System.out.println("\n********************* Updated Customer Details in database *********************\n");
 		
 		customerService.removeCustomer(fetchedCustomer1);
 		
 		System.out.println("\n********************* deleted a customer *********************\n");
 		
-		//List<Customer> listOfCustomers = customerService.viewCustomer(customer1);
-//		
+	//	List<Customer> listOfCustomers = customerService.viewCustomerList(location);
+		
 //		for(Customer customer:listOfCustomers) {
 //			display(customer);
 //		}
@@ -105,7 +108,7 @@ public void display(Customer customer) {
 	+"\nCustomer Email: "+customer.getEmailId()+"\nCustomer Mobile Number: "+customer.getMobileNumber()
 	+"\nCustomer Password: "+customer.getPassword()+ "\nCustomer AddressId: "+ customer.getAddress().getAddressId()+"\nCustomer Flat no: "+ customer.getAddress().getFlatNo()
 	+"\nCustomer Building Name: "+ customer.getAddress().getBuildingName()+
-	//+"\n Cystomer area:"+ customer.getAddress().getArea()+
+	"\n Customer area: "+ customer.getAddress().getArea()+
 	"\nCustomer City: "+customer.getAddress().getCity()+
 	"\nCustomer State: "+ customer.getAddress().getState()+
 	"\nCustomer Pincode: "+ customer.getAddress().getPincode());

@@ -12,9 +12,6 @@ public class CustomerDetails {
 	private String state;
 	private String pincode;
 
-	public CustomerDetails() {
-
-	}
 
 	public int getCustomerId() {
 		return customerId;
