@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.vegetable.mgmt.dto.PlaceOrderRequest;
 import com.cg.vegetable.mgmt.dto.OrderDetailsResponse;
 import com.cg.vegetable.mgmt.dto.UpdateOrderStatusRequest;
-import com.cg.vegetable.mgmt.dto.VegetablesOrderedByCustomer;
 import com.cg.vegetable.mgmt.entities.*;
 import com.cg.vegetable.mgmt.service.*;
 import com.cg.vegetable.mgmt.util.DateUtil;
@@ -67,23 +66,20 @@ public class OrderRestController {
 	@GetMapping("/getAll")
 	public List<OrderDetailsResponse> fetchAllOrders(){
 		List<Order> orderList = orderService.viewOrderList();
-		List<OrderDetailsResponse> allOrderDetails = orderUtil.toOrderDetails(orderList);
-		return allOrderDetails;
+		return orderUtil.toOrderDetails(orderList);
 	}
 	
 	@GetMapping("/get/customer/{id}")
 	public List<OrderDetailsResponse> fetchOrderDetailsByCustomerId(@PathVariable("id") int customerId){
 		List<Order> orderedList = orderService.viewAllOrders(customerId);
-		List<OrderDetailsResponse> orderDetailsList = orderUtil.toOrderDetails(orderedList);
-		return orderDetailsList;
+		return orderUtil.toOrderDetails(orderedList);
 	}
 	
 	@GetMapping("/get/date/{date}")
 	public List<OrderDetailsResponse> fetchOrderDetailsByDate(@PathVariable("date") String date){
 		LocalDate dateTime = dateUtil.toLocalDate(date);
 		List<Order> orderListByDate = orderService.viewOrderList(dateTime);
-		List<OrderDetailsResponse> orderDetailsList = orderUtil.toOrderDetails(orderListByDate);
-		return orderDetailsList;
+		return orderUtil.toOrderDetails(orderListByDate);
 	}
 	
 	
