@@ -229,6 +229,30 @@ public class OrderServiceImplUnitTest {
 		Assertions.assertThrows(OrderNotUpdatedException.class, executable);
 
 	}
+	@Test
+	public void cancelOrderTest_1() {
+		int orderId=1;
+		Order order=Mockito.mock(Order.class);
+		doNothing().when(orderService).validateOrder(order);
+		Mockito.when(order.getOrderId()).thenReturn(orderId);
+		Mockito.when(orderRepository.existsById(orderId)).thenReturn(true);
+		Order result=orderService.cancelOrder(orderId);
+		Assertions.assertNotNull(result);
+		Assertions.assertEquals(order,result);	
+		Mockito.verify(orderRepository).existsById(1);
+	}
+	
+	@Test
+	public void cancelOrderTest_2() {
+		int orderId=1;
+		Order order=Mockito.mock(Order.class);
+		Mockito.doNothing().when(orderService).validateOrder(order);
+		Mockito.when(order.getOrderId()).thenReturn(orderId);
+		Mockito.when(orderRepository.existsById(orderId)).thenReturn(false);
+		Executable executable = () -> orderService.Order(order);
+		Assertions.assertThrows(CancelOrderException.class, executable);
+			
+	}
 	
 		
 	}
