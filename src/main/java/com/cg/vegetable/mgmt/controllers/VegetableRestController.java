@@ -1,7 +1,7 @@
 package com.cg.vegetable.mgmt.controllers;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import javax.validation.constraints.NotBlank;
 
@@ -27,7 +27,6 @@ import com.cg.vegetable.mgmt.dto.UpdateVegetableQuantityRequest;
 import com.cg.vegetable.mgmt.dto.UpdateVegetableTypeRequest;
 import com.cg.vegetable.mgmt.dto.VegetableDetails;
 import com.cg.vegetable.mgmt.entities.Vegetable;
-import com.cg.vegetable.mgmt.repository.IVegetableMgmtRepository;
 import com.cg.vegetable.mgmt.service.IVegetableMgmtService;
 import com.cg.vegetable.mgmt.util.VegetableUtil;
 
@@ -78,8 +77,7 @@ public class VegetableRestController {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setCategory(requestData.getCategory());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
-		 VegetableDetails desired=vegUtil.toDetails(updatedVegetable);
-	        return desired;
+		 return vegUtil.toDetails(updatedVegetable);
 	    }
 	 
 	 @PutMapping("/changeType")
@@ -99,7 +97,7 @@ public class VegetableRestController {
 	        return desired;
 	    }
 	 @PutMapping("/changePrice")
-	    public VegetableDetails changeName(@RequestBody UpdateVegetablePriceRequest requestData) {
+	    public VegetableDetails changePrice(@RequestBody UpdateVegetablePriceRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setPrice(requestData.getPrice());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);

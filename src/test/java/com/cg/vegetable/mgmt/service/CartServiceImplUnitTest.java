@@ -143,7 +143,7 @@ public class CartServiceImplUnitTest {
 		Vegetable vegval = mock(Vegetable.class);
 		Customer customer = Mockito.mock(Customer.class);
 		doThrow(VegetableMustHaveValueException.class).when(cartService).validateInc(quantity);
-		Executable executable = () -> cartService.increaseVegQuantity(customerId,vegval.getVegId());
+		Executable executable = () -> cartService.increaseVegQuantity(customerId,vegval.getVegId(),7);
 		Assertions.assertThrows(VegetableMustHaveValueException.class, executable);
 	}
 	
@@ -158,7 +158,7 @@ public class CartServiceImplUnitTest {
 		Vegetable vegval = mock(Vegetable.class);
 		Customer customer = Mockito.mock(Customer.class);
 		doThrow(VegValAboveZeroException.class).when(cartService).validateDec(value);
-		Executable executable = () -> cartService.decreaseVegQuantity(customerId,vegval.getVegId());
+		Executable executable = () -> cartService.decreaseVegQuantity(customerId,vegval.getVegId(),7);
 		Assertions.assertThrows(VegValAboveZeroException.class, executable);
 	}
 	
