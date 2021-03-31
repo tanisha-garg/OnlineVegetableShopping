@@ -27,7 +27,7 @@ public class BillingRestController {
         return billUtil.toDetails(bill);
     }
 
-    @PutMapping("/updateStatus/{id}")
+    @PutMapping("/update/status/{id}")
     public BillingDetailsResponse updateTransactionStatus(@RequestBody UpdateTransactionStatusRequest requestData,
     												@PathVariable("id") int id) {
         BillingDetails bill = billingService.viewBill(id);
@@ -36,7 +36,7 @@ public class BillingRestController {
         return billUtil.toDetails(updatedBill);
     }
     
-    @PutMapping("/updateMode/{id}")
+    @PutMapping("/update/mode/{id}")
     public BillingDetailsResponse updateTransactionMode(@RequestBody UpdateTransactionModeRequest requestData,
     													@PathVariable("id") int id) {
     	BillingDetails bill = billingService.viewBill(id);

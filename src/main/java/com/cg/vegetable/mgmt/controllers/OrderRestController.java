@@ -41,42 +41,27 @@ public class OrderRestController {
 	@Autowired
 	private DateUtil dateUtil;
 
-	@GetMapping("/get/{id}")
-	public OrderDetailsResponse fetchOrderDetails(@PathVariable("id") int orderId) {
+	@GetMapping("/get/{orderId}")
+	public OrderDetailsResponse fetchOrderDetails(@PathVariable("orderId") int orderId) {
 		Order order = orderService.viewOrder(orderId);
 		return orderUtil.toDetails(order);
 	}
 	
 	
-	@PutMapping("/updateStatus/{id}")
+	@PutMapping("/update/status/{orderId}")
 	public OrderDetailsResponse updateOrderStatus(@RequestBody UpdateOrderStatusRequest requestData, 
-											@PathVariable("id") int id) {
-		Order order = orderService.viewOrder(id);
+											@PathVariable("orderId") int orderId) {
+		Order order = orderService.viewOrder(orderId);
 		order.setStatus(requestData.getOrderStatus());
 		order = orderService.updateOrderDetails(order);
 		return orderUtil.toDetails(order);
 	}
 	
-	@DeleteMapping("/cancel/{id}")
-	public String cancelOrder(@PathVariable("id") int orderId) {
+	@DeleteMapping("/cancel/{orderId}")
+	public String cancelOrder(@PathVariable("orderId") int orderId) {
 		orderService.cancelOrder(orderId);
 		return "Order Cancelled Sucessfully";
 		
-	}
-	
-	@GetMapping("/getVegetableList/{id}")
-	public List<VegetablesOrderedByCustomer> getVegetablesOrderedByCustomer(@PathVariable("id") int customerId){
-		List<Order> orderedList = orderService.viewAllOrders(customerId);
-		List<VegetablesOrderedByCustomer> vegetableList = orderUtil.toVegetableDetails(orderedList);
-		return vegetableList;
-	}
-	
-	@GetMapping("/getByDate/{date}")
-	public List<OrderDetailsResponse> fetchOrderDetailsByDate(@PathVariable("date") String date){
-		LocalDate dateTime = dateUtil.toLocalDate(date);
-		List<Order> orderListByDate = orderService.viewOrderList(dateTime);
-		List<OrderDetailsResponse> orderDetailsList = orderUtil.toOrderDetails(orderListByDate);
-		return orderDetailsList;
 	}
 	
 	@GetMapping("/getAll")
@@ -85,6 +70,22 @@ public class OrderRestController {
 		List<OrderDetailsResponse> allOrderDetails = orderUtil.toOrderDetails(orderList);
 		return allOrderDetails;
 	}
+	
+	@GetMapping("/get/customer/{id}")
+	public List<OrderDetailsResponse> fetchOrderDetailsByCustomerId(@PathVariable("id") int customerId){
+		List<Order> orderedList = orderService.viewAllOrders(customerId);
+		List<OrderDetailsResponse> orderDetailsList = orderUtil.toOrderDetails(orderedList);
+		return orderDetailsList;
+	}
+	
+	@GetMapping("/get/date/{date}")
+	public List<OrderDetailsResponse> fetchOrderDetailsByDate(@PathVariable("date") String date){
+		LocalDate dateTime = dateUtil.toLocalDate(date);
+		List<Order> orderListByDate = orderService.viewOrderList(dateTime);
+		List<OrderDetailsResponse> orderDetailsList = orderUtil.toOrderDetails(orderListByDate);
+		return orderDetailsList;
+	}
+	
 	
 	@PostMapping("/add")
 	public OrderDetailsResponse addOrderDetails(@RequestBody PlaceOrderRequest requestBody) {

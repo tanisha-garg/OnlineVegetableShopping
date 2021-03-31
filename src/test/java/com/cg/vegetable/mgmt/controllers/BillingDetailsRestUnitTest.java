@@ -36,7 +36,7 @@ public class BillingDetailsRestUnitTest {
 	
 	/*
 	 * Scenario: Bill Details is fetched from BillingDetails and a BillingDetailsResponse is sent successfully
-	 * Input: billId
+	 * Input: billId as path variable
 	 * Expectation: BillingDetailsResponse sent to UI
 	 * 
 	 * */
@@ -56,7 +56,7 @@ public class BillingDetailsRestUnitTest {
 	
 	/*
 	 * Scenario: Update Transaction Status in database and send a BillingDetailsResponse
-	 * Input: billId
+	 * Input: billId as path variable and transaction status from request body
 	 * Expectation: Updated BillingDetailsResponse sent to UI
 	 * 
 	 * */
@@ -83,7 +83,7 @@ public class BillingDetailsRestUnitTest {
 	
 	/*
 	 * Scenario: Update Transaction Mode in database and send a BillingDetailsResponse
-	 * Input: billId
+	 * Input: billId as path variable and transaction mode as request body
 	 * Expectation: Updated BillingDetailsResponse sent to UI
 	 * 
 	 * */
@@ -110,7 +110,7 @@ public class BillingDetailsRestUnitTest {
 	
 	/*
 	 * Scenario: Add Bill Successfully
-	 * Input: AddBillDetailsRequest through body from UI
+	 * Input: Request body with data from UI
 	 * Expectation: BillingDetailsResponse of added bill sent to UI
 	 * 
 	 * */
