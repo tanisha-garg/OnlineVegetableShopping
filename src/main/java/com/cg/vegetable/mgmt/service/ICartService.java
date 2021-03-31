@@ -3,6 +3,7 @@ package com.cg.vegetable.mgmt.service;
 import java.util.List;
 
 import com.cg.vegetable.mgmt.entities.Cart;
+import com.cg.vegetable.mgmt.entities.CartVegetable;
 import com.cg.vegetable.mgmt.entities.Vegetable;
 
 public interface ICartService {
@@ -13,5 +14,7 @@ public interface ICartService {
 	public Cart removeVegetable(int customerId, int vegid);
 	public Cart removeAllVegetables(Cart cart);
 	public List<Vegetable> viewAllItems(Cart cart);
+    Cart findCartByCustomerId(int customerId);
+    List<CartVegetable>findCartVegetablesAndQuantity(Cart cart);
 	
 }
