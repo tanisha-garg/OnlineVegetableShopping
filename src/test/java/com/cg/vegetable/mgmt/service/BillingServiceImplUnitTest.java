@@ -1,16 +1,7 @@
 package com.cg.vegetable.mgmt.service;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -20,18 +11,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.cg.vegetable.mgmt.entities.BillingDetails;
-import com.cg.vegetable.mgmt.exceptions.BillNotFoundException;
-import com.cg.vegetable.mgmt.exceptions.InvalidBillException;
-import com.cg.vegetable.mgmt.exceptions.InvalidTransactionModeException;
+import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
 
-//@SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class BillingServiceImplUnitTest {
 	
@@ -44,8 +31,11 @@ public class BillingServiceImplUnitTest {
 	
 	
 	/*
-	 * Scenario: Add Bill successfully
-	 * Test Case: Add Bill
+	 * 
+	 * Scenario: Bill is saved successfully
+	 * Input: Mock Bill object, stubbing validate method
+	 * Expectation: Verifying IBillingRepository#save(bill) is called
+	 * 
 	 */	
 	
 	@Test
@@ -63,9 +53,13 @@ public class BillingServiceImplUnitTest {
 		verify(billingService).validateBill(billDetails);
 	}
 	
+	
 	/*
-	 * Scenario: Failure
-	 * Test Case: Add Bill
+	 * 
+	 * Scenario: Validation Fails
+	 * Input: Mock Bill object, stubbing validation method so that it throws exception
+	 * Expectation: Throws InvalidBillException
+	 * 
 	 */	
 	
 	@Test
@@ -81,23 +75,26 @@ public class BillingServiceImplUnitTest {
 	
 	
 	/*
-	 * Scenario: To view bill of a given billing id - Success
-	 * Test Case: View Bill
+	 * 
+	 * Scenario: Bill is fetched successfully
+	 * Expectation: Verifying IBillingRepository#findById(billingId) is called 
+	 *  
 	 */	
 	@Test
 	public void viewBill_1() {
 		int billingId = 1;
-		BillingDetails bill = Mockito.mock(BillingDetails.class);
-		Optional<BillingDetails> optional = Optional.of(bill);
-		when(billingRepository.findById(billingId)).thenReturn(optional);
+		BillingDetails bill = mock(BillingDetails.class);
+		Optional<BillingDetails> optionalBill = Optional.of(bill);
+		when(billingRepository.findById(billingId)).thenReturn(optionalBill);
 		BillingDetails result = billingService.viewBill(billingId);
 		assertEquals(bill, result);
-		//verify(billingRepository).findById(billingId);
+		verify(billingRepository).findById(billingId);
 	}
 	
 	/*
-	 * Scenario: To view bill of a given billing id - BillNotFoundException
-	 * Test Case: View Bill
+	 * Scenario: Fetching Fails
+	 * Expectation: Throws BillNotFoundException
+	 * 
 	 */	
 	@Test
 	public void viewBill_2() {
@@ -109,14 +106,15 @@ public class BillingServiceImplUnitTest {
 	}
 	
 	/*
-	 * Scenario: To update bill - success
-	 * Test Case: Update Bill
+	 * Scenario: BillingDetails are updated successfully
+	 * Input: Mock BillingDetails Object, stubbing validate method
+	 * Expectation: Verifying IBillingRepository#save(bill) is called
 	 */	
 	@Test
 	public void updateBill_1() {
 		int billingId = 1;
-		BillingDetails bill = Mockito.mock(BillingDetails.class);
-		BillingDetails saved = Mockito.mock(BillingDetails.class);
+		BillingDetails bill = mock(BillingDetails.class);
+		BillingDetails saved = mock(BillingDetails.class);
 		doNothing().when(billingService).validateBill(bill);
 		when(bill.getBillingId()).thenReturn(billingId);
 		when(billingRepository.existsById(billingId)).thenReturn(true);
@@ -130,13 +128,30 @@ public class BillingServiceImplUnitTest {
 	}
 	
 	/*
-	 * Scenario: To update bill - Bill Not Found Exception
-	 * Test Case: Update Bill
+	 * Scenario: Validation while updating BillingDetails fails
+	 * Input: Mock BillingDetails Object, stub validate method
+	 * Expectation: Throws InvalidBillException and verifying IBillingRepository#save is never called
+	 * 
 	 */	
 	@Test
 	public void updateBill_2() {
+		BillingDetails bill = mock(BillingDetails.class);
+		doThrow(InvalidBillException.class).when(billingService).validateBill(bill);
+		Executable executable = () -> billingService.addBill(bill);
+		assertThrows(InvalidBillException.class, executable);
+		verify(billingRepository, never()).save(bill);
+	}
+	
+	/*
+	 * Scenario: Updating Billing Details fails
+	 * Input: Mock BillingDetails Object, stub validate method
+	 * Expectation: Throws BillNotFoundException and verifying IBillingRepository#save is never called
+	 * 
+	 */	
+	@Test
+	public void updateBill_3() {
 		int billingId = 10;
-		BillingDetails bill = Mockito.mock(BillingDetails.class);
+		BillingDetails bill = mock(BillingDetails.class);
 		doNothing().when(billingService).validateBill(bill);
 		when(bill.getBillingId()).thenReturn(billingId);
 		when(billingRepository.existsById(billingId)).thenReturn(false);
@@ -147,25 +162,24 @@ public class BillingServiceImplUnitTest {
 	
 	/*
 	 * 
-	 * When bill passes is null
-	 * Expectation: InvalidBillException thrown
+	 * Scenario: BillingDetails object passed is null
+	 * Input: BillingDetails null object 
+	 * Expectation: Throws InvalidBillException  
 	 * */
 	
 	@Test
 	public void validateBill_1() {
 		BillingDetails bill = null;
 		Executable executable = () -> billingService.validateBill(bill);
-		assertThrows(InvalidBillException.class, executable);
-//		when(bill.getTransactionMode()).thenReturn("cod");
-//		when(bill.getTransactionStatus()).thenReturn("successful");
-//		verify(billingService, never()).validateMode(bill.getTransactionMode());
-//		verify(billingService, never()).validateMode(bill.getTransactionStatus());
-		
+		assertThrows(InvalidBillException.class, executable);		
 	}
 	
 	/*
 	 * 
-	 * When transaction mode is null
+	 * Scenario: When transaction mode passed for validation is null
+	 * Input: transactionMode is null
+	 * Expectation: Throws InvalidTransactionModeException
+	 * 
 	 * */
 	
 	@Test
@@ -177,7 +191,10 @@ public class BillingServiceImplUnitTest {
 	
 	/*
 	 * 
-	 * When transaction mode is empty
+	 * Scenario: When transaction mode passed for validation is empty
+	 * Input: transactionMode is empty
+	 * Expectation: Throws InvalidTransactionModeException
+	 * 
 	 * */
 	
 	@Test
@@ -189,7 +206,10 @@ public class BillingServiceImplUnitTest {
 	
 	/*
 	 * 
-	 * When transaction status is null
+	 * Scenario: When transaction status passed for validation is null
+	 * Input: transactionStatus is null
+	 * Expectation: Throws InvalidTransactionStatusException
+	 * 
 	 * */
 	
 	@Test
@@ -201,7 +221,10 @@ public class BillingServiceImplUnitTest {
 	
 	/*
 	 * 
-	 * When transaction mode is null
+	 * Scenario: When transaction status passed for validation is empty
+	 * Input: transactionStatus is empty
+	 * Expectation: Throws InvalidTransactionStatusException
+	 * 
 	 * */
 	
 	@Test

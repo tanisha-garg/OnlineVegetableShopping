@@ -7,10 +7,6 @@ public class UpdateCustomerDetailsRequest {
 	private String mobileNumber;
 	private String emailId;
 
-	public UpdateCustomerDetailsRequest() {
-
-	}
-
 	public int getCustomerId() {
 		return customerId;
 	}
