@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.cg.vegetable.mgmt.dto.BillingDetailsResponse;
+import com.cg.vegetable.mgmt.dto.UpdateTransactionModeRequest;
 import com.cg.vegetable.mgmt.dto.UpdateTransactionStatusRequest;
 import com.cg.vegetable.mgmt.dto.AddBillDetailsRequest;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
@@ -33,6 +34,15 @@ public class BillingRestController {
         bill.setTransactionStatus(requestData.getTransactionStatus());
         BillingDetails updatedBill = billingService.updateBill(bill);
         return billUtil.toDetails(updatedBill);
+    }
+    
+    @PutMapping("/updateMode/{id}")
+    public BillingDetailsResponse updateTransactionMode(@RequestBody UpdateTransactionModeRequest requestData,
+    													@PathVariable("id") int id) {
+    	BillingDetails bill = billingService.viewBill(id);
+    	bill.setTransactionMode(requestData.getTransactionMode());
+    	BillingDetails updatedBill = billingService.updateBill(bill);
+    	return billUtil.toDetails(updatedBill);
     }
 
     @PostMapping("/add")
