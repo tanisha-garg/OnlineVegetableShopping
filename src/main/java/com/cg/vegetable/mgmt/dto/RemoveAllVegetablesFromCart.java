@@ -1,14 +1,14 @@
 package com.cg.vegetable.mgmt.dto;
 
 public class RemoveAllVegetablesFromCart {
-	int cartId;
+	int custId;
 
-	public int getCartId() {
-		return cartId;
+	public int getCustId() {
+		return custId;
 	}
 
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
+	public void setCustId(int custId) {
+		this.custId = custId;
 	}
 	
 
