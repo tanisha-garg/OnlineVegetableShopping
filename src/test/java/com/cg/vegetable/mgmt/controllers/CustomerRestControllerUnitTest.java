@@ -1,4 +1,4 @@
-package com.cg.vegetable.mgmt.service;
+package com.cg.vegetable.mgmt.controllers;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
