@@ -57,11 +57,11 @@ public class CartUI {
 		/**
 		 * Remove Vegetable
 		 */
-		 int id3= nidhiCustomer.getCustomerId();
-		 cartService.addToCart(id3, veg);
-		 Cart cart3 = cartService.removeVegetable(id3, veg.getVegId());
-		 CartVegetable cartVeg3 = cartService.findCartVegetableAndQuantity(id3, veg.getVegId());
-		 displayRemovedVegetable(cartVeg);
+//		 int id3= nidhiCustomer.getCustomerId();
+//		 cartService.addToCart(id3, veg);
+//		 Cart cart3 = cartService.removeVegetable(id3, veg.getVegId());
+//		 CartVegetable cartVeg3 = cartService.findCartVegetableAndQuantity(id3, veg.getVegId());
+//		 displayRemovedVegetable(cartVeg);
 		
 		
 		/**
