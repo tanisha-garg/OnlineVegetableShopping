@@ -2,11 +2,12 @@ package com.cg.vegetable.mgmt.controllers;
 
 import java.util.List;
 
-
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.service.IVegetableMgmtService;
 import com.cg.vegetable.mgmt.util.VegetableUtil;
 
+@Validated
 @RequestMapping("/vegetables")
 @RestController
 public class VegetableRestController {
@@ -50,7 +52,7 @@ public class VegetableRestController {
 	 */
 	 @ResponseStatus(HttpStatus.CREATED)
 	    @PostMapping("/add")
-	    public VegetableDetails addVegetable(@RequestBody AddVegetableRequest requestData) {
+	    public VegetableDetails addVegetable(@RequestBody @Valid AddVegetableRequest requestData) {
 	        Vegetable created = new Vegetable(requestData.getName(),requestData.getCategory(),requestData.getType(),requestData.getPrice(),requestData.getQuantity());
 	        Vegetable added=vegService.addVegetable(created);
 	        return vegUtil.toDetails(added);
@@ -79,7 +81,7 @@ public class VegetableRestController {
 		 *  expectation : vegetable is deleted , and deleted vegetable is displayed in postman
 		 */
 	 @DeleteMapping("/delete")
-	    public String delete(@RequestBody DeleteVegetableRequest requestData){
+	    public String delete(@RequestBody @Valid  DeleteVegetableRequest requestData){
 	        Vegetable vegetable=vegService.viewVegetable(requestData.getVegId());
 	        Vegetable removed = vegService.removeVegetable(vegetable);
 	        return "vegetable deleted for id="+requestData.getVegId();
@@ -94,7 +96,7 @@ public class VegetableRestController {
 		 */
 	 
 	 @PutMapping("/changename")
-	    public VegetableDetails changeName(@RequestBody UpdateVegetableNameRequest requestData) {
+	    public VegetableDetails changeName(@RequestBody @Valid UpdateVegetableNameRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setName(requestData.getName());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
@@ -111,7 +113,7 @@ public class VegetableRestController {
 			 */
 	 
 	 @PutMapping("/changeCategory")
-	    public VegetableDetails changeCategory(@RequestBody UpdateVegetableCategoryRequest requestData) {
+	    public VegetableDetails changeCategory(@RequestBody @Valid UpdateVegetableCategoryRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setCategory(requestData.getCategory());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
@@ -127,7 +129,7 @@ public class VegetableRestController {
 		 */
 	 
 	 @PutMapping("/changeType")
-	    public VegetableDetails changeType(@RequestBody UpdateVegetableTypeRequest requestData) {
+	    public VegetableDetails changeType(@RequestBody @Valid UpdateVegetableTypeRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setType(requestData.getType());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
@@ -143,7 +145,7 @@ public class VegetableRestController {
 		 *  expectation : vegetable quantity is changed , and displayed in postman
 		 */
 	 @PutMapping("/changeQuantity")
-	    public VegetableDetails changeQuantity(@RequestBody UpdateVegetableQuantityRequest requestData) {
+	    public VegetableDetails changeQuantity(@RequestBody  @Valid UpdateVegetableQuantityRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setQuantity(requestData.getQuantity());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);
@@ -159,7 +161,7 @@ public class VegetableRestController {
 		 *  expectation : vegetable price is changed , and displayed in postman
 		 */
 	 @PutMapping("/changePrice")
-	    public VegetableDetails changePrice(@RequestBody UpdateVegetablePriceRequest requestData) {
+	    public VegetableDetails changePrice(@RequestBody @Valid UpdateVegetablePriceRequest requestData) {
 		 Vegetable vegetable = vegService.viewVegetable(requestData.getVegId());
 		 vegetable.setPrice(requestData.getPrice());
 		 Vegetable updatedVegetable = vegService.updateVegetable(vegetable);

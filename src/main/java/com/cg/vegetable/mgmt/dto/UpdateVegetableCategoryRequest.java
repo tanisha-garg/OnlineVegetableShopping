@@ -1,7 +1,10 @@
 package com.cg.vegetable.mgmt.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class UpdateVegetableCategoryRequest {
 	private int vegId;
+	@NotBlank
 	private String category;
 	public int getVegId() {
 		return vegId;
