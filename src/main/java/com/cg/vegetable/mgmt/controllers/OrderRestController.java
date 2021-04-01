@@ -3,7 +3,13 @@ package com.cg.vegetable.mgmt.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.vegetable.mgmt.dto.PlaceOrderRequest;
@@ -21,6 +28,7 @@ import com.cg.vegetable.mgmt.service.*;
 import com.cg.vegetable.mgmt.util.DateUtil;
 import com.cg.vegetable.mgmt.util.OrderUtil;
 
+@Validated
 @RequestMapping("/orders")
 @RestController
 public class OrderRestController {
@@ -70,21 +78,21 @@ public class OrderRestController {
 	}
 	
 	@GetMapping("/get/customer/{id}")
-	public List<OrderDetailsResponse> fetchOrderDetailsByCustomerId(@PathVariable("id") int customerId){
+	public List<OrderDetailsResponse> fetchOrderDetailsByCustomerId(@PathVariable("id") @Min(1) int customerId){
 		List<Order> orderedList = orderService.viewAllOrders(customerId);
 		return orderUtil.toOrderDetails(orderedList);
 	}
 	
 	@GetMapping("/get/date/{date}")
-	public List<OrderDetailsResponse> fetchOrderDetailsByDate(@PathVariable("date") String date){
+	public List<OrderDetailsResponse> fetchOrderDetailsByDate(@PathVariable("date") @NotBlank String date){
 		LocalDate dateTime = dateUtil.toLocalDate(date);
 		List<Order> orderListByDate = orderService.viewOrderList(dateTime);
 		return orderUtil.toOrderDetails(orderListByDate);
 	}
 	
-	
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/add")
-	public OrderDetailsResponse addOrderDetails(@RequestBody PlaceOrderRequest requestBody) {
+	public OrderDetailsResponse addOrderDetails(@RequestBody @Valid PlaceOrderRequest requestBody) {
 		Order order = new Order();
 		Customer customer = customerService.viewCustomer(requestBody.getCustomerId());
 		Cart cart = customer.getCart();

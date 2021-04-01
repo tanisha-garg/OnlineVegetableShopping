@@ -1,12 +1,11 @@
 package com.cg.vegetable.mgmt.dto;
 
-import java.util.List;
+import javax.validation.constraints.Min;
 
 public class PlaceOrderRequest {
 	
+	@Min(1)
 	private int customerId;
-	
-	//private List<VegetablesOrderedByCustomer> vegetableList;
 
 	public int getCustomerId() {
 		return customerId;
@@ -16,14 +15,6 @@ public class PlaceOrderRequest {
 		this.customerId = customerId;
 	}
 
-//	public List<VegetablesOrderedByCustomer> getVegetableList() {
-//		return vegetableList;
-//	}
-//
-//	public void setVegetableList(List<VegetablesOrderedByCustomer> vegetableList) {
-//		this.vegetableList = vegetableList;
-//	}
-	
 	
 
 }
