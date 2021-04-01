@@ -7,10 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -23,16 +20,9 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.cg.vegetable.mgmt.entities.BillingDetails;
-import com.cg.vegetable.mgmt.entities.Cart;
-import com.cg.vegetable.mgmt.entities.CartVegetable;
-import com.cg.vegetable.mgmt.entities.Order;
-import com.cg.vegetable.mgmt.entities.Vegetable;
+import com.cg.vegetable.mgmt.entities.*;
 import com.cg.vegetable.mgmt.exceptions.*;
-import com.cg.vegetable.mgmt.repository.IBillingRepository;
-import com.cg.vegetable.mgmt.repository.ICartRepository;
-import com.cg.vegetable.mgmt.repository.ICartVegetableRepository;
-import com.cg.vegetable.mgmt.repository.IOrderRepository;
+import com.cg.vegetable.mgmt.repository.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -234,7 +224,7 @@ public class OrderServiceImplUnitTest {
 		int orderId=1;
 		Order order=Mockito.mock(Order.class);
 		doNothing().when(orderService).validateOrder(order);
-		Mockito.when(order.getOrderId()).thenReturn(orderId);
+		Mockito.when(order.getOrderNo()).thenReturn(orderId);
 		Mockito.when(orderRepository.existsById(orderId)).thenReturn(true);
 		Order result=orderService.cancelOrder(orderId);
 		Assertions.assertNotNull(result);
@@ -247,9 +237,9 @@ public class OrderServiceImplUnitTest {
 		int orderId=1;
 		Order order=Mockito.mock(Order.class);
 		Mockito.doNothing().when(orderService).validateOrder(order);
-		Mockito.when(order.getOrderId()).thenReturn(orderId);
+		Mockito.when(order.getOrderNo()).thenReturn(orderId);
 		Mockito.when(orderRepository.existsById(orderId)).thenReturn(false);
-		Executable executable = () -> orderService.Order(order);
+		Executable executable = () -> orderService.cancelOrder(orderId);
 		Assertions.assertThrows(CancelOrderException.class, executable);
 			
 	}
