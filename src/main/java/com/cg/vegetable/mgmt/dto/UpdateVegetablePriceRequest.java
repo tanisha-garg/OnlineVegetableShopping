@@ -1,8 +1,11 @@
 package com.cg.vegetable.mgmt.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class UpdateVegetablePriceRequest {
 
 	int vegId;
+	
 	double price;
 	public int getVegId() {
 		return vegId;

@@ -1,12 +1,20 @@
 package com.cg.vegetable.mgmt.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class AddVegetableRequest {
 	
+	
 	private String name;
+	
 	private String type;
+	
 	private String category;
+	
 	private double price;
+	
 	private int quantity;
+	
 	public String getName() {
 		return name;
 	}
