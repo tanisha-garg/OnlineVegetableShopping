@@ -9,26 +9,25 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Customer {
-
 	@Id
 	@GeneratedValue
 	private int customerId;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
-	
+
 	private String name;
 	private String mobileNumber;
 	private String emailId;
 	private String password;
 	private String confirmPassword;
-	
-	@OneToOne(cascade = {CascadeType.ALL})
+
+	@OneToOne(cascade = { CascadeType.ALL })
 	private Cart cart;
-	
+
 	public Customer() {
 	}
-	
+
 	public Customer(String name, String mobileNumber, String emailId) {
 		this.name = name;
 		this.mobileNumber = mobileNumber;
@@ -87,7 +86,6 @@ public class Customer {
 		this.confirmPassword = confirmPassword;
 	}
 
-
 	public Cart getCart() {
 		return cart;
 	}
@@ -122,6 +120,4 @@ public class Customer {
 				+ confirmPassword + ", cart=" + cart + "]";
 	}
 
-
-	
 }

@@ -1,22 +1,13 @@
 package com.cg.vegetable.mgmt.dto;
 
 public class UpdateCustomerAddressRequest {
-	//private int customerId;
+
 	private String flatNo;
 	private String buildingName;
 	private String area;
 	private String city;
 	private String state;
 	private String pincode;
-
-
-//	public int getCustomerId() {
-//		return customerId;
-//	}
-//
-//	public void setCustomerId(int customerId) {
-//		this.customerId = customerId;
-//	}
 
 	public String getFlatNo() {
 		return flatNo;
@@ -65,7 +56,5 @@ public class UpdateCustomerAddressRequest {
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
 	}
-	
-	
 
 }

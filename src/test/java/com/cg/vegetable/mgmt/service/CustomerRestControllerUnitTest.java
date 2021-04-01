@@ -3,28 +3,23 @@ package com.cg.vegetable.mgmt.service;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cg.vegetable.mgmt.controllers.CustomerRestController;
 import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.Customer;
-import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.util.CustomerUtil;
 
 import com.cg.vegetable.mgmt.dto.CustomerDetails;
 import com.cg.vegetable.mgmt.dto.UpdateCustomerAddressRequest;
+import com.cg.vegetable.mgmt.dto.UpdateCustomerDetailsRequest;
 import com.cg.vegetable.mgmt.dto.UpdatePasswordRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,40 +29,62 @@ class CustomerRestControllerUnitTest {
 
 	@Mock
 	ICustomerService customerService;
-	
+
 	@Mock
 	CustomerUtil util;
-	
+
 	@Spy
 	@InjectMocks
 	CustomerRestController controller;
-	
+
+	/*
+	 * scenario : success scenario , customer is fetched
+	 *
+	 * input : mock customer object and stubbed viewCustomer
+	 *
+	 * expectation : customer should be fetched and displayed in postman
+	 */
+
 	@Test
-	 void test_fetchCustomerDetails_1() {
-		Integer id=7;
+	void test_fetchCustomerDetails_1() {
+		Integer id = 7;
 		Customer customer = mock(Customer.class);
-		CustomerDetails customerDetails=mock(CustomerDetails.class);
+		CustomerDetails customerDetails = mock(CustomerDetails.class);
 		when(customerService.viewCustomer(id)).thenReturn(customer);
 		when(util.toDetail(customer)).thenReturn(customerDetails);
-		CustomerDetails result=controller.fetchCustomerDetails(id);
-		assertSame(customerDetails,result);     //CustomerDetails==result
+		CustomerDetails result = controller.fetchCustomerDetails(id);
+		assertSame(customerDetails, result); // CustomerDetails==result
 		verify(customerService).viewCustomer(id);
 		verify(util).toDetail(customer);
-		
+
 	}
-	
-	
+
+	/*
+	 * scenario : success scenario , customer is removed
+	 *
+	 * input : mock customer object
+	 *
+	 * expectation :customer with given id should be removed and string should be
+	 * displayed in postman
+	 */
+
 	@Test
 	void testRemoveCustomer_1() {
-		Integer id=2;
-		CustomerDetails request= mock(CustomerDetails.class);
-		Customer customer=mock(Customer.class);
+		Integer id = 2;
+		Customer customer = mock(Customer.class);
 		when(customerService.viewCustomer(id)).thenReturn(customer);
 		controller.removeCustomer(id);
 		verify(customerService).removeCustomer(customer);
 	}
-	
-	
+
+	/*
+	 * scenario : success scenario , customer is added
+	 *
+	 * input : mock Customer and CustomerDetails stubbed addCustomer
+	 *
+	 * expectation : customer should be added and displayed in postman
+	 */
+
 	@Test
 	public void test_AddCustomerRequest() {
 		CustomerDetails request = mock(CustomerDetails.class);
@@ -82,6 +99,13 @@ class CustomerRestControllerUnitTest {
 		verify(util).toDetail(any(Customer.class));
 	}
 
+	/*
+	 * scenario : success scenario , customer password is changed successfully
+	 *
+	 * input : mock UpdateCustomerRequest and Customer , stubbed updateCustomer
+	 *
+	 * expectation : customer password updated and displayed in postman
+	 */
 	@Test
 	public void test_changeCustomerPasswordRequest() {
 		Integer id = 1;
@@ -100,18 +124,26 @@ class CustomerRestControllerUnitTest {
 		verify(util).toDetail(customer);
 
 	}
-	
+	/*
+	 * scenario : success scenario , customerDetails updated successfully
+	 *
+	 * input : mock UpdateCustomerDetails and Customer, stubbed updateCustomer
+	 *
+	 * expectation : customer details like name, mobileNumber and emailId will be
+	 * updated and displayed in postman
+	 */
+
 	@Test
 	public void testUpdateCustomerDetailsRequest() {
 		Integer id = 7;
-		UpdateCustomerAddressRequest request = mock(UpdateCustomerAddressRequest.class);
+		UpdateCustomerDetailsRequest request = mock(UpdateCustomerDetailsRequest.class);
 		Customer customer = mock(Customer.class);
 		Address address = mock(Address.class);
 		when(customer.getAddress()).thenReturn(address);
 		when(customerService.viewCustomer(id)).thenReturn(customer);
 		CustomerDetails details = mock(CustomerDetails.class);
 		when(util.toDetail(customer)).thenReturn(details);
-		CustomerDetails result = controller.updateAddress(request,id);
+		CustomerDetails result = controller.updateCustomer(request, id);
 		Assertions.assertNotNull(result);
 		Assertions.assertSame(details, result);
 		verify(customerService).viewCustomer(id);
@@ -119,6 +151,13 @@ class CustomerRestControllerUnitTest {
 		verify(util).toDetail(customer);
 
 	}
+	/*
+	 * scenario : success scenario , customerAddress update successfully
+	 *
+	 * input : mock UpdateCustomerAddress and Customer, stubbed updateAddress
+	 *
+	 * expectation : customer address will be updated and displayed in postman
+	 */
 
 	@Test
 	public void testUpdateCustomerAddressRequest() {
@@ -130,7 +169,7 @@ class CustomerRestControllerUnitTest {
 		when(customerService.viewCustomer(id)).thenReturn(customer);
 		CustomerDetails details = mock(CustomerDetails.class);
 		when(util.toDetail(customer)).thenReturn(details);
-		CustomerDetails result = controller.updateAddress(request,id);
+		CustomerDetails result = controller.updateAddress(request, id);
 		Assertions.assertNotNull(result);
 		Assertions.assertSame(details, result);
 		verify(customerService).viewCustomer(id);
@@ -138,19 +177,4 @@ class CustomerRestControllerUnitTest {
 		verify(util).toDetail(customer);
 
 	}
-
-//	@Test
-//	public void test_allCustomerDetails() {
-//		List<Customer> customerList = mock(List.class);
-//		when(customerService.viewAllCustomers()).thenReturn(customerList);
-//		List<CustomerDetails> desiredList = mock(List.class);
-//		when(util.toDetailList(customerList)).thenReturn(desiredList);
-//		List<CustomerDetails> resultList = controller.allCustomerDetails();
-//		Assertions.assertNotNull(resultList);
-//		Assertions.assertSame(desiredList, resultList);
-//		verify(customerService).viewAllCustomers();
-//		verify(util).toDetailList(customerList);
-//	}
-//	
-	
 }
