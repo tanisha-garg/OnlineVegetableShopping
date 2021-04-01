@@ -2,20 +2,15 @@ package com.cg.vegetable.mgmt.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cg.vegetable.mgmt.entities.Address;
-import com.cg.vegetable.mgmt.entities.BillingDetails;
-import com.cg.vegetable.mgmt.entities.Cart;
-import com.cg.vegetable.mgmt.entities.CartVegetable;
 import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.entities.Order;
 import com.cg.vegetable.mgmt.entities.Vegetable;
-import com.cg.vegetable.mgmt.service.IBillingService;
 import com.cg.vegetable.mgmt.service.ICartService;
 import com.cg.vegetable.mgmt.service.ICustomerService;
 import com.cg.vegetable.mgmt.service.IOrderService;
@@ -72,6 +67,9 @@ public class OrderUI {
 		pallaviCustomer.setAddress(address1);
 		customerService.addCustomer(pallaviCustomer);
 		
+		Customer sindhujaCustomer = new Customer("Sindhuja", "8789809809", "sindhuja@gmail.com");
+		customerService.addCustomer(sindhujaCustomer);
+		
 		
 		
 		
@@ -83,7 +81,8 @@ public class OrderUI {
 		
 		Vegetable srinidhiCart = cartService.addToCart(srinidhiCustomer.getCustomerId(), onion);
 		Vegetable pallaviCart = cartService.addToCart(pallaviCustomer.getCustomerId(), cabbage);	
-
+		pallaviCart = cartService.addToCart(pallaviCustomer.getCustomerId(), capsicum);
+		Vegetable sindhujaCart = cartService.addToCart(sindhujaCustomer.getCustomerId(), capsicum);
 		
 		
 		/*
@@ -104,7 +103,7 @@ public class OrderUI {
 		
 		
 		/*
-		 * Adding order to Order Repository
+		 * Adding order to Order Repository - Placing an order
 		 * 
 		 */
 		
@@ -134,21 +133,21 @@ public class OrderUI {
 		 * 
 		 * */
 		
-		System.out.println();
-		System.out.println("Updating order details\n");
-		
-		List<Vegetable> updateList = srinidhiOrder.getVegetableList();
-		//updateList.add(capsicum);
-		
-		//double updateAmount = srinidhiOrder.getTotalAmount() + 30;
-		
-		//srinidhiOrder.setTotalAmount(updateAmount);
-		//srinidhiOrder.setVegetableList(updateList);
-		
-		srinidhiOrder = orderService.updateOrderDetails(srinidhiOrder);
-		
-		displayOrderDetails(srinidhiOrder);
-		
+//		System.out.println();
+//		System.out.println("Updating order details\n");
+//		
+//		List<Vegetable> updateList = srinidhiOrder.getVegetableList();
+//		updateList.add(capsicum);
+//		
+//		double updateAmount = srinidhiOrder.getTotalAmount() + 30;
+//		
+//		srinidhiOrder.setTotalAmount(updateAmount);
+//		srinidhiOrder.setVegetableList(updateList);
+//		
+//		srinidhiOrder = orderService.updateOrderDetails(srinidhiOrder);
+//		
+//		displayOrderDetails(srinidhiOrder);
+//		
 		
 		/*
 		 *View All Orders by passing customer id
@@ -174,7 +173,7 @@ public class OrderUI {
 		System.out.println("Viewing All Orders placed on a particular date\n");
 
 		
-		LocalDate date = LocalDate.parse("2021-03-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate date = LocalDate.parse("2021-04-01", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		List<Order> desiredList = orderService.viewOrderList(date);
 		for(Order order : desiredList) {
 			displayOrderDetails(order);
