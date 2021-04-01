@@ -265,7 +265,7 @@ class VegetableMgmtServiceImplUnitTest {
 	}
 	
 	
-	/*@Test
+	@Test
 	void test_viewallVegetables_1(){
 		List<Vegetable>fetchedList=mock(List.class);
 		Mockito.when(vegetableRepository.findAll()).thenReturn(fetchedList);
@@ -291,5 +291,5 @@ class VegetableMgmtServiceImplUnitTest {
 		Mockito.when(vegetableRepository.findAll()).thenReturn(fetchedList);
 		Mockito.when(fetchedList.isEmpty()).thenReturn(false);
 		List<Vegetable> resultList=vegetableService.viewVegetableByName(name);
-	}*/
+	}
 }
