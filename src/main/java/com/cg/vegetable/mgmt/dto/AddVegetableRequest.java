@@ -14,6 +14,7 @@ public class AddVegetableRequest {
 	private double price;
 	@NotBlank
 	private int quantity;
+	@NotBlank
 	public String getName() {
 		return name;
 	}

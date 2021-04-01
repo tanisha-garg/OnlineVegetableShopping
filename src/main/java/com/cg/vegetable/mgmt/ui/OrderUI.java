@@ -175,10 +175,10 @@ public class OrderUI {
 
 		
 		LocalDate date = LocalDate.parse("2021-03-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		List<Order> desiredList = orderService.viewOrderList(date);
+		/*List<Order> desiredList = orderService.viewOrderList(date);
 		for(Order order : desiredList) {
 			displayOrderDetails(order);
-		}
+		}*/
 		
 		
 		/*
