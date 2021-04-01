@@ -31,7 +31,6 @@ import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.service.IVegetableMgmtService;
 import com.cg.vegetable.mgmt.util.VegetableUtil;
 
-@Validated
 @RequestMapping("/vegetables")
 @RestController
 public class VegetableRestController {
