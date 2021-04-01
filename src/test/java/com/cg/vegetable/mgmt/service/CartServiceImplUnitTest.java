@@ -83,7 +83,11 @@ public class CartServiceImplUnitTest {
 	@Test
 	void removeAllVegetables_1() {
 		Cart cart = Mockito.mock(Cart.class);
-		Mockito.doNothing().when(cartService).validateVegetable(null);
+		Mockito.doNothing().when(cartService).validateId(cart.getCartId());
+		Cart result = cartService.removeAllVegetables(cart);
+		Assertions.assertNotNull(result);
+		Assertions.assertEquals(cart,result);
+		Mockito.verify(cartService).validateId(cart.getCartId());
 	}
 	
 }

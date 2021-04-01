@@ -1,19 +1,14 @@
 package com.cg.vegetable.mgmt.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class UpdateCustomerDetailsRequest {
-
-	private int customerId;
+	@NotBlank
 	private String name;
+	@NotBlank
 	private String mobileNumber;
+	@NotBlank
 	private String emailId;
-
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
 
 	public String getName() {
 		return name;

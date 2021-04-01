@@ -14,15 +14,15 @@ public class CustomerUtil {
 		customerDetails.setName(customer.getName());
 		customerDetails.setMobileNumber(customer.getMobileNumber());
 		customerDetails.setEmailId(customer.getEmailId());
-		
-		if(customer.getAddress()!=null) {
-		customerDetails.setFlatNo(customer.getAddress().getFlatNo());
-		customerDetails.setBuildingName(customer.getAddress().getBuildingName());
-		customerDetails.setArea(customer.getAddress().getArea());
-		customerDetails.setCity(customer.getAddress().getCity());
-		customerDetails.setState(customer.getAddress().getState());
-		customerDetails.setPincode(customer.getAddress().getPincode());
-	}
+
+		if (customer.getAddress() != null) {
+			customerDetails.setFlatNo(customer.getAddress().getFlatNo());
+			customerDetails.setBuildingName(customer.getAddress().getBuildingName());
+			customerDetails.setArea(customer.getAddress().getArea());
+			customerDetails.setCity(customer.getAddress().getCity());
+			customerDetails.setState(customer.getAddress().getState());
+			customerDetails.setPincode(customer.getAddress().getPincode());
+		}
 
 		return customerDetails;
 	}

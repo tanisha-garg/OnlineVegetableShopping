@@ -1,7 +1,5 @@
 package com.cg.vegetable.mgmt.util;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +38,6 @@ public class OrderUtil {
 		return orderDetails;
 	}
 	
-	public List<VegetablesOrderedByCustomer> toVegetableDetails(List<Order> orderList){
-		List<VegetablesOrderedByCustomer> desiredList = new ArrayList<>();
-		for(Order order : orderList) {
-			List<Vegetable> vegetableList = order.getVegetableList();
-			desiredList = orderedVegetableDetails(vegetableList);			
-		}				
-		return desiredList;
-	}
 	
 	public List<OrderDetailsResponse> toOrderDetails(List<Order> orderList) {
 		List<OrderDetailsResponse> orderDetailsList = new ArrayList<>();

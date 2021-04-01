@@ -1,7 +1,10 @@
 package com.cg.vegetable.mgmt.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class UpdateTransactionStatusRequest {
 	
+	@NotBlank
 	private String transactionStatus;
 
 	public String getTransactionStatus() {

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import com.cg.vegetable.mgmt.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,12 +44,15 @@ public class CartServiceImpl implements ICartService {
 	private ICartVegetableRepository cartVegetableRepository;
 
 	@Autowired
-	private  ICustomerService customerService;
+	private ICustomerService customerService;
+	
+	@Autowired
+	private IVegetableMgmtService vegService;
 
 	@Override
 	public Vegetable addToCart(int customerId, Vegetable vegetable) {
-		increaseVegQuantity(customerId,vegetable.getVegId(),1);
-	    return  vegetable;
+		increaseVegQuantity(customerId, vegetable.getVegId(), 1);
+		return vegetable;
 	}
 
 	@Override
@@ -60,8 +65,8 @@ public class CartServiceImpl implements ICartService {
 		Cart cart = cartRepository.findCartByCustId(customerId);
 		boolean exists = cartVegetableRepository.existsByCartAndVegetable(cart, vegetable);
 		if (!exists) {
-         CartVegetable cartVegetable=new CartVegetable(cart,vegetable,quantityToBeAdded);
-         cartVegetableRepository.save(cartVegetable);
+			CartVegetable cartVegetable = new CartVegetable(cart, vegetable, quantityToBeAdded);
+			cartVegetableRepository.save(cartVegetable);
 		}
 		CartVegetable cartVegetable = cartVegetableRepository.findCartVegetableByCartAndVegetable(cart, vegetable);
 		int existingQuantity = cartVegetable.getQuantity();
@@ -70,7 +75,6 @@ public class CartServiceImpl implements ICartService {
 		cartVegetableRepository.save(cartVegetable);
 		return cart;
 	}
-
 
 	@Override
 	public Cart decreaseVegQuantity(int customerId, int vegid, int quantityToBeRemoved) {
@@ -95,6 +99,7 @@ public class CartServiceImpl implements ICartService {
 		return cart;
 	}
 
+	@Transactional
 	@Override
 	public Cart removeVegetable(int customerId, int vegid) {
 		Optional<Vegetable> vegOptional = vegRepository.findById(vegid);
@@ -122,14 +127,14 @@ public class CartServiceImpl implements ICartService {
 	}
 
 	@Override
-	public List<CartVegetable>findCartVegetablesAndQuantity(Cart cart){
+	public List<CartVegetable> findCartVegetablesAndQuantity(Cart cart) {
 		return cartVegetableRepository.findByCart(cart);
 	}
 
 	@Override
-	public Cart findCartByCustomerId(int customerId){
+	public Cart findCartByCustomerId(int customerId) {
 		Cart cart = cartRepository.findCartByCustId(customerId);
-         return cart;
+		return cart;
 	}
 
 	public void validateVegetable(Vegetable vegetable) {
@@ -169,15 +174,19 @@ public class CartServiceImpl implements ICartService {
 			throw new VegValAtleastOneException("To Remove the value should be 1 or above");
 		}
 	}
-//
-//
-//	
 
-//	public void addToCart(CartDTO cart) {
-//		// TODO Auto-generated method stub
-//		if(cart == null) {
-//			throw new CartIsEmptyException("Cart is null");
-//		}
-//	}
+
+	@Override
+	public CartVegetable findCartVegetableAndQuantity(int custId, int vegId) {
+		Cart cart = findCartByCustomerId(custId);
+		List<CartVegetable> allCartVeg = findCartVegetablesAndQuantity(cart);
+		for(CartVegetable cartVeg: allCartVeg) {
+			if(cartVeg.getCart().getCustId() == custId && cartVeg.getVegetable().getVegId() == vegId)  {
+				return cartVeg;
+			}
+		}
+		throw new VegetableNotFoundException("Vegetable Not found for this id");
+	}
+
 
 }

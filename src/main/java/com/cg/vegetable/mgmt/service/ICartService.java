@@ -16,5 +16,6 @@ public interface ICartService {
 	public List<Vegetable> viewAllItems(Cart cart);
     Cart findCartByCustomerId(int customerId);
     List<CartVegetable>findCartVegetablesAndQuantity(Cart cart);
+    CartVegetable findCartVegetableAndQuantity(int custId,int vegId);
 	
 }

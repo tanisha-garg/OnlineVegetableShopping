@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.cg.vegetable.mgmt.exceptions.BillNotFoundException;
-
+import com.cg.vegetable.mgmt.exceptions.CartException;
+import com.cg.vegetable.mgmt.exceptions.CartIsEmptyException;
 import com.cg.vegetable.mgmt.exceptions.ConfirmPasswordDoesntMatchException;
 import com.cg.vegetable.mgmt.exceptions.CustomerIdNotFoundException;
 import com.cg.vegetable.mgmt.exceptions.CustomerNotFoundException;
@@ -24,6 +25,8 @@ import com.cg.vegetable.mgmt.exceptions.InvalidVegetableNameException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetablePriceException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableQuantityException;
 import com.cg.vegetable.mgmt.exceptions.InvalidVegetableTypeException;
+import com.cg.vegetable.mgmt.exceptions.VegetableIsNullException;
+import com.cg.vegetable.mgmt.exceptions.VegetableMustHaveValueException;
 import com.cg.vegetable.mgmt.exceptions.VegetableNotFoundException;
 
 @RestControllerAdvice
@@ -88,6 +91,8 @@ public class CentralizedExceptionHandler {
 	public String handleInvalidPriceVegetable(InvalidVegetablePriceException e) {
 		return e.getMessage();
 	}
+	
+	
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(InvalidVegetableQuantityException.class)
@@ -138,7 +143,32 @@ public class CentralizedExceptionHandler {
 	public String handleInvalidConfirmPassword(ConfirmPasswordDoesntMatchException e) {
 		return e.getMessage();
 	}
-
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(CartIsEmptyException.class)
+	public String handleCartEmptyException(CartIsEmptyException e) {
+		return e.getMessage();
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(CartException.class)
+	public String handleCartException(CartException e) {
+		return e.getMessage();
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(VegetableIsNullException.class)
+	public String handleVegetableNullException(VegetableIsNullException e) {
+		return e.getMessage();
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(VegetableMustHaveValueException.class)
+	public String handleVegetableValException(VegetableMustHaveValueException e) {
+		return e.getMessage();
+	}
+	
+	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public String handleCatchAllException(Exception e) {
