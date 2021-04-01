@@ -6,8 +6,6 @@ import javax.persistence.Id;
 
 @Entity
 public class Address {
-
-
 	@GeneratedValue
 	@Id
 	private int addressId;
@@ -17,11 +15,11 @@ public class Address {
 	private String city;
 	private String state;
 	private String pincode;
-	
+
 	public Address() {
-		
+
 	}
-	
+
 	public Address(String flatNo, String buildingName, String area, String city, String state, String pincode) {
 		this.flatNo = flatNo;
 		this.buildingName = buildingName;
@@ -32,13 +30,13 @@ public class Address {
 	}
 
 	public int getAddressId() {
-	   return addressId;
-	    }
-	  
-	  public void setaddressId(int addressId) {
-	   this.addressId=addressId; 
-	   }
-	 
+		return addressId;
+	}
+
+	public void setaddressId(int addressId) {
+		this.addressId = addressId;
+	}
+
 	public String getFlatNo() {
 		return flatNo;
 	}
@@ -111,8 +109,5 @@ public class Address {
 		return "Address [addressId=" + addressId + ", flatNo=" + flatNo + ", buildingName=" + buildingName + ", area="
 				+ area + ", city=" + city + ", state=" + state + ", pincode=" + pincode + "]";
 	}
-	
-	
-	
 
 }

@@ -12,7 +12,6 @@ public class CustomerDetails {
 	private String state;
 	private String pincode;
 
-
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -44,7 +43,6 @@ public class CustomerDetails {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-
 
 	public String getFlatNo() {
 		return flatNo;
