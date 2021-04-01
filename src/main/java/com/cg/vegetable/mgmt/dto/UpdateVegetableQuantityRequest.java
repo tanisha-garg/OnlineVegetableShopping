@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class UpdateVegetableQuantityRequest {
 	private int vegId;
-	@NotBlank
+	
 	private int quantity;
 	public int getVegId() {
 		return vegId;

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 public class UpdateVegetablePriceRequest {
 
 	int vegId;
-	@NotBlank
+	
 	double price;
 	public int getVegId() {
 		return vegId;

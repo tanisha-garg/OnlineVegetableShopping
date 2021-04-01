@@ -4,17 +4,17 @@ import javax.validation.constraints.NotBlank;
 
 public class AddVegetableRequest {
 	
-	@NotBlank
+	
 	private String name;
-	@NotBlank
+	
 	private String type;
-	@NotBlank
+	
 	private String category;
-	@NotBlank
+	
 	private double price;
-	@NotBlank
+	
 	private int quantity;
-	@NotBlank
+	
 	public String getName() {
 		return name;
 	}
