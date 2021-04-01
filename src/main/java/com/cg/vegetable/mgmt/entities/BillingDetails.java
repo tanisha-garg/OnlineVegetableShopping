@@ -16,7 +16,7 @@ public class BillingDetails {
 	private String transactionStatus;
 
 	@OneToOne
-	private Address address;
+	private Address billingAddress;
 	
 	public BillingDetails() {
 		
@@ -69,11 +69,11 @@ public class BillingDetails {
 	}
 
 	public Address getAddress() {
-		return address;
+		return billingAddress;
 	}
 
 	public void setAddress(Address address) {
-		this.address = address;
+		this.billingAddress = address;
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class BillingDetails {
 	public String toString() {
 		return "BillingDetails [billingId=" + billingId + ", orderId=" + orderId + ", transactionMode="
 				+ transactionMode + ", transactionDate=" + transactionDate + ", transactionStatus=" + transactionStatus
-				+ ", address=" + address + "]";
+				+ ", address=" + billingAddress + "]";
 	}
 	
 	
