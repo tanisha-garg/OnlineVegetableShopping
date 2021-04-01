@@ -59,8 +59,8 @@ public class VegetableUI {
 			int tomatoId = tomato.getVegId();
 			Vegetable fetched = vegetableService.viewVegetable(tomatoId);
 			
-			System.out.println("===Printing All Vegetables===");
-			List<Vegetable>allVegetables=vegetableService.viewAllVegetables();
+			System.out.println("===Printing All Vegetables By Category===");
+			List<Vegetable>allVegetables=vegetableService.viewVegetableByCategory("Brocolli");
 			displayAllVegetables(allVegetables);
 
 		} catch (InvalidVegetableNameException e) {

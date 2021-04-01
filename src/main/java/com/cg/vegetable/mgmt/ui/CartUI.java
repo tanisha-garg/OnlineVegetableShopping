@@ -29,7 +29,7 @@ public class CartUI {
 		 */
 		
 		Address address1 = new Address("123", "abc Apartments", "sss 3", "Chennai", "Tamil Nadu", "123777");
-		Vegetable veg = vegetableService.viewVegetable(3);
+		Vegetable veg = vegetableService.viewVegetable(10);
 		Customer nidhiCustomer = new Customer("nidhi", "167782889", "nidhi@gmail.com");
 		nidhiCustomer.setAddress(address1);
 		customerService.addCustomer(nidhiCustomer);

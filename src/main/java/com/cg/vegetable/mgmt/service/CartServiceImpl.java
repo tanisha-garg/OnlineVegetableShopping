@@ -41,6 +41,9 @@ public class CartServiceImpl implements ICartService {
 	@Autowired
 	private ICartVegetableRepository cartVegetableRepository;
 
+	@Autowired
+	private  ICustomerService customerService;
+
 	@Override
 	public Vegetable addToCart(int customerId, Vegetable vegetable) {
 		increaseVegQuantity(customerId,vegetable.getVegId(),1);
@@ -116,6 +119,17 @@ public class CartServiceImpl implements ICartService {
 	public List<Vegetable> viewAllItems(Cart cart) {
 		List<Vegetable> allVeg = cartVegetableRepository.findVegetablesByCart(cart);
 		return allVeg;
+	}
+
+	@Override
+	public List<CartVegetable>findCartVegetablesAndQuantity(Cart cart){
+		return cartVegetableRepository.findByCart(cart);
+	}
+
+	@Override
+	public Cart findCartByCustomerId(int customerId){
+		Cart cart = cartRepository.findCartByCustId(customerId);
+         return cart;
 	}
 
 	public void validateVegetable(Vegetable vegetable) {

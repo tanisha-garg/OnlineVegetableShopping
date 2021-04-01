@@ -3,8 +3,9 @@ package com.cg.vegetable.mgmt.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.cg.vegetable.mgmt.dto.BillingDetailsDTO;
-import com.cg.vegetable.mgmt.dto.ChangeTransactionStatusRequest;
+import com.cg.vegetable.mgmt.dto.BillingDetailsResponse;
+import com.cg.vegetable.mgmt.dto.UpdateTransactionModeRequest;
+import com.cg.vegetable.mgmt.dto.UpdateTransactionStatusRequest;
 import com.cg.vegetable.mgmt.dto.AddBillDetailsRequest;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.service.IBillingService;
@@ -20,28 +21,36 @@ public class BillingRestController {
     @Autowired
     private BillingDetailsUtil billUtil;
 
-    @GetMapping(value = "/byId/{id}")
-    public BillingDetailsDTO fetchBillDetails(@PathVariable("id") int id) {
+    @GetMapping(value = "get/{id}")
+    public BillingDetailsResponse fetchBillDetails(@PathVariable("id") int id) {
         BillingDetails bill = billingService.viewBill(id);
-        BillingDetailsDTO details = billUtil.toDetails(bill);
-        return details;
+        return billUtil.toDetails(bill);
     }
 
-    @PutMapping("/changeStatus")
-    public BillingDetailsDTO changeTransactionStatus(@RequestBody ChangeTransactionStatusRequest requestData) {
-        BillingDetails bill = billingService.viewBill(requestData.getBillingId());
+    @PutMapping("/update/status/{id}")
+    public BillingDetailsResponse updateTransactionStatus(@RequestBody UpdateTransactionStatusRequest requestData,
+    												@PathVariable("id") int id) {
+        BillingDetails bill = billingService.viewBill(id);
         bill.setTransactionStatus(requestData.getTransactionStatus());
         BillingDetails updatedBill = billingService.updateBill(bill);
-        BillingDetailsDTO details = billUtil.toDetails(updatedBill);
-        return details;
+        return billUtil.toDetails(updatedBill);
+    }
+    
+    @PutMapping("/update/mode/{id}")
+    public BillingDetailsResponse updateTransactionMode(@RequestBody UpdateTransactionModeRequest requestData,
+    													@PathVariable("id") int id) {
+    	BillingDetails bill = billingService.viewBill(id);
+    	bill.setTransactionMode(requestData.getTransactionMode());
+    	BillingDetails updatedBill = billingService.updateBill(bill);
+    	return billUtil.toDetails(updatedBill);
     }
 
-    @PostMapping("/addBill")
-    public String addBill(@RequestBody AddBillDetailsRequest requestData) {
+    @PostMapping("/add")
+    public BillingDetailsResponse addBill(@RequestBody AddBillDetailsRequest requestData) {
         BillingDetails bill = new BillingDetails(requestData.getOrderId(), requestData.getTransactionMode(),
                 requestData.getTransactionStatus());
         BillingDetails addedBill = billingService.addBill(bill);
-        return "Bill with id " + addedBill.getBillingId() + " created";
+        return billUtil.toDetails(addedBill);
     }
 
 }
