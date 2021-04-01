@@ -12,9 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.cg.vegetable.mgmt.controllers.CustomerRestController;
 import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.Customer;
+import com.cg.vegetable.mgmt.service.ICustomerService;
 import com.cg.vegetable.mgmt.util.CustomerUtil;
 
 import com.cg.vegetable.mgmt.dto.CustomerDetails;
