@@ -1,11 +1,16 @@
 package com.cg.vegetable.mgmt.dto;
 
-public class UpdateCustomerAddressRequest {
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
-	private String flatNo;
+public class UpdateCustomerAddressRequest {
+	@Min(1)
+	private String flatNo;	
 	private String buildingName;
 	private String area;
+	@NotBlank
 	private String city;
+	@NotBlank
 	private String state;
 	private String pincode;
 

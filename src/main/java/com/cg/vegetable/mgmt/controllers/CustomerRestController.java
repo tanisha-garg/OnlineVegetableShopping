@@ -8,12 +8,15 @@ import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.service.ICustomerService;
 import com.cg.vegetable.mgmt.util.CustomerUtil;
 
-//import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 @RequestMapping("/customers")
 @RestController
 public class CustomerRestController {
@@ -24,7 +27,7 @@ public class CustomerRestController {
 	private CustomerUtil customerUtil;
 
 	@DeleteMapping("/removeCustomer/{id}")
-	public String removeCustomer(@PathVariable Integer id) {
+	public String removeCustomer(@PathVariable @Min(1) Integer id) {
 		Customer customer = customerService.viewCustomer(id);
 		customerService.removeCustomer(customer);
 		return "Customer removed successfully";
@@ -32,7 +35,7 @@ public class CustomerRestController {
 	}
 
 	@GetMapping("/viewCustomer/{id}")
-	public CustomerDetails fetchCustomerDetails(@PathVariable int id) {
+	public CustomerDetails fetchCustomerDetails(@PathVariable @Min(1) int id) {
 		Customer customer = customerService.viewCustomer(id);
 		CustomerDetails details = customerUtil.toDetail(customer);
 		return details;
@@ -41,7 +44,7 @@ public class CustomerRestController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/addCustomer")
-	public CustomerDetails addCustomer(@RequestBody CustomerDetails requestData) {
+	public CustomerDetails addCustomer(@RequestBody @Valid CustomerDetails requestData) {
 		Customer customer = new Customer(requestData.getName(), requestData.getMobileNumber(),
 				requestData.getEmailId());
 		Customer addedCustomer = customerService.addCustomer(customer);
@@ -49,7 +52,7 @@ public class CustomerRestController {
 	}
 
 	@PutMapping("/updateCustomerDetails/{id}")
-	public CustomerDetails updateCustomer(@RequestBody UpdateCustomerDetailsRequest requestData,
+	public CustomerDetails updateCustomer(@RequestBody @Valid UpdateCustomerDetailsRequest requestData,
 			@PathVariable Integer id) {
 		Customer customer = customerService.viewCustomer(id);
 		customer.setName(requestData.getName());
@@ -61,8 +64,8 @@ public class CustomerRestController {
 	}
 
 	@PutMapping("/updateCustomerAddress/{id}")
-	public CustomerDetails updateAddress(@RequestBody UpdateCustomerAddressRequest requestData,
-			@PathVariable Integer id) {
+	public CustomerDetails updateAddress(@RequestBody @Valid UpdateCustomerAddressRequest requestData,
+			@PathVariable @Min(1) Integer id) {
 		Customer customer = customerService.viewCustomer(id);
 		customer.getAddress().setFlatNo(requestData.getFlatNo());
 		customer.getAddress().setBuildingName(requestData.getBuildingName());
@@ -76,7 +79,7 @@ public class CustomerRestController {
 	}
 
 	@PutMapping("/updatePassword/{id}")
-	public CustomerDetails updatePassword(@RequestBody UpdatePasswordRequest requestData, @PathVariable Integer id) {
+	public CustomerDetails updatePassword(@RequestBody @Valid UpdatePasswordRequest requestData, @PathVariable @Min(1) Integer id) {
 		Customer customer = customerService.viewCustomer(id);
 		customer.setPassword(requestData.getPassword());
 		Customer updatedPassword = customerService.updateCustomer(customer);

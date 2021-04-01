@@ -1,14 +1,24 @@
 package com.cg.vegetable.mgmt.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 public class CustomerDetails {
+	@Min(1)
 	private int customerId;
+	@NotBlank
 	private String name;
+	@NotBlank
 	private String mobileNumber;
+	@NotBlank
 	private String emailId;
+	@Min(1)
 	private String flatNo;
 	private String buildingName;
 	private String area;
+	@NotBlank
 	private String city;
+	@NotBlank
 	private String state;
 	private String pincode;
 
