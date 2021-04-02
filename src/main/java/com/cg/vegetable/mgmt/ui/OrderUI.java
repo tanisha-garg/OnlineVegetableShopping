@@ -174,7 +174,7 @@ public class OrderUI {
 
 		
 
-		LocalDate date = LocalDate.parse("2021-04-01", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate date = LocalDate.now();
 		List<Order> desiredList = orderService.viewOrderList(date);
 		for(Order order : desiredList) {
 			displayOrderDetails(order);
