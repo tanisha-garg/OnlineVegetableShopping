@@ -27,12 +27,28 @@ public class BillingRestController {
     @Autowired
     private BillingDetailsUtil billUtil;
 
-    @GetMapping(value = "get/{id}")
+    /*
+     * 
+     * Rest Controller for fetching BillingDetails by passing id
+     * Path: /bills/get/10
+     * @param: id is billingId
+     * @return: BillingDetailsResponse received from billUtil.toDetails()
+     * 
+     * */
+    @GetMapping(value = "/get/{id}")
     public BillingDetailsResponse fetchBillDetails(@PathVariable("id") @Min(1) int id) {
         BillingDetails bill = billingService.viewBill(id);
         return billUtil.toDetails(bill);
     }
 
+    /*
+     * 
+     * Rest Controller for updating Transaction Status by passing id
+     * Path: /bills/update/status/10
+     * @param: id is billingId and UpdateTransactionStatusRequest is request body which is present in dto
+     * @return: BillingDetailsResponse received from billUtil.toDetails()
+     * 
+     * */
     @PutMapping("/update/status/{id}")
     public BillingDetailsResponse updateTransactionStatus(@RequestBody @Valid UpdateTransactionStatusRequest requestData,
     												@PathVariable("id") @Min(1) int id) {
@@ -42,6 +58,14 @@ public class BillingRestController {
         return billUtil.toDetails(updatedBill);
     }
     
+    /*
+     * 
+     * Rest Controller for updating Transaction Mode by passing id
+     * Path: /bills/update/mode/10
+     * @param: id is billingId and UpdateTransactionModeRequest is request body which is present in dto
+     * @return: BillingDetailsResponse received from billUtil.toDetails()
+     * 
+     * */
     @PutMapping("/update/mode/{id}")
     public BillingDetailsResponse updateTransactionMode(@RequestBody @Valid UpdateTransactionModeRequest requestData,
     													@PathVariable("id") @Min(1) int id) {
@@ -50,7 +74,15 @@ public class BillingRestController {
     	BillingDetails updatedBill = billingService.updateBill(bill);
     	return billUtil.toDetails(updatedBill);
     }
-
+    
+    /*
+     * 
+     * Rest Controller for adding a Bill
+     * Path: /bills/add	
+     * @param: AddBillDetailsRequest is request body which is present in dto
+     * @return: BillingDetailsResponse received from billUtil.toDetails()
+     * 
+     * */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
     public BillingDetailsResponse addBill(@RequestBody @Valid AddBillDetailsRequest requestData) {

@@ -3,23 +3,14 @@ package com.cg.vegetable.mgmt.dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-public class AddBillDetailsRequest {
-	
-	private int billingId;
+public class AddBillDetailsRequest {	
+
 	@Min(1)
 	private int orderId;
 	@NotBlank
 	private String transactionMode;
 	@NotBlank
 	private String transactionStatus;
-
-	public int getBillingId() {
-		return billingId;
-	}
-
-	public void setBillingId(int billingId) {
-		this.billingId = billingId;
-	}
 
 	public int getOrderId() {
 		return orderId;
