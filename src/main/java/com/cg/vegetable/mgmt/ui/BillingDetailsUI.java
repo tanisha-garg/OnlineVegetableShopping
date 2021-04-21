@@ -1,19 +1,35 @@
 package com.cg.vegetable.mgmt.ui;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.entities.Customer;
+import com.cg.vegetable.mgmt.entities.Order;
+import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.service.IBillingService;
+import com.cg.vegetable.mgmt.service.ICartService;
 import com.cg.vegetable.mgmt.service.ICustomerService;
+import com.cg.vegetable.mgmt.service.IOrderService;
+import com.cg.vegetable.mgmt.service.IVegetableMgmtService;
 
 @Component
 public class BillingDetailsUI {
 	
 	@Autowired
 	IBillingService billingService;
+	
+	@Autowired
+	private IVegetableMgmtService vegetableService;
+	
+	@Autowired
+	private ICartService cartService;
+	
+	@Autowired
+	private IOrderService orderService;
 	
 	@Autowired
 	private ICustomerService customerService;
@@ -37,6 +53,26 @@ public class BillingDetailsUI {
 		customerService.addCustomer(tanishaCustomer);
 		
 		/*
+		 * Creating a vegetable object
+		 * */
+		Vegetable lettuce = vegetableService
+				.addVegetable(new Vegetable("Lettuce", "Green Cabbage", "Lettuce", 30.0, 10));
+		
+		/*
+		 * Adding the vegetable to cart
+		 * */
+		Vegetable tanishaCart = cartService.addToCart(tanishaCustomer.getCustomerId(), lettuce);
+		
+		/*
+		 * Creating Order Object and placing it
+		 * */
+		Order tanishaOrder = new Order();
+		tanishaOrder.setCustomerId(tanishaCustomer.getCustomerId());		
+		List<Vegetable> tanishaVegetableList = cartService.viewAllItems(tanishaCustomer.getCart());
+		tanishaOrder.setVegetableList(tanishaVegetableList);
+		tanishaOrder = orderService.addOrder(tanishaOrder);
+		
+		/*
 		 * Adding a bill to the repository
 		 * 
 		 * */
@@ -45,7 +81,7 @@ public class BillingDetailsUI {
 		System.out.println("****************************");
 		System.out.println();
 		System.out.println("Adding a bill to repository");
-		BillingDetails bill1 = new BillingDetails(1, "COD", "Successful");
+		BillingDetails bill1 = new BillingDetails(tanishaOrder.getOrderNo(), "COD", "Successful");
 		bill1.setAddress(tanishaCustomer.getAddress());
 		BillingDetails addBill1 = billingService.addBill(bill1);
 		displayBill(addBill1);
@@ -59,7 +95,7 @@ public class BillingDetailsUI {
 		System.out.println("Updating a bill");
 		bill1.setTransactionMode("UPI");
 		BillingDetails updatedBill = billingService.updateBill(bill1);
-		displayBill(bill1);
+		displayBill(updatedBill);
 
 		/*
 		 * Finding a bill by passing billingId
