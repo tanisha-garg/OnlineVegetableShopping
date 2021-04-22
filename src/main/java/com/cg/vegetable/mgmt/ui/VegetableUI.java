@@ -29,11 +29,11 @@ public class VegetableUI {
 			 */
 
 			Vegetable tomato = vegetableService
-					.addVegetable(new Vegetable("tomato", "aboveground", "yellowtomato", 20.0, 5));
+					.addVegetable(new Vegetable("tomato","allium", "aboveground", 20.0, 5));
 			Vegetable potato = vegetableService
-					.addVegetable(new Vegetable("potato", "underground", "Russet", 15.0, 10));
+					.addVegetable(new Vegetable("potato", "root", "underground", 15.0, 10));
 			Vegetable cauliFlower = vegetableService
-					.addVegetable(new Vegetable("cauliFlower", "aboveground", "Brocolli", 40.0, 3));
+					.addVegetable(new Vegetable("cauliFlower", "cruciferous", "aboveground", 40.0, 3));
 			displayVegetableDetails(tomato);
 
 			/*
@@ -59,8 +59,8 @@ public class VegetableUI {
 			int tomatoId = tomato.getVegId();
 			Vegetable fetched = vegetableService.viewVegetable(tomatoId);
 			
-			System.out.println("===Printing All Vegetables By Category===");
-			List<Vegetable>allVegetables=vegetableService.viewVegetableByCategory("Brocolli");
+			System.out.println("===\nPrinting All Vegetables By Category===");
+			List<Vegetable>allVegetables=vegetableService.viewVegetableByCategory("aboveground");
 			displayAllVegetables(allVegetables);
 
 		} catch (InvalidVegetableNameException e) {

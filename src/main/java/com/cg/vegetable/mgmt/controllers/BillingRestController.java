@@ -74,22 +74,5 @@ public class BillingRestController {
     	BillingDetails updatedBill = billingService.updateBill(bill);
     	return billUtil.toDetails(updatedBill);
     }
-    
-    /*
-     * 
-     * Rest Controller for adding a Bill
-     * Path: /bills/add	
-     * @param: AddBillDetailsRequest is request body which is present in dto
-     * @return: BillingDetailsResponse received from billUtil.toDetails()
-     * 
-     * */
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/add")
-    public BillingDetailsResponse addBill(@RequestBody @Valid AddBillDetailsRequest requestData) {
-        BillingDetails bill = new BillingDetails(requestData.getOrderId(), requestData.getTransactionMode(),
-                requestData.getTransactionStatus());
-        BillingDetails addedBill = billingService.addBill(bill);
-        return billUtil.toDetails(addedBill);
-    }
 
 }

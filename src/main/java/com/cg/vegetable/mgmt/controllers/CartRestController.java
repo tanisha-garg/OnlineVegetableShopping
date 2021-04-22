@@ -50,7 +50,7 @@ public class CartRestController {
 	
 	
     @PutMapping("/increasequantity")
-	public CartVegetableDetails increasequantity(@RequestBody IncreaseQuantityOfVegetable requestData) {
+	public CartVegetableDetails increaseQuantity(@RequestBody IncreaseQuantityOfVegetable requestData) {
 		Cart cart = cartService.increaseVegQuantity(requestData.getCustId(), requestData.getVegId(), requestData.getQuantity());
 		CartVegetable cartVeg = cartService.findCartVegetableAndQuantity(requestData.getCustId(), requestData.getVegId());
 	    return cartUtil.toCartVegetableDetails(cartVeg);

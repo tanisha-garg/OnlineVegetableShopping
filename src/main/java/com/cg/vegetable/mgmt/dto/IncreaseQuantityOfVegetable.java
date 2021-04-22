@@ -2,9 +2,9 @@ package com.cg.vegetable.mgmt.dto;
 
 public class IncreaseQuantityOfVegetable {
 	
-	int custId;
-	int vegId;
-	int quantity;
+	private int custId;
+	private int vegId;
+	private int quantity;
 	public int getCustId() {
 		return custId;
 	}

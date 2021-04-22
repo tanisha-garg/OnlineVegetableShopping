@@ -29,9 +29,15 @@ public class CartUI {
 		 * Adding to cart
 		 */
 		
-		Address address1 = new Address("123", "abc Apartments", "sss 3", "Chennai", "Tamil Nadu", "123777");
+		Address address1 = new Address();
+		address1.setFlatNo("123");
+		address1.setBuildingName("abc Apartments");
+		address1.setArea("sss 3");
+		address1.setCity("Chennai");
+		address1.setState("Tamil");
+		address1.setPincode("123777");
 		Vegetable veg = vegetableService.viewVegetable(10);
-		Customer nidhiCustomer = new Customer("nidhi", "167782889", "nidhi@gmail.com");
+		Customer nidhiCustomer = new Customer("nidhi", "167782889", "nidhi@gmail.com", address1);
 		nidhiCustomer.setAddress(address1);
 		customerService.addCustomer(nidhiCustomer);
 		

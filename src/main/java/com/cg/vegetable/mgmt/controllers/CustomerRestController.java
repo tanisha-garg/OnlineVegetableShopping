@@ -1,9 +1,7 @@
 package com.cg.vegetable.mgmt.controllers;
 
-import com.cg.vegetable.mgmt.dto.CustomerDetails;
-import com.cg.vegetable.mgmt.dto.UpdateCustomerDetailsRequest;
-import com.cg.vegetable.mgmt.dto.UpdatePasswordRequest;
-import com.cg.vegetable.mgmt.dto.UpdateCustomerAddressRequest;
+import com.cg.vegetable.mgmt.dto.*;
+import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.service.ICustomerService;
 import com.cg.vegetable.mgmt.util.CustomerUtil;
@@ -44,14 +42,22 @@ public class CustomerRestController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/addCustomer")
-	public CustomerDetails addCustomer(@RequestBody @Valid CustomerDetails requestData) {
+	public CustomerDetails addCustomer(@RequestBody @Valid AddCustomerRequest requestData) {
+		Address address = new Address();
+		address.setArea(requestData.getArea());
+		address.setBuildingName(requestData.getBuildingName());
+		address.setArea(requestData.getArea());
+		address.setCity(requestData.getCity());
+		address.setFlatNo(requestData.getFlatNo());
+		address.setPincode(requestData.getPincode());
+		address.setState(requestData.getState());
 		Customer customer = new Customer(requestData.getName(), requestData.getMobileNumber(),
-				requestData.getEmailId());
+				requestData.getEmailId(),address);
 		Customer addedCustomer = customerService.addCustomer(customer);
 		return customerUtil.toDetail(addedCustomer);
 	}
-
-	@PutMapping("/updateCustomerDetails/{id}")
+/*
+	@PutMapping("/update/{id}")
 	public CustomerDetails updateCustomer(@RequestBody @Valid UpdateCustomerDetailsRequest requestData,
 			@PathVariable Integer id) {
 		Customer customer = customerService.viewCustomer(id);
@@ -62,8 +68,9 @@ public class CustomerRestController {
 		CustomerDetails details = customerUtil.toDetail(updatedCustomer);
 		return details;
 	}
+	*/
 
-	@PutMapping("/updateCustomerAddress/{id}")
+	@PutMapping("/update/address/{id}")
 	public CustomerDetails updateAddress(@RequestBody @Valid UpdateCustomerAddressRequest requestData,
 			@PathVariable @Min(1) Integer id) {
 		Customer customer = customerService.viewCustomer(id);

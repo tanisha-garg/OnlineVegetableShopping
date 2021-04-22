@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import com.cg.vegetable.mgmt.constants.VegetableCategory;
+import com.cg.vegetable.mgmt.exceptions.InvalidCategoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -52,11 +54,14 @@ public class VegetableRestController {
 	 @ResponseStatus(HttpStatus.CREATED)
 	    @PostMapping("/add")
 	    public VegetableDetails addVegetable(@RequestBody AddVegetableRequest requestData) {
+
 	        Vegetable created = new Vegetable(requestData.getName(),requestData.getCategory(),requestData.getType(),requestData.getPrice(),requestData.getQuantity());
 	        Vegetable added=vegService.addVegetable(created);
 	        return vegUtil.toDetails(added);
 	    }
-	 
+
+
+
 	 /*
 		 * scenario : success scenario , vegetable is fetched from database through postman
 		 *
