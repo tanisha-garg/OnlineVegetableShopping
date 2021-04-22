@@ -20,15 +20,6 @@ public class Address {
 
 	}
 
-	public Address(String flatNo, String buildingName, String area, String city, String state, String pincode) {
-		this.flatNo = flatNo;
-		this.buildingName = buildingName;
-		this.area = area;
-		this.city = city;
-		this.state = state;
-		this.pincode = pincode;
-	}
-
 	public int getAddressId() {
 		return addressId;
 	}

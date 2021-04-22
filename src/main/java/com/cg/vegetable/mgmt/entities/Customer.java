@@ -28,10 +28,11 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(String name, String mobileNumber, String emailId) {
+	public Customer(String name, String mobileNumber, String emailId, Address address) {
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.emailId = emailId;
+		this.address = address;
 	}
 
 	public int getCustomerId() {

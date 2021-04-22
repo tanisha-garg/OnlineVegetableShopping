@@ -41,22 +41,26 @@ public class BillingDetailsUI {
 		 * 
 		 * */
 		
-		Address address = new Address("109", "Grove Apartments", "Phase 6", "Sector 56", "Punjab", "675388");
-		
+		Address address = new Address();
+		address.setFlatNo("109");
+		address.setBuildingName("Grove Apartments");
+		address.setArea("Phase 6");
+		address.setCity("Sector 56");
+		address.setState("Punjab");
+		address.setPincode("675388");
 		/*
 		 * Creating customer object
 		 * 
 		 * */
 		
-		Customer tanishaCustomer = new Customer("Tanisha", "9999999999", "tanishagarg804@gmail.com");
-		tanishaCustomer.setAddress(address);
+		Customer tanishaCustomer = new Customer("Tanisha", "9999999999", "tanishagarg804@gmail.com", address);
 		customerService.addCustomer(tanishaCustomer);
 		
 		/*
 		 * Creating a vegetable object
 		 * */
 		Vegetable lettuce = vegetableService
-				.addVegetable(new Vegetable("Lettuce", "Green Cabbage", "Lettuce", 30.0, 10));
+				.addVegetable(new Vegetable("Lettuce","root", "aboveground", 30.0, 10));
 		
 		/*
 		 * Adding the vegetable to cart

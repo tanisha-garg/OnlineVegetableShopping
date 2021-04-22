@@ -38,20 +38,41 @@ public class OrderUI {
 		 * 
 		 */
 
-		Address address1 = new Address("304", "RadhaKrishna Apartments", "Phase 6", "Chandigarh", "Punjab", "123456");
-		Address address2 = new Address("176", "Sushma Towers", "Phase 19", "Zirakpur", "Punjab", "987654");
+		Address address1 = new Address();
+		address1.setFlatNo("304");
+		address1.setBuildingName("RadhaKrishna Apartments");
+		address1.setArea("Phase 6");
+		address1.setCity("Chandigarh");
+		address1.setState("Punjab");
+		address1.setPincode("123456");
 		
+		Address address2 = new Address();
+		address2.setFlatNo("176");
+		address2.setBuildingName("Sushma Towers");
+		address2.setArea("Phase 19");
+		address2.setCity("Zirakpur");
+		address2.setState("Punjab");
+		address2.setPincode("987654");
+		
+		Address address3 = new Address();
+		address3.setFlatNo("567");
+		address3.setBuildingName("ABC Towers");
+		address3.setArea("Phase 67");
+		address3.setCity("Sector 9");
+		address3.setState("Punjab");
+		address3.setPincode("987754");
 		/*
 		 * Creating Vegetable object
 		 * 
 		 */
+
 		
 		Vegetable cabbage = vegetableService
-				.addVegetable(new Vegetable("Cabbage", "Green Cabbage", "Lettuce", 30.0, 10));
+				.addVegetable(new Vegetable("Cabbage", "allium", "aboveground", 30.0, 10));
 		Vegetable capsicum = vegetableService
-				.addVegetable(new Vegetable("Capsicum", "Red Capsicum", "Bell Pepper", 50.0, 5));
+				.addVegetable(new Vegetable("Capsicum", "cruciferous","aboveground",  50.0, 5));
 		Vegetable onion = vegetableService
-				.addVegetable(new Vegetable("Onion", "Green Onions", "Spring Onion", 40.0, 3));
+				.addVegetable(new Vegetable("Onion","root", "aboveground",  40.0, 3));
 		
 		
 		/*
@@ -59,15 +80,13 @@ public class OrderUI {
 		 * 
 		 */
 		
-		Customer srinidhiCustomer = new Customer("Srinidhi", "6666666666", "srinidhi@gmail.com");
-		srinidhiCustomer.setAddress(address2);
+		Customer srinidhiCustomer = new Customer("Srinidhi", "6666666666", "srinidhi@gmail.com", address2);
 		customerService.addCustomer(srinidhiCustomer);
 		
-		Customer pallaviCustomer = new Customer("Pallavi", "8888888888", "pallavigupta@gmail.com");
-		pallaviCustomer.setAddress(address1);
+		Customer pallaviCustomer = new Customer("Pallavi", "8888888888", "pallavigupta@gmail.com", address1);
 		customerService.addCustomer(pallaviCustomer);
 		
-		Customer sindhujaCustomer = new Customer("Sindhuja", "8789809809", "sindhuja@gmail.com");
+		Customer sindhujaCustomer = new Customer("Sindhuja", "8789809809", "sindhuja@gmail.com", address3);
 		customerService.addCustomer(sindhujaCustomer);
 		
 		

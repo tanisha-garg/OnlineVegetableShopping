@@ -1,8 +1,8 @@
 package com.cg.vegetable.mgmt.dto;
 
 public class AddVegetableToCart {
-	int custId;
-	int vegId;
+	private int custId;
+	private int vegId;
 	public int getCustId() {
 		return custId;
 	}
