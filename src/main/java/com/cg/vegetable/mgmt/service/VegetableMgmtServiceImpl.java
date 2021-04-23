@@ -142,12 +142,12 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService {
 
     public void validateType(String type) {
         if (type.isEmpty() || type == null || type.trim().isEmpty()) {
-            throw new InvalidVegetableTypeException("category can't empty or null");
+            throw new InvalidVegetableTypeException("type can't empty or null");
         }
         if (!type.equalsIgnoreCase(VegetableType.Allium) &&
                 !type.equalsIgnoreCase(VegetableType.Cruciferous)&& !type.equalsIgnoreCase(VegetableType.LeafyGreen)&&
                 !type.equalsIgnoreCase(VegetableType.Marrow) && !type.equalsIgnoreCase(VegetableType.Root)) {
-            throw new InvalidCategoryException("category is invalid");
+            throw new InvalidCategoryException("type is invalid");
         }
         
     }

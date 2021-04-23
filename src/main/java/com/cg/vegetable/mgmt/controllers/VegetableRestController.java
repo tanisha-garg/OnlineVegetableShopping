@@ -55,7 +55,7 @@ public class VegetableRestController {
 	    @PostMapping("/add")
 	    public VegetableDetails addVegetable(@RequestBody AddVegetableRequest requestData) {
 
-	        Vegetable created = new Vegetable(requestData.getName(),requestData.getCategory(),requestData.getType(),requestData.getPrice(),requestData.getQuantity());
+	        Vegetable created = new Vegetable(requestData.getName(),requestData.getType(),requestData.getCategory(),requestData.getPrice(),requestData.getQuantity());
 	        Vegetable added=vegService.addVegetable(created);
 	        return vegUtil.toDetails(added);
 	    }
