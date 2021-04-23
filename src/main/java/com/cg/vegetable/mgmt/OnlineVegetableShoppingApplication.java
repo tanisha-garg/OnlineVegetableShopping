@@ -3,6 +3,10 @@ package com.cg.vegetable.mgmt;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.cg.vegetable.mgmt.ui.BillingDetailsUI;
 import com.cg.vegetable.mgmt.ui.CartUI;
@@ -34,8 +38,23 @@ public class OnlineVegetableShoppingApplication {
 		cartUI.start();
 		
 		FeedbackUI feedbackUI = context.getBean(FeedbackUI.class);
-		feedbackUI.start();
+		feedbackUI.start();		
 	
 	}
+	 /**
+    *
+    * for handling cross origin requests
+    */
+   @Bean
+   public CorsFilter corsFilter(){
+       UrlBasedCorsConfigurationSource src=new UrlBasedCorsConfigurationSource();
+       CorsConfiguration configuration=new CorsConfiguration();
+       configuration.setAllowCredentials(true);
+       configuration.addAllowedHeader("*");
+       configuration.addAllowedOrigin("http://localhost:3000");
+       configuration.addAllowedMethod("*");
+       src.registerCorsConfiguration("/**",configuration);
+       return new CorsFilter(src);
+   }
 
 }

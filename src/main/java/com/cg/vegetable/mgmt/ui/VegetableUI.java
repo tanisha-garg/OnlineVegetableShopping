@@ -87,9 +87,9 @@ public class VegetableUI {
 	}
 	
 	public void displayVegetableDetails(Vegetable vegetable) {
-		System.out.println("\nVeg ID:" + vegetable.getVegId() + "\nName:" + vegetable.getName() + "\nCategory"
-				+ vegetable.getCategory() + "\nType" + vegetable.getCategory() + "\nPrice:" + vegetable.getPrice()
-				+ "\nQuantity" + vegetable.getQuantity());
+		System.out.println("\nVeg ID: " + vegetable.getVegId() + "\nName: " + vegetable.getName() + "\nCategory : "
+				+ vegetable.getCategory() + "\nType : " + vegetable.getType() + "\nPrice: " + vegetable.getPrice()
+				+ "\nQuantity: " + vegetable.getQuantity());
 		
 	}
 
