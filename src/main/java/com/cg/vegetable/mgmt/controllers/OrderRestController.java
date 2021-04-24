@@ -90,13 +90,26 @@ public class OrderRestController {
 		return orderUtil.toOrderDetails(orderListByDate);
 	}
 	
+//	@ResponseStatus(HttpStatus.CREATED)
+//	@PostMapping("/add")
+//	public OrderDetailsResponse addOrderDetails(@RequestBody @Valid PlaceOrderRequest requestBody) {
+//		Order order = new Order();
+//		Customer customer = customerService.viewCustomer(requestBody.getCustomerId());
+//		Cart cart = customer.getCart();
+//		order.setCustomerId(requestBody.getCustomerId());
+//		List<Vegetable> vegetableList = cartService.viewAllItems(cart);
+//		order.setVegetableList(vegetableList);
+//		orderService.addOrder(order);
+// 		return orderUtil.toDetails(order);
+//	}
+	
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping("/add")
-	public OrderDetailsResponse addOrderDetails(@RequestBody @Valid PlaceOrderRequest requestBody) {
+	@PostMapping("/add/{id}")
+	public OrderDetailsResponse addOrderDetails(@PathVariable("id") @Min(1) int customerId) {
 		Order order = new Order();
-		Customer customer = customerService.viewCustomer(requestBody.getCustomerId());
+		Customer customer = customerService.viewCustomer(customerId);
 		Cart cart = customer.getCart();
-		order.setCustomerId(requestBody.getCustomerId());
+		order.setCustomerId(customerId);
 		List<Vegetable> vegetableList = cartService.viewAllItems(cart);
 		order.setVegetableList(vegetableList);
 		orderService.addOrder(order);
