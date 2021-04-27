@@ -108,7 +108,7 @@ public class OrderRestUnitTest {
 		when(request.getCustomerId()).thenReturn(customerId);
 		when(cartService.viewAllItems(cart)).thenReturn(vegetableList);
 		when(orderService.addOrder(order)).thenReturn(order);
-		when(orderUtil.toDetails(order)).thenReturn(null);
+		when(orderUtil.toDetails(order)).thenReturn(response);
 		OrderDetailsResponse result = orderController.addOrderDetails(customerId);
 		assertEquals(response, result);
 		verify(orderService).addOrder(order);
