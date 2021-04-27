@@ -14,7 +14,10 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
+import com.cg.vegetable.mgmt.entities.Customer;
+import com.cg.vegetable.mgmt.entities.Order;
 import com.cg.vegetable.mgmt.exceptions.*;
 import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
@@ -24,6 +27,12 @@ public class BillingServiceImplUnitTest {
 	
 	@Mock
 	IBillingRepository billingRepository;
+	
+	@Mock
+	IOrderService orderService;
+	
+	@Mock
+	ICustomerService customerService;
 
 	@Spy
 	@InjectMocks
@@ -40,9 +49,19 @@ public class BillingServiceImplUnitTest {
 	
 	@Test
 	public void testAddBill_1() {
+		int orderId = 1;
+		int customerId = 2;
 		BillingDetails saved = mock(BillingDetails.class);
 		BillingDetails billDetails = mock(BillingDetails.class);
+		Order order = mock(Order.class);
+		Customer customer = mock(Customer.class);
+		Address address = mock(Address.class);
 		doNothing().when(billingService).validateBill(billDetails);
+		when(billDetails.getOrderId()).thenReturn(orderId);
+		when(orderService.viewOrder(orderId)).thenReturn(order);
+		when(order.getCustomerId()).thenReturn(customerId);
+		when(customerService.viewCustomer(customerId)).thenReturn(customer);
+		when(customer.getAddress()).thenReturn(address);
 		LocalDateTime now = LocalDateTime.now();
 		doReturn(now).when(billingService).currentDateTime();
 		when(billingRepository.save(billDetails)).thenReturn(saved);
