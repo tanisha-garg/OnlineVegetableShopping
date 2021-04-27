@@ -107,30 +107,6 @@ public class BillingDetailsRestUnitTest {
 
 	}
 	
-	/*
-	 * Scenario: Add Bill Successfully
-	 * Input: Request body with data from UI
-	 * Expectation: BillingDetailsResponse of added bill sent to UI
-	 * 
-	 * */
 	
-	@Test
-	public void testAddBill_1() {
-		int orderId = 1;
-		String transactionMode = "Credit card";
-		String transactionStatus = "Successful";
-		AddBillDetailsRequest request = mock(AddBillDetailsRequest.class);
-		BillingDetailsResponse response = mock(BillingDetailsResponse.class);
-		when(request.getOrderId()).thenReturn(orderId);
-		when(request.getTransactionMode()).thenReturn(transactionMode);
-		when(request.getTransactionStatus()).thenReturn(transactionStatus);
-		BillingDetails bill = new BillingDetails(orderId, transactionMode, transactionStatus);
-		when(billingService.addBill(bill)).thenReturn(bill);
-		when(billUtil.toDetails(bill)).thenReturn(response);
-		BillingDetailsResponse result = billController.addBill(request);
-		assertEquals(response, result);
-		verify(billingService).addBill(bill);
-		verify(billUtil).toDetails(bill);
-	}
 
 }
