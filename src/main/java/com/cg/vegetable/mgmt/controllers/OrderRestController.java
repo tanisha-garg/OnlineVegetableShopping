@@ -47,12 +47,30 @@ public class OrderRestController {
 	
 	@Autowired
 	private DateUtil dateUtil;
+	
+    /*
+     * 
+     * Rest Controller for fetching order details by orderId
+     * Path: /orders/get/29
+     * @param: orderId
+     * @return: OrderDetailsResponse received from orderUtil.toDetails()
+     * 
+     * */
 
 	@GetMapping("/get/{orderId}")
 	public OrderDetailsResponse fetchOrderDetails(@PathVariable("orderId") int orderId) {
 		Order order = orderService.viewOrder(orderId);
 		return orderUtil.toDetails(order);
 	}
+	
+    /*
+     * 
+     * Rest Controller for updating the order status in the database
+     * Path: /orders/update/status/29
+     * @param: UpdateOrderStatusRequest as requestBody and orderId
+     * @return: OrderDetailsResponse received from orderUtil.toDetails()
+     * 
+     * */
 	
 	
 	@PutMapping("/update/status/{orderId}")
@@ -64,6 +82,15 @@ public class OrderRestController {
 		return orderUtil.toDetails(order);
 	}
 	
+    /*
+     * 
+     * Rest Controller for deleting/canceling an order
+     * Path: /orders/cancel/29
+     * @param:orderId
+     * @return: A string saying, "Order Cancelled Successfully"
+     * 
+     * */
+	
 	@DeleteMapping("/cancel/{orderId}")
 	public String cancelOrder(@PathVariable("orderId") int orderId) {
 		orderService.cancelOrder(orderId);
@@ -71,17 +98,43 @@ public class OrderRestController {
 		
 	}
 	
+    /*
+     * 
+     * Rest Controller for fetching all the orders placed
+     * Path: /orders/getAll
+     * @return: List of OrderDetailsResponse received from orderUtil.toOrderDetails()
+     * 
+     * */
+	
 	@GetMapping("/getAll")
 	public List<OrderDetailsResponse> fetchAllOrders(){
 		List<Order> orderList = orderService.viewOrderList();
 		return orderUtil.toOrderDetails(orderList);
 	}
 	
+    /*
+     * 
+     * Rest Controller for fetching list of orders placed by a customer
+     * Path: /orders/get/customer/16
+     * @param: id is customerId
+     * @return: List of OrderDetailsResponse received from orderUtil.toOrderDetails()
+     * 
+     * */
+	
 	@GetMapping("/get/customer/{id}")
 	public List<OrderDetailsResponse> fetchOrderDetailsByCustomerId(@PathVariable("id") @Min(1) int customerId){
 		List<Order> orderedList = orderService.viewAllOrders(customerId);
 		return orderUtil.toOrderDetails(orderedList);
 	}
+	
+	 /*
+     * 
+     * Rest Controller for fetching list of orders placed by a date
+     * Path: /orders/get/date/20April2021
+     * @param: date 
+     * @return: List of OrderDetailsResponse received from orderUtil.toOrderDetails()
+     * 
+     * */
 	
 	@GetMapping("/get/date/{date}")
 	public List<OrderDetailsResponse> fetchOrderDetailsByDate(@PathVariable("date") @NotBlank String date){
@@ -90,18 +143,17 @@ public class OrderRestController {
 		return orderUtil.toOrderDetails(orderListByDate);
 	}
 	
-//	@ResponseStatus(HttpStatus.CREATED)
-//	@PostMapping("/add")
-//	public OrderDetailsResponse addOrderDetails(@RequestBody @Valid PlaceOrderRequest requestBody) {
-//		Order order = new Order();
-//		Customer customer = customerService.viewCustomer(requestBody.getCustomerId());
-//		Cart cart = customer.getCart();
-//		order.setCustomerId(requestBody.getCustomerId());
-//		List<Vegetable> vegetableList = cartService.viewAllItems(cart);
-//		order.setVegetableList(vegetableList);
-//		orderService.addOrder(order);
-// 		return orderUtil.toDetails(order);
-//	}
+	 /*
+     * 
+     * Rest Controller for adding order to the database
+     * Path: /orders/add/16
+     * @param: customerId
+     * @return: OrderDetailsResponse received from orderUtil.toDetails()
+     * 
+     * Note: Here, with the help of customerId, cart is fetched and the items present in the cart are accessible,
+     * 		 which helps in placing an order.
+     * 
+     * */	
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/add/{id}")

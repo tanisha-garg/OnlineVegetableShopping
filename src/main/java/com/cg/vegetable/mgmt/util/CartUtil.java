@@ -31,6 +31,7 @@ public class CartUtil {
         Vegetable vegetable=cartVegetable.getVegetable();
         details.setVegId(vegetable.getVegId());
         details.setPrice(vegetable.getPrice());
+        details.setName(vegetable.getName());
         details.setCategory(vegetable.getCategory());
         details.setQuantity(cartVegetable.getQuantity());
         return details;
