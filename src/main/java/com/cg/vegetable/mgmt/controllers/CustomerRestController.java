@@ -24,7 +24,7 @@ public class CustomerRestController {
 	@Autowired
 	private CustomerUtil customerUtil;
 
-	@DeleteMapping("/removeCustomer/{id}")
+	@DeleteMapping("/remove/{id}")
 	public String removeCustomer(@PathVariable @Min(1) Integer id) {
 		Customer customer = customerService.viewCustomer(id);
 		customerService.removeCustomer(customer);
@@ -32,7 +32,7 @@ public class CustomerRestController {
 
 	}
 
-	@GetMapping("/viewCustomer/{id}")
+	@GetMapping("/view/{id}")
 	public CustomerDetails fetchCustomerDetails(@PathVariable @Min(1) int id) {
 		Customer customer = customerService.viewCustomer(id);
 		CustomerDetails details = customerUtil.toDetail(customer);
@@ -41,7 +41,7 @@ public class CustomerRestController {
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping("/addCustomer")
+	@PostMapping("/add")
 	public CustomerDetails addCustomer(@RequestBody @Valid AddCustomerRequest requestData) {
 		Address address = new Address();
 		address.setArea(requestData.getArea());
@@ -56,7 +56,7 @@ public class CustomerRestController {
 		Customer addedCustomer = customerService.addCustomer(customer);
 		return customerUtil.toDetail(addedCustomer);
 	}
-/*
+
 	@PutMapping("/update/{id}")
 	public CustomerDetails updateCustomer(@RequestBody @Valid UpdateCustomerDetailsRequest requestData,
 			@PathVariable Integer id) {
@@ -68,7 +68,7 @@ public class CustomerRestController {
 		CustomerDetails details = customerUtil.toDetail(updatedCustomer);
 		return details;
 	}
-	*/
+	
 
 	@PutMapping("/update/address/{id}")
 	public CustomerDetails updateAddress(@RequestBody @Valid UpdateCustomerAddressRequest requestData,
@@ -85,7 +85,7 @@ public class CustomerRestController {
 		return addressDetails;
 	}
 
-	@PutMapping("/updatePassword/{id}")
+	@PutMapping("/update/password/{id}")
 	public CustomerDetails updatePassword(@RequestBody @Valid UpdatePasswordRequest requestData, @PathVariable @Min(1) Integer id) {
 		Customer customer = customerService.viewCustomer(id);
 		customer.setPassword(requestData.getPassword());
