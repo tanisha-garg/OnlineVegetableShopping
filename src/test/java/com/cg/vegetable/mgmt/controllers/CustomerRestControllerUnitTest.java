@@ -85,7 +85,7 @@ class CustomerRestControllerUnitTest {
 	 * expectation : customer should be added and displayed in postman
 	 */
 
-	@Test
+/*	@Test
 	public void test_AddCustomerRequest() {
 		CustomerDetails request = mock(CustomerDetails.class);
 		Customer saved = mock(Customer.class);
@@ -99,6 +99,7 @@ class CustomerRestControllerUnitTest {
 		verify(util).toDetail(any(Customer.class));
 	}
 
+*/
 	/*
 	 * scenario : success scenario , customer password is changed successfully
 	 *
