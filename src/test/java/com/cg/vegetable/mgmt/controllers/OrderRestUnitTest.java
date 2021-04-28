@@ -19,9 +19,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.cg.vegetable.mgmt.dto.OrderDetailsResponse;
 import com.cg.vegetable.mgmt.dto.PlaceOrderRequest;
 import com.cg.vegetable.mgmt.entities.Cart;
+import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.entities.Order;
 import com.cg.vegetable.mgmt.entities.Vegetable;
 import com.cg.vegetable.mgmt.service.ICartService;
+import com.cg.vegetable.mgmt.service.ICustomerService;
 import com.cg.vegetable.mgmt.service.IOrderService;
 import com.cg.vegetable.mgmt.util.DateUtil;
 import com.cg.vegetable.mgmt.util.OrderUtil;
@@ -40,6 +42,9 @@ public class OrderRestUnitTest {
 	
 	@Mock
 	ICartService cartService;
+	
+	@Mock
+	ICustomerService customerService;
 	
 	@Spy
 	@InjectMocks
@@ -76,7 +81,7 @@ public class OrderRestUnitTest {
 	
 	@Test
 	public void testFetchOrderByDate() {
-		String textDate = "31 March 2021";
+		String textDate = "31March2021";
 		LocalDate date = LocalDate.parse(textDate);
 		when(dateUtil.toLocalDate(textDate)).thenReturn(date);
 		List<Order> orderedList = mock(List.class);
@@ -101,11 +106,12 @@ public class OrderRestUnitTest {
 	public void testAddOrderDetails() {
 		int customerId = 1;
 		Order order = mock(Order.class);
+		Customer customer = mock(Customer.class);
+		when(customerService.viewCustomer(customerId)).thenReturn(customer);
 		Cart cart = mock(Cart.class);
+		when(customer.getCart()).thenReturn(cart);
 		OrderDetailsResponse response = mock(OrderDetailsResponse.class);
 		List<Vegetable> vegetableList = mock(List.class);
-		PlaceOrderRequest request = mock(PlaceOrderRequest.class);
-		when(request.getCustomerId()).thenReturn(customerId);
 		when(cartService.viewAllItems(cart)).thenReturn(vegetableList);
 		when(orderService.addOrder(order)).thenReturn(order);
 		when(orderUtil.toDetails(order)).thenReturn(response);
