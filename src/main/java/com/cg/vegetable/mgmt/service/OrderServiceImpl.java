@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cg.vegetable.mgmt.OnlineVegetableShoppingApplication;
 import com.cg.vegetable.mgmt.constants.*;
 import com.cg.vegetable.mgmt.entities.*;
 import com.cg.vegetable.mgmt.exceptions.*;
@@ -15,6 +18,8 @@ import com.cg.vegetable.mgmt.repository.*;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
+	
+	private static final Logger Log = LoggerFactory.getLogger(OnlineVegetableShoppingApplication.class);
 
 	@Autowired
 	private IOrderRepository orderRepository;
@@ -45,42 +50,10 @@ public class OrderServiceImpl implements IOrderService {
 	 * 
 	 */
 
-//	@Transactional
-//	@Override
-//	public Order addOrder(Order order) {
-//		validateOrder(order);
-//		order.setStatus(OrderStatus.PLACED);
-//		order.setOrderDate(currentTime());
-//		Cart cart = cartRepository.findCartByCustId(order.getCustomerId());
-//		List<CartVegetable> vegetableList = cartVegetableRepository.findByCart(cart);
-//		if(vegetableList == null || vegetableList.isEmpty()) {
-//			throw new OrderNotAddedException("Order cannot be added because cart is empty");
-//		}
-//		Optional<Double> optionalCost = vegetableList.stream().
-//										map(cv -> cv.getQuantity() * cv.getVegetable().getPrice()).
-//										reduce((cost1, cost2) -> cost1+cost2);
-//		if(!optionalCost.isPresent()) {
-//			throw new VegetableCostNotFoundException("Cannot find the cost of the vegetable");
-//		}		
-//		
-//		reduceVegetableStockAfterOrder(vegetableList);
-//		List<Vegetable> orderVegList = vegetableList.stream().map(veg -> veg.getVegetable()).
-//				collect(Collectors.toList());
-//		order.setVegetableList(orderVegList);
-//		order.setTotalAmount(optionalCost.get());
-//		Order saved = orderRepository.save(order);
-//		BillingDetails bill = new BillingDetails();
-//		bill.setTransactionStatus(TransactionStatus.PENDING);
-//		bill.setTransactionMode(TransactionMode.CASH_ON_DELIVERY);
-//		bill.setOrderId(saved.getOrderNo());
-//		billingService.addBill(bill);
-//		cartVegetableRepository.deleteByCart(cart);
-//		return saved;
-//	}
-
 	@Transactional
 	@Override
 	public Order addOrder(Order order) {
+		Log.info("Inside addOrder method");
 		validateOrder(order);
 		order.setStatus(OrderStatus.PLACED);
 		order.setOrderDate(currentTime());
@@ -147,6 +120,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public Order viewOrder(int orderId) {
+		Log.info("Inside viewOrder method, id: " + orderId);
 		Optional<Order> orderOptional = orderRepository.findById(orderId);
 		if (!orderOptional.isPresent()) {
 			throw new OrderNotFoundException("Order with id " + orderId + " doesn't exist");
@@ -166,6 +140,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public Order updateOrderDetails(Order order) {
+		Log.info("Inside updateOrder method, id: " + order.getOrderNo());
 		validateOrder(order);
 		int id = order.getOrderNo();
 		boolean exists = orderRepository.existsById(id);
@@ -188,6 +163,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public List<Order> viewAllOrders(int custId) {
+		Log.info("Inside viewAllOrders method, customer id: "+custId);
 		List<Order> orderList = orderRepository.findByCustomerId(custId);
 		if (orderList.isEmpty()) {
 			throw new OrderNotFoundException("Orders not found");
@@ -207,6 +183,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public List<Order> viewOrderList(LocalDate date) {
+		Log.info("Inside viewOrderList by date method date: "+date);
 		List<Order> orderList = orderRepository.findByOrderDate(date);
 		if (orderList.isEmpty()) {
 			throw new OrderNotFoundException("Orders not found");
@@ -224,6 +201,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public List<Order> viewOrderList() {
+		Log.info("Inside viewOrderList method");
 		List<Order> orderList = orderRepository.findAll();
 		if (orderList.isEmpty()) {
 			throw new OrderNotFoundException("Orders not found");
@@ -243,6 +221,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Transactional
 	@Override
 	public Order cancelOrder(int orderId) {
+		Log.info("Inside cancelOrder method");
 		Order order = viewOrder(orderId);
 		Cart cart = cartRepository.findCartByCustId(order.getCustomerId());
 		List<CartVegetable> vegetableList = cartVegetableRepository.findByCart(cart);
@@ -262,6 +241,7 @@ public class OrderServiceImpl implements IOrderService {
 	 */
 
 	public void reduceVegetableStockAfterOrder(Collection<CartVegetable> cartVegetables) {
+		Log.info("Inside reduceVegetableStockAfterOrder method");
 		for (CartVegetable cartVegetable : cartVegetables) {
 			int vegetableQuantInCart = cartVegetable.getQuantity();
 			Vegetable vegetable = cartVegetable.getVegetable();
@@ -281,6 +261,7 @@ public class OrderServiceImpl implements IOrderService {
 	 */
 
 	public void increaseVegetableStockAfterCancellingOrder(Collection<CartVegetable> cartVegetables) {
+		Log.info("Inside increaseVegetableStockAfterCancellingOrder method");
 		for (CartVegetable cartVegetable : cartVegetables) {
 			int vegetableQuantityInCart = cartVegetable.getQuantity();
 			Vegetable vegetable = cartVegetable.getVegetable();
@@ -311,6 +292,7 @@ public class OrderServiceImpl implements IOrderService {
 	 */
 
 	public void validateOrder(Order order) {
+		Log.info("Inside validateOrder method");
 		if (order == null) {
 			throw new InvalidOrderException("Order cannot be null");
 		}

@@ -3,10 +3,12 @@ package com.cg.vegetable.mgmt.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.vegetable.mgmt.OnlineVegetableShoppingApplication;
 import com.cg.vegetable.mgmt.constants.TransactionMode;
 import com.cg.vegetable.mgmt.constants.TransactionStatus;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
@@ -17,6 +19,8 @@ import com.cg.vegetable.mgmt.repository.IBillingRepository;
 
 @Service
 public class BillingServiceImpl implements IBillingService{
+	
+	private static final Logger Log = LoggerFactory.getLogger(OnlineVegetableShoppingApplication.class);
 	
 	@Autowired
 	private IBillingRepository billingRepository;
@@ -39,6 +43,7 @@ public class BillingServiceImpl implements IBillingService{
 
 	@Override
 	public BillingDetails addBill(BillingDetails bill) {
+		Log.info("Inside addBill method");
 		validateBill(bill);
 		Order order = orderService.viewOrder(bill.getOrderId());
 		Customer customer = customerService.viewCustomer(order.getCustomerId());
@@ -62,6 +67,7 @@ public class BillingServiceImpl implements IBillingService{
 
 	@Override
 	public BillingDetails updateBill(BillingDetails bill) {
+		Log.info("Inside updateBill method with bill id: " + bill.getBillingId());
 		validateBill(bill);
 		int id = bill.getBillingId();
 		boolean exists = billingRepository.existsById(id);
@@ -82,6 +88,7 @@ public class BillingServiceImpl implements IBillingService{
 
 	@Override
 	public BillingDetails viewBill(int id) {
+		Log.info("Inside viewBill method with bill id: " +id );
 		Optional<BillingDetails> billOptional = billingRepository.findById(id);
 		if(!billOptional.isPresent()) {
 			throw new BillNotFoundException("Bill with id "+id+" doesn't exist");
@@ -113,6 +120,7 @@ public class BillingServiceImpl implements IBillingService{
 	 * */
 	
 	public void validateBill(BillingDetails bill) {		
+		Log.info("Inside validateBill method");
 		if(bill == null) {
 			throw new InvalidBillException("Bill is Invalid");
 		}
@@ -128,7 +136,7 @@ public class BillingServiceImpl implements IBillingService{
 	 * */
 	
 	public void validateBillTransactions(BillingDetails bill) {		
-		
+		Log.info("Inside validateBillTransactions method");
 		validateMode(bill.getTransactionMode());
 		validateStatus(bill.getTransactionStatus());
 	}
