@@ -9,6 +9,9 @@ import javax.persistence.EntityManager;
 import com.cg.vegetable.mgmt.constants.VegetableCategory;
 import com.cg.vegetable.mgmt.constants.VegetableType;
 import com.cg.vegetable.mgmt.exceptions.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import com.cg.vegetable.mgmt.repository.IVegetableMgmtRepository;
 
 @Service
 public class VegetableMgmtServiceImpl implements IVegetableMgmtService {
+	
+	private static final Logger Log=LoggerFactory.getLogger(VegetableMgmtServiceImpl.class);
 
     @Autowired
     IVegetableMgmtRepository vegetableRepository;
@@ -50,6 +55,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService {
 
     @Override
     public Vegetable updateVegetable(Vegetable vegetable) {
+    	Log.info("inside update vegetable method" );
         validateVegetable(vegetable);
         int vegId = vegetable.getVegId();
         boolean exists = vegetableRepository.existsById(vegId);
@@ -70,6 +76,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService {
     @Override
     public Vegetable removeVegetable(Vegetable vegetable) {
         int vegId = vegetable.getVegId();
+        Log.info("inside remove vegetable method with id"+vegId );
         boolean exists = vegetableRepository.existsById(vegId);
         if (!exists) {
             throw new VegetableNotFoundException("No vegetable found");
@@ -87,6 +94,7 @@ public class VegetableMgmtServiceImpl implements IVegetableMgmtService {
 
     @Override
     public Vegetable viewVegetable(int vegId) {
+    	Log.info("inside view vegetable method with id"+vegId );
         validateId(vegId);
         Optional<Vegetable> optional = vegetableRepository.findById(vegId);
         if (!optional.isPresent())
