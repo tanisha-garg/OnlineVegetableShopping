@@ -49,6 +49,8 @@ class VegetableMgmtServiceImplUnitTest {
 	@Test
 	public void test_Add1() {
 		Vegetable vegetable =Mockito.mock(Vegetable.class);
+		String category=vegetable.getCategory().toLowerCase();
+		//String type="root";
 		Vegetable saved =Mockito.mock(Vegetable.class);
 		doNothing().when(vegetableService).validateVegetable(vegetable);
 		when(vegetableRepository.save(vegetable)).thenReturn(saved);
@@ -264,7 +266,7 @@ class VegetableMgmtServiceImplUnitTest {
 		verify(vegetableRepository, never()).delete(vegetable);
 	}
 	
-	
+	/*
 	@Test
 	void test_viewallVegetables_1(){
 		List<Vegetable>fetchedList=mock(List.class);
@@ -291,5 +293,5 @@ class VegetableMgmtServiceImplUnitTest {
 		Mockito.when(vegetableRepository.findAll()).thenReturn(fetchedList);
 		Mockito.when(fetchedList.isEmpty()).thenReturn(false);
 		List<Vegetable> resultList=vegetableService.viewVegetableByName(name);
-	}
+	}*/
 }
