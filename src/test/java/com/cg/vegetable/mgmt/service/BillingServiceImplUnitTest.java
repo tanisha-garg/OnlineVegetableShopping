@@ -61,6 +61,7 @@ public class BillingServiceImplUnitTest {
 		when(orderService.viewOrder(orderId)).thenReturn(order);
 		when(order.getCustomerId()).thenReturn(customerId);
 		when(customerService.viewCustomer(customerId)).thenReturn(customer);
+		doNothing().when(billingService).validateBillTransactions(billDetails);
 		when(customer.getAddress()).thenReturn(address);
 		LocalDateTime now = LocalDateTime.now();
 		doReturn(now).when(billingService).currentDateTime();

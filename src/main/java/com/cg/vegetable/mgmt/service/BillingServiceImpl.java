@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.vegetable.mgmt.constants.TransactionMode;
+import com.cg.vegetable.mgmt.constants.TransactionStatus;
 import com.cg.vegetable.mgmt.entities.BillingDetails;
 import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.entities.Order;
@@ -40,6 +42,9 @@ public class BillingServiceImpl implements IBillingService{
 		validateBill(bill);
 		Order order = orderService.viewOrder(bill.getOrderId());
 		Customer customer = customerService.viewCustomer(order.getCustomerId());
+		bill.setTransactionStatus(TransactionStatus.PENDING);
+		bill.setTransactionMode(TransactionMode.CASH_ON_DELIVERY);
+		validateBillTransactions(bill);
 		bill.setAddress(customer.getAddress());
 		bill.setTransactionDate(currentDateTime());
 		return billingRepository.save(bill);
@@ -111,6 +116,18 @@ public class BillingServiceImpl implements IBillingService{
 		if(bill == null) {
 			throw new InvalidBillException("Bill is Invalid");
 		}
+	}
+	
+	/*
+	 * 
+	 * Validates the transaction mode and transaction status in a bill 
+	 * 
+	 * @param bill is BillingDetails
+	 * @return void
+	 * 
+	 * */
+	
+	public void validateBillTransactions(BillingDetails bill) {		
 		
 		validateMode(bill.getTransactionMode());
 		validateStatus(bill.getTransactionStatus());
