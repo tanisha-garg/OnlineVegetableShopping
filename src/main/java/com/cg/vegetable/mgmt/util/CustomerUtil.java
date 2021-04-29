@@ -1,8 +1,10 @@
 package com.cg.vegetable.mgmt.util;
 
 import com.cg.vegetable.mgmt.dto.CustomerDetails;
-//import com.cg.vegetable.mgmt.entities.Address;
 import com.cg.vegetable.mgmt.entities.Customer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -25,5 +27,13 @@ public class CustomerUtil {
 		}
 
 		return customerDetails;
+	}
+	public List<CustomerDetails> toDetailList(List<Customer> list){
+		List<CustomerDetails> desiredList = new ArrayList<>();
+		for(Customer customer:list) {
+			desiredList.add(toDetail(customer));
+			
+		}
+		return desiredList;
 	}
 }

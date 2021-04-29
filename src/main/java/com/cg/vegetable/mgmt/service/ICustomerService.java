@@ -14,6 +14,6 @@ public interface ICustomerService {
 
 	Customer viewCustomer(Integer customerId);
 
-	List<Customer> viewCustomerList(String location);
+	List<Customer> viewCustomerList(String city);
 
 }

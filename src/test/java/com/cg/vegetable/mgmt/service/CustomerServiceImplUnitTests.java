@@ -169,19 +169,6 @@ public class CustomerServiceImplUnitTests {
 		verify(customerRepository, never()).save(customer);
 	}
 
-	/*
-	 * scenario : customer name is empty validateName test case expectation :
-	 * InvalidCustomerNameException is thrown
-	 * 
-	 */
-
-//	@Test
-//	public void test_ValidateName1() {
-//		String name = "";
-//		Customer customer = new Customer(name, "9863527891", "agc@ghb.com");
-//		Executable executable = () -> customerService.addCustomer(customer);
-//		Assertions.assertThrows(InvalidCustomerNameException.class, executable);
-//	}
 
 	/*
 	 * scenario : customer name is null validateName test case expectation :
