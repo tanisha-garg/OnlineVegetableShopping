@@ -54,44 +54,36 @@ public class OrderServiceImplUnitTest {
 	 */
 	@Test
 	public void test_AddOrder_1() {
-		int customerId = 1;
-		int orderId = 2;
-		int quantity = 2;
-	    double price = 10.0;
-		Order order = mock(Order.class);
-		Order saved = mock(Order.class);
-		Double cost =  100.0;
-		doNothing().when(orderService).validateOrder(order);
-		LocalDate now = LocalDate.now();
-		doReturn(now).when(orderService).currentTime();
-		Cart cart = mock(Cart.class);
-		List<CartVegetable> vegetableList = mock(List.class);
-		when(order.getCustomerId()).thenReturn(customerId);
-		when(cartRepository.findCartByCustId(customerId)).thenReturn(cart);
-		when(cartVegetableRepository.findByCart(cart)).thenReturn(vegetableList);
-		when(vegetableList.isEmpty()).thenReturn(false);
-		when(orderRepository.save(order)).thenReturn(saved);
-		
-		Optional<Double> optionalCost = Optional.of(cost);
-		Stream<CartVegetable> cartVegetableStream = mock(Stream.class);
-		Stream<Double> costStream = mock(Stream.class);
-		when(vegetableList.stream()).thenReturn(cartVegetableStream);
-		when(((CartVegetable) cartVegetableStream).getQuantity()).thenReturn(quantity);
-		when(((CartVegetable)cartVegetableStream).getVegetable().getPrice()).thenReturn(price);
-		
-		when(optionalCost.isPresent()).thenReturn(true);
-		Order result = orderService.addOrder(order);
-		BillingDetails bill = mock(BillingDetails.class);
-		BillingDetails savedBill = mock(BillingDetails.class);
-		when(result.getOrderNo()).thenReturn(orderId);
-		when(billingRepository.save(bill)).thenReturn(savedBill);
-		BillingDetails resultBill = billingService.addBill(bill);
-		assertNotNull(result);
-		assertNotNull(resultBill);
-		assertEquals(saved, result);
-		assertEquals(savedBill, resultBill);
-		verify(orderRepository.save(order));
-		verify(billingRepository).save(bill);
+		 int customerId = 1;
+	        int orderNumber = 87778;
+	        Order order = mock(Order.class);
+	        Order savedOrder = mock(Order.class);
+	        when(savedOrder.getOrderNo()).thenReturn(orderNumber);
+	        double cost = 100.0;
+	        doNothing().when(orderService).validateOrder(order);
+	        LocalDate now = LocalDate.now();
+	        doReturn(now).when(orderService).currentTime();
+	        Cart cart = mock(Cart.class);
+	        List<CartVegetable> cartVegetables = mock(List.class);
+	        List<Vegetable> vegetables = mock(List.class);
+	        when(order.getCustomerId()).thenReturn(customerId);
+	        when(cartRepository.findCartByCustId(customerId)).thenReturn(cart);
+	        when(cartVegetableRepository.findByCart(cart)).thenReturn(cartVegetables);
+	        when(cartVegetables.isEmpty()).thenReturn(false);
+	        when(orderRepository.save(order)).thenReturn(savedOrder);
+	        doReturn(cost).when(orderService).calculateCost(cartVegetables);
+	        doReturn(vegetables).when(orderService).toVegetables(cartVegetables);
+	        doNothing().when(orderService).reduceVegetableStockAfterOrder(cartVegetables);
+	        BillingDetails bill = mock(BillingDetails.class);
+	        doReturn(bill).when(orderService).newBill();
+	        Order result = orderService.addOrder(order);
+	        assertNotNull(result);
+	        assertSame(savedOrder, result);
+	        verify(bill).setOrderId(orderNumber);
+	        verify(orderRepository).save(order);
+	        verify(billingService).addBill(bill);
+	        verify(orderService).reduceVegetableStockAfterOrder(cartVegetables);
+	        verify(orderService).toVegetables(cartVegetables);
 
 	}
 	
