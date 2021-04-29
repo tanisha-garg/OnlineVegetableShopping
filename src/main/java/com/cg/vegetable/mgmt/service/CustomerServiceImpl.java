@@ -15,85 +15,130 @@ import com.cg.vegetable.mgmt.repository.ICustomerRepository;
 @Service
 public class CustomerServiceImpl implements ICustomerService {
 
-    @Autowired
-    private ICustomerRepository customerRepository;
+	@Autowired
+	private ICustomerRepository customerRepository;
 
-    @Autowired
-    private ICartRepository cartRepository;
+	@Autowired
+	private ICartRepository cartRepository;
+	
+	/*
+	 * 
+	 * Saves Customer in the database after validation
+	 * 
+	 * @param customer is Customer
+	 * @return saved CustomerDetails
+	 * 
+	 * */
 
-    @Override
-    public Customer addCustomer(Customer customer) {
-        validateCustomer(customer);
-        Cart cart = new Cart();
-        customer.setCart(cart);
-        customerRepository.save(customer);
-        cart.setCustId(customer.getCustomerId());
-        cartRepository.save(cart);
-        return customer;
-    }
+	@Override
+	public Customer addCustomer(Customer customer) {
+		validateCustomer(customer);
+		Cart cart = new Cart();
+		customer.setCart(cart);
+		customerRepository.save(customer);
+		cart.setCustId(customer.getCustomerId());
+		cartRepository.save(cart);
+		return customer;
+	}
 
-    @Override
-    public Customer updateCustomer(Customer customer) {
-        validateCustomer(customer);
-        boolean exist = customerRepository.existsById(customer.getCustomerId());
-        if (!exist) {
-            throw new CustomerNotUpdatedException("Customer doesn't exist for id =" + customer.getCustomerId());
-        }
-        Customer updateCustomer = customerRepository.save(customer);
-        return updateCustomer;
-    }
+	/*
+	 * 
+	 * Updates Customer in database after validation
+	 * 
+	 *  @param customer is Customer
+	 *  @return updated CustomerDetails
+	 *  
+	 * */
+	@Override
+	public Customer updateCustomer(Customer customer) {
+		validateCustomer(customer);
+		boolean exist = customerRepository.existsById(customer.getCustomerId());
+		if (!exist) {
+			throw new CustomerNotUpdatedException("Customer doesn't exist for id =" + customer.getCustomerId());
+		}
+		Customer updateCustomer = customerRepository.save(customer);
+		return updateCustomer;
+	}
+	
 
-    @Override
-    public Customer removeCustomer(Customer customer) {
-        Integer customerId = customer.getCustomerId();
-        boolean exists = customerRepository.existsById(customerId);
-        if (!exists) {
-            throw new CustomerNotRemovedException("No Customer passed");
-        }
-        customerRepository.deleteById(customerId);
-        return customer;
-    }
+	/*
+	 * 
+	 * Removed Customer from the database
+	 * 
+	 * @param customer is Customer 
+	 * @return saved CustomerDetails
+	 * 
+	 * */
 
-    @Override
-    public Customer viewCustomer(Integer customerId) {
-        Optional<Customer> viewCustomer = customerRepository.findById(customerId);
-        if (!viewCustomer.isPresent()) {
-            throw new CustomerNotFoundException("Customer doesn't exist for id =" + customerId);
-        }
-        validateCustomer(viewCustomer.get());
-        return viewCustomer.get();
+	@Override
+	public Customer removeCustomer(Customer customer) {
+		Integer customerId = customer.getCustomerId();
+		boolean exists = customerRepository.existsById(customerId);
+		if (!exists) {
+			throw new CustomerNotRemovedException("No Customer passed");
+		}
+		customerRepository.deleteById(customerId);
+		return customer;
+	}
 
-    }
+	/*
+	 * Find a customer from the database based on customerId
+	 * 
+	 * @param customerId is customerId
+	 * @return fetched CustomerDetails
+	 * 
+	 * */
+	@Override
+	public Customer viewCustomer(Integer customerId) {
+		Optional<Customer> viewCustomer = customerRepository.findById(customerId);
+		if (!viewCustomer.isPresent()) {
+			throw new CustomerNotFoundException("Customer doesn't exist for id =" + customerId);
+		}
+		validateCustomer(viewCustomer.get());
+		return viewCustomer.get();
 
-    @Override
-    public List<Customer> viewCustomerList(String location) {
-        List<Customer> list = customerRepository.findByCity(location);
-        return list;
-    }
+	}
 
-    // validating customer details
-    public void validateCustomer(Customer customer) {
-        if (customer == null) {
-            throw new CustomerNotFoundException("No customer exists");
-        }
+	/*
+	 * Find a list of customers from the database based on city
+	 * 
+	 * @param city is city entered by customers
+	 * @return fetched list of CustomerDetails
+	 * 
+	 * */
+	@Override
+	public List<Customer> viewCustomerList(String city) {
+		List<Customer> list = customerRepository.findByCity(city);
+		if (list.isEmpty()) {
+			throw new CustomerNotFoundException("customers not found");
+		}
+		return list;
+	}
 
-        if (customer.getName() == null || customer.getName().isEmpty()) {
-            throw new InvalidCustomerNameException("Name cannot be null or empty");
-        }
+	// validating customer details
+	public void validateCustomer(Customer customer) {
+		if (customer == null) {
+			throw new CustomerNotFoundException("No customer exists");
+		}
 
-        if (customer.getEmailId() == "") {
-            throw new InvalidEmailIdException("Email cannot be empty");
-        }
+		if (customer.getName() == null || customer.getName().isEmpty()) {
+			throw new InvalidCustomerNameException("Name cannot be null or empty");
+		}
 
-        if (customer.getCustomerId() < 0) {
-            throw new CustomerIdNotFoundException("Invalid Customer ID passed");
-        }
-    }
+		if (customer.getEmailId() == "") {
+			throw new InvalidEmailIdException("Email cannot be empty");
+		}
 
-    void validateMobileNumber(String mobileNumber) {
-        if (mobileNumber.length() != 10) {
-            throw new InvalidMobileNumberException("number is not valid");
-        }
+		if (customer.getCustomerId() < 0) {
+			throw new CustomerIdNotFoundException("Invalid Customer ID passed");
+		}
+	}
 
-    }
+	// validating customer mobile number
+	void validateMobileNumber(String mobileNumber) {
+		if (mobileNumber.length() != 10) {
+			throw new InvalidMobileNumberException("number is not valid");
+		}
+
+	}
 }

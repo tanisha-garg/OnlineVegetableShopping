@@ -52,42 +52,20 @@ public class CartServiceImplUnitTest {
 	
 	
 	/**
-	 * Scenario: item list is not null,when items exist in cart before
+	 * Scenario: Cart Is Null
 	 */
+	
+	
 	@Test
-	void addToCart_1() {
-		int custId=1;
-		int vegId = 2;
-		int quantity = 1;
+	void addToCartTest_2() {
 		Vegetable veg = Mockito.mock(Vegetable.class);
-		Cart cart = Mockito.mock(Cart.class);
-		Mockito.doNothing().when(cartService).validateVegetable(veg);
-		Mockito.doNothing().when(cartService.increaseVegQuantity(custId,vegId,quantity));//suspected code
-		Mockito.verify(cartService).increaseVegQuantity(1, 1, 1);
-		Mockito.verify(cartService).validateVegetable(veg);
+		Mockito.doThrow(VegetableIsNullException.class).when(cartService).validateVegetable(veg);
+		Executable executable = () -> cartService.validateVegetable(veg);
+		Assertions.assertThrows(VegetableIsNullException.class, executable);
+
 	}
+		
+
 	
-	
-	/**
-	 * scenario  , cart is null
-	 */
-//	@Test
-//	void addToCart_2() {
-//		Vegetable veg = new Vegetable();
-//		Mockito.doThrow(CartException.class).when(cartService).validateVegetable(veg);
-//		Executable executable = () -> cartService.addToCart(0, veg);   ////suspected
-//	}
-	/**
-	 * Scenario: Removing all item
-	 */
-	@Test
-	void removeAllVegetables_1() {
-		Cart cart = Mockito.mock(Cart.class);
-		Mockito.doNothing().when(cartService).validateId(cart.getCartId());
-		Cart result = cartService.removeAllVegetables(cart);
-		Assertions.assertNotNull(result);
-		Assertions.assertEquals(cart,result);
-		Mockito.verify(cartService).validateId(cart.getCartId());
-	}
-	
+
 }
