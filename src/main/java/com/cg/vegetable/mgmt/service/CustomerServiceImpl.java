@@ -3,9 +3,12 @@ package com.cg.vegetable.mgmt.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.vegetable.mgmt.OnlineVegetableShoppingApplication;
 import com.cg.vegetable.mgmt.entities.Cart;
 import com.cg.vegetable.mgmt.entities.Customer;
 import com.cg.vegetable.mgmt.exceptions.*;
@@ -14,6 +17,8 @@ import com.cg.vegetable.mgmt.repository.ICustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements ICustomerService {
+	
+	private static final Logger Log = LoggerFactory.getLogger(OnlineVegetableShoppingApplication.class);
 
 	@Autowired
 	private ICustomerRepository customerRepository;
@@ -32,6 +37,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public Customer addCustomer(Customer customer) {
+		Log.info("Inside addCustomer method with customer id:"+customer.getCustomerId());
 		validateCustomer(customer);
 		Cart cart = new Cart();
 		customer.setCart(cart);
@@ -51,6 +57,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * */
 	@Override
 	public Customer updateCustomer(Customer customer) {
+		Log.info("Inside updateCustomer method with customer id:"+customer.getCustomerId());
 		validateCustomer(customer);
 		boolean exist = customerRepository.existsById(customer.getCustomerId());
 		if (!exist) {
@@ -72,6 +79,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public Customer removeCustomer(Customer customer) {
+		Log.info("Inside removeCustomer method");
 		Integer customerId = customer.getCustomerId();
 		boolean exists = customerRepository.existsById(customerId);
 		if (!exists) {
@@ -90,6 +98,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * */
 	@Override
 	public Customer viewCustomer(Integer customerId) {
+		Log.info("Inside viewCustomer method with customer id:"+customerId);
 		Optional<Customer> viewCustomer = customerRepository.findById(customerId);
 		if (!viewCustomer.isPresent()) {
 			throw new CustomerNotFoundException("Customer doesn't exist for id =" + customerId);
@@ -108,6 +117,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * */
 	@Override
 	public List<Customer> viewCustomerList(String city) {
+		Log.info("Inside viewCustomerList method with city:"+city);
 		List<Customer> list = customerRepository.findByCity(city);
 		if (list.isEmpty()) {
 			throw new CustomerNotFoundException("customers not found");
